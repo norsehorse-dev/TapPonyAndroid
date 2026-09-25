@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TapPony</string>
+
+    <string name="tab_scan">Scan</string>
+    <string name="tab_profiles">Profiles</string>
+    <string name="tab_settings">Settings</string>
+
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="remove">Remove</string>
+    <string name="back">Back</string>
+
+    <string name="scan_no_profile">No profile</string>
+    <string name="scan_hold_tag">Hold a tag near the back of the phone</string>
+    <string name="scan_sending">Sending…</string>
+    <string name="scan_nfc_unavailable">This device has no NFC reader, so TapPony can\'t scan tags here.</string>
+    <string name="scan_nfc_off">NFC is turned off.</string>
+    <string name="scan_open_nfc_settings">Open NFC settings</string>
+    <string name="scan_create_profile_first">Create a profile first. A profile says where each scan gets sent.</string>
+    <string name="scan_hold_still">The tag moved away before it was fully read. Hold it still and try again.</string>
+    <string name="scan_requires_ndef">This profile needs a tag with NDEF content, and this tag has none.</string>
+
+    <string name="result_not_sent">Not sent</string>
+    <string name="result_network_error">Network error</string>
+    <string name="result_random_uid">This tag shows a random ID each time, so its UID can\'t identify it. Use NDEF content or a TapPony launch link instead.</string>
+
+    <string name="err_local_http_not_enabled">This profile sends plain HTTP to a local address. Turn on \"Allow plain HTTP on the local network\" in the profile to send it.</string>
+    <string name="err_plain_http_public">Plain HTTP only goes to local network addresses. Use https:// for anything on the internet.</string>
+    <string name="err_numeric_host">That host looks like a number written in an unusual form. Write IP addresses as four plain numbers, like 192.168.1.10.</string>
+    <string name="err_userinfo">Put credentials in a header or the auth section, not in the URL.</string>
+    <string name="err_bad_url">The URL isn\'t valid. It needs to start with https:// or http:// and the host can\'t contain variables.</string>
+    <string name="err_unknown_secret">The profile uses a secret that isn\'t saved on this device. Add it in Settings.</string>
+    <string name="err_invalid_json">The JSON body isn\'t valid JSON after filling in the variables.</string>
+    <string name="err_template">Template problem: %1$s</string>
+    <string name="err_header_name">Header names can only use letters, digits and - _ . characters.</string>
+
+    <string name="profiles_empty">No profiles yet. Tap + to start from a preset.</string>
+    <string name="profiles_new">New profile</string>
+
+    <string name="editor_untitled">Untitled</string>
+    <string name="editor_name">Name</string>
+    <string name="editor_request">Request</string>
+    <string name="editor_url">URL</string>
+    <string name="editor_allow_local_http">Allow plain HTTP on the local network</string>
+    <string name="editor_local_http_warning">Anyone on the same Wi-Fi can read a plain HTTP request, including any secrets in it.</string>
+    <string name="editor_follow_redirects">Follow redirects (same host only)</string>
+    <string name="editor_headers">Headers</string>
+    <string name="editor_header_name">Header</string>
+    <string name="editor_header_value">Value</string>
+    <string name="editor_add_header">Add header</string>
+    <string name="editor_auth">Authentication</string>
+    <string name="editor_username">Username</string>
+    <string name="editor_body">Body</string>
+    <string name="editor_template">Template</string>
+    <string name="editor_field_name">Field</string>
+    <string name="editor_field_value">Value</string>
+    <string name="editor_add_field">Add field</string>
+    <string name="editor_content_type">Content-Type (optional)</string>
+    <string name="editor_signing">Signing</string>
+    <string name="editor_hmac">Sign requests with HMAC-SHA256</string>
+    <string name="editor_tag">Tag</string>
+    <string name="editor_extended_reads">Read chip details (model, signature, counter)</string>
+    <string name="editor_require_ndef">Only send when the tag has NDEF content</string>
+    <string name="editor_problems">Needs attention</string>
+    <string name="editor_test">Test</string>
+    <string name="editor_testing">Testing…</string>
+    <string name="editor_test_note">Test sends sample values from a pretend NTAG215, not a real tag.</string>
+    <string name="editor_export">Export</string>
+    <string name="editor_delete">Delete profile</string>
+    <string name="editor_delete_confirm">Delete %1$s?</string>
+    <string name="editor_secret_name">Secret name</string>
+    <string name="editor_secret_name_help">Saved in Settings. The value never appears in the profile, history or exports.</string>
+
+    <string name="val_templated_host">The scheme and host of the URL must be typed out, not built from variables.</string>
+    <string name="val_unknown_variables">Unknown variables: %1$s</string>
+    <string name="val_missing_secrets">Secrets not saved on this device yet: %1$s</string>
+
+    <string name="settings_device_label">Device label</string>
+    <string name="settings_device_label_help">Sent as {device_label} only if a profile uses it. Empty by default, so nothing identifies this phone.</string>
+    <string name="settings_secrets">Secrets</string>
+    <string name="settings_secrets_help">Tokens and keys for {secret:NAME} and the auth helpers. Stored encrypted with a key that stays in the Android Keystore.</string>
+    <string name="settings_add_secret">Add secret</string>
+    <string name="settings_secret_value">Value</string>
+    <string name="settings_about">About</string>
+    <string name="settings_about_body">TapPony %1$s. Scan a tag, send a request you designed to a server you chose. No account, no cloud, no analytics. Suggested by a tester.</string>
+    <string name="settings_source">Source code</string>
+    <string name="settings_more_apps">More from NorseHorse</string>
+
+    <string name="preset_blank_title">Blank profile</string>
+    <string name="preset_ha_webhook_title">Home Assistant webhook</string>
+    <string name="preset_ha_webhook_explainer">In Home Assistant, create an automation with a Webhook trigger, copy its webhook ID into the URL, and use trigger.json.uid in the actions.</string>
+    <string name="preset_ha_tag_scanned_title">Home Assistant tag</string>
+    <string name="preset_ha_tag_scanned_explainer">Fires a tag_scanned event with the card\'s UID as tag_id, so an existing badge works as a Home Assistant tag. Save a long-lived access token as the secret HA_TOKEN.</string>
+    <string name="preset_node_red_title">Node-RED</string>
+    <string name="preset_node_red_explainer">Add an http in node (POST) and put its path in the URL.</string>
+    <string name="preset_n8n_title">n8n</string>
+    <string name="preset_n8n_explainer">Use the production URL of a Webhook node set to POST.</string>
+    <string name="preset_zapier_title">Zapier</string>
+    <string name="preset_zapier_explainer">Paste the URL from a Catch Hook trigger.</string>
+    <string name="preset_make_title">Make</string>
+    <string name="preset_make_explainer">Paste the URL from a Custom webhook module.</string>
+    <string name="preset_ifttt_title">IFTTT</string>
+    <string name="preset_ifttt_explainer">Put your event name in the URL and save your Webhooks key as the secret IFTTT_KEY.</string>
+    <string name="preset_ntfy_title">ntfy</string>
+    <string name="preset_ntfy_explainer">Posts a plain-text notification to an ntfy topic. Pick a topic name nobody will guess, or use your own ntfy server.</string>
+    <string name="preset_discord_title">Discord</string>
+    <string name="preset_discord_explainer">Paste a channel webhook URL from the channel\'s Integrations settings.</string>
+    <string name="preset_slack_title">Slack</string>
+    <string name="preset_slack_explainer">Paste an incoming webhook URL from your Slack app.</string>
+    <string name="preset_google_sheets_title">Google Sheets</string>
+    <string name="preset_google_sheets_explainer">Deploy an Apps Script web app whose doPost appends a row, and paste its /exec URL.</string>
+    <string name="preset_php_csv_title">PHP CSV receiver</string>
+    <string name="preset_php_csv_explainer">For your own server: a ten-line PHP script that appends each scan to a CSV file. The script is on tappony.app.</string>
+    <string name="preset_generic_json_title">JSON POST</string>
+    <string name="preset_generic_json_explainer">Posts the tag details as JSON to any endpoint.</string>
+    <string name="preset_generic_form_title">Form POST</string>
+    <string name="preset_generic_form_explainer">Posts uid, payload and timestamp as a web form.</string>
+    <string name="preset_generic_get_title">GET with query</string>
+    <string name="preset_generic_get_explainer">Sends the UID and time in the query string. Handy for simple logging endpoints.</string>
+</resources>

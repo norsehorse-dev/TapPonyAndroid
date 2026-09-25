@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Cleartext is permitted at the platform level because Home Assistant and
+  similar receivers usually run on the LAN over plain HTTP. The real guard is
+  com.tappony.core.HostPolicy: plain HTTP only ever goes to RFC 1918,
+  link-local, ULA, loopback, .local, .home.arpa or single-label hosts, and only
+  when the profile opts in. It is unit-tested against the shared fixtures.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

@@ -194,6 +194,15 @@ fun ProfileEditorScreen(profileId: String, engine: ScanEngine, onDone: () -> Uni
             SwitchRow(stringResource(R.string.editor_extended_reads), p.tag.extendedReads) { p = p.copy(tag = p.tag.copy(extendedReads = it)) }
             SwitchRow(stringResource(R.string.editor_require_ndef), p.tag.requireNdef) { p = p.copy(tag = p.tag.copy(requireNdef = it)) }
 
+            Section(stringResource(R.string.editor_after))
+            OutlinedTextField(
+                p.after.messageField ?: "", { p = p.copy(after = p.after.copy(messageField = it.ifEmpty { null })) },
+                label = { Text(stringResource(R.string.editor_message_field)) },
+                supportingText = { Text(stringResource(R.string.editor_message_field_help)) },
+                textStyle = Mono, modifier = Modifier.fillMaxWidth(), singleLine = true,
+            )
+            SwitchRow(stringResource(R.string.editor_keep_bodies), p.after.keepBodies) { p = p.copy(after = p.after.copy(keepBodies = it)) }
+
             if (problems.isNotEmpty()) {
                 Section(stringResource(R.string.editor_problems))
                 problems.forEach { Text(it, color = TapColors.Warn) }
@@ -269,6 +278,9 @@ private fun validate(p: Profile, secretNames: Set<String>): List<String> {
     val missing = RequestBuilder.requiredSecrets(p) - secretNames
     if (missing.isNotEmpty()) out.add(stringResource(R.string.val_missing_secrets, missing.joinToString(", ")))
     if (p.request.headers.any { it.name.isBlank() }) out.add(stringResource(R.string.err_header_name))
+    p.after.messageField?.let { f ->
+        if (!f.startsWith("json:") && !f.startsWith("header:")) out.add(stringResource(R.string.val_message_field))
+    }
     return out
 }
 

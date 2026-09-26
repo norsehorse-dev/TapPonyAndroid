@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Contactless
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.Icon
@@ -25,6 +26,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.tappony.android.ui.HistoryScreen
 import com.tappony.android.ui.ProfileEditorScreen
 import com.tappony.android.ui.ProfilesScreen
 import com.tappony.android.ui.ScanScreen
@@ -54,6 +56,7 @@ class MainActivity : ComponentActivity() {
                 val tabs = listOf(
                     Triple("scan", R.string.tab_scan, Icons.Filled.Contactless),
                     Triple("profiles", R.string.tab_profiles, Icons.Filled.Tune),
+                    Triple("history", R.string.tab_history, Icons.Filled.History),
                     Triple("settings", R.string.tab_settings, Icons.Filled.Settings),
                 )
                 Scaffold(
@@ -92,6 +95,7 @@ class MainActivity : ComponentActivity() {
                                 onDone = { nav.popBackStack() },
                             )
                         }
+                        composable("history") { HistoryScreen() }
                         composable("settings") { SettingsScreen() }
                     }
                 }

@@ -16,6 +16,15 @@ class AppSettings(context: Context) {
     private val _activeProfileId = MutableStateFlow(prefs.getString(KEY_ACTIVE, null))
     val activeProfileId: StateFlow<String?> = _activeProfileId.asStateFlow()
 
+    private val _historyDays = MutableStateFlow(prefs.getInt(KEY_HISTORY_DAYS, 30))
+    /** Days of history to keep; 0 keeps entries until the 1,000-entry cap. */
+    val historyDays: StateFlow<Int> = _historyDays.asStateFlow()
+
+    fun setHistoryDays(v: Int) {
+        prefs.edit().putInt(KEY_HISTORY_DAYS, v).apply()
+        _historyDays.value = v
+    }
+
     fun setDeviceLabel(v: String) {
         prefs.edit().putString(KEY_LABEL, v).apply()
         _deviceLabel.value = v
@@ -38,5 +47,6 @@ class AppSettings(context: Context) {
     private companion object {
         const val KEY_LABEL = "device_label"
         const val KEY_ACTIVE = "active_profile"
+        const val KEY_HISTORY_DAYS = "history_days"
     }
 }

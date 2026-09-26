@@ -211,4 +211,39 @@ class ConformanceTest {
             ProfileCodec.encode(p),
         )
     }
+
+    @Test
+    fun responseMessages() {
+        val f = fixture("message_vectors.json")
+        for (c in f["cases"] as List<*>) {
+            c as Map<*, *>
+            val headers = (c["headers"] as List<*>).map { (it as List<*>)[0] as String to it[1] as String }
+            val got = ResponseMessage.extract(c["field"] as String?, headers, c["body"] as String?)
+            assertEquals("${c["field"]}", c["expect"], got)
+        }
+    }
+
+    @Test
+    fun historyCsv() {
+        val f = fixture("history_csv_vectors.json")
+        val rows = (f["rows"] as List<*>).map {
+            it as Map<*, *>
+            HistoryRow(
+                timeMs = (it["timeMs"] as Number).toLong(),
+                profile = it["profile"] as String,
+                uid = it["uid"] as String,
+                chip = it["chip"] as String,
+                tagType = it["tagType"] as String,
+                outcome = it["outcome"] as String,
+                status = (it["status"] as Number?)?.toInt(),
+                latencyMs = (it["latencyMs"] as Number?)?.toLong(),
+                error = it["error"] as String? ?: "",
+            )
+        }
+        assertEquals(f["csv"], HistoryCsv.document(rows))
+        for (o in f["outcomes"] as List<*>) {
+            o as Map<*, *>
+            assertEquals(o["outcome"], HistoryCsv.outcome(o["buildError"] as String?, (o["status"] as Number?)?.toInt()))
+        }
+    }
 }

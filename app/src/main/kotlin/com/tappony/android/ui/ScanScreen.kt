@@ -140,6 +140,7 @@ fun ResultCard(o: ScanOutcome) {
                 Text(headline, color = color, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
                 r?.let { Text("${it.latencyMs} ms", color = TapColors.Muted) }
             }
+            o.message?.let { Text(it, style = MaterialTheme.typography.titleMedium, color = TapColors.Text) }
             Text(o.profileName, color = TapColors.Muted)
             if (o.uid.isNotEmpty()) Text(o.uid, style = Mono)
             val detail = listOf(o.chip, o.tagType).filter { it.isNotEmpty() }.joinToString(" · ")

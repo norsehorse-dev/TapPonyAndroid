@@ -8,12 +8,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +28,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,7 +41,9 @@ import com.tappony.android.BuildConfig
 import com.tappony.android.R
 import com.tappony.android.TapPonyApp
 import com.tappony.android.data.SecretStore
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen() {
     val context = LocalContext.current
@@ -45,6 +51,7 @@ fun SettingsScreen() {
     val label by app.settings.deviceLabel.collectAsState()
     var names by remember { mutableStateOf(app.secrets.names()) }
     var adding by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
 
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
@@ -70,6 +77,22 @@ fun SettingsScreen() {
             }
         }
         TextButton(onClick = { adding = true }) { Text(stringResource(R.string.settings_add_secret)) }
+
+        Text(stringResource(R.string.settings_history), style = MaterialTheme.typography.titleSmall, color = TapColors.BlueLight)
+        Text(stringResource(R.string.settings_history_help), color = TapColors.Muted, style = MaterialTheme.typography.bodySmall)
+        val historyDays by app.settings.historyDays.collectAsState()
+        Row(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.horizontalScroll(rememberScrollState())) {
+            listOf(7, 30, 90, 365, 0).forEach { d ->
+                FilterChip(
+                    selected = historyDays == d,
+                    onClick = {
+                        app.settings.setHistoryDays(d)
+                        scope.launch { app.history.prune() }
+                    },
+                    label = { Text(if (d == 0) stringResource(R.string.settings_history_cap_only) else stringResource(R.string.settings_history_days, d)) },
+                )
+            }
+        }
 
         Text(stringResource(R.string.settings_about), style = MaterialTheme.typography.titleSmall, color = TapColors.BlueLight)
         Text(stringResource(R.string.settings_about_body, BuildConfig.VERSION_NAME), color = TapColors.Muted)

@@ -63,7 +63,7 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
         }
         _state.value = ScanState.Sending
         viewModelScope.launch {
-            _state.value = ScanState.Done(engine.run(profile, reading, scanTime))
+            _state.value = ScanState.Done(engine.run(profile, reading, scanTime, tp.history))
         }
     }
 

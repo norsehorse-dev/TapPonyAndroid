@@ -118,4 +118,28 @@
     <string name="preset_generic_form_explainer">Posts uid, payload and timestamp as a web form.</string>
     <string name="preset_generic_get_title">GET with query</string>
     <string name="preset_generic_get_explainer">Sends the UID and time in the query string. Handy for simple logging endpoints.</string>
+    <string name="tab_history">History</string>
+    <string name="close">Close</string>
+
+    <string name="history_all">All</string>
+    <string name="history_ok">OK</string>
+    <string name="history_failed">Failed</string>
+    <string name="history_export">Export CSV</string>
+    <string name="history_clear">Clear</string>
+    <string name="history_clear_confirm">Clear all history on this device?</string>
+    <string name="history_empty">No scans yet. Each scan you send shows up here. Test sends don\'t.</string>
+    <string name="history_request_body">Request body</string>
+    <string name="history_response_body">Response body</string>
+    <string name="history_bodies_off">Bodies aren\'t kept for this profile. Turn on \"Keep request and response bodies\" in the profile to see them here.</string>
+
+    <string name="editor_after">After sending</string>
+    <string name="editor_message_field">Show from the reply</string>
+    <string name="editor_message_field_help">json:path.to.field or header:Name. Shown on the Scan screen after each tap.</string>
+    <string name="editor_keep_bodies">Keep request and response bodies in history</string>
+    <string name="val_message_field">\"Show from the reply\" must start with json: or header:.</string>
+
+    <string name="settings_history">History</string>
+    <string name="settings_history_help">History stays on this device. It keeps at most 1,000 scans, and older ones are removed after the period you pick.</string>
+    <string name="settings_history_days">%1$d days</string>
+    <string name="settings_history_cap_only">Until 1,000 scans</string>
 </resources>

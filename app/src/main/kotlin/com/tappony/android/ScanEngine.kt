@@ -6,6 +6,7 @@ import com.tappony.android.data.HistoryStore
 import com.tappony.android.data.SecretStore
 import com.tappony.android.net.SendResult
 import com.tappony.android.net.Sender
+import com.tappony.core.Encoding
 import com.tappony.core.HistoryCsv
 import com.tappony.core.PreparedRequest
 import com.tappony.core.Profile
@@ -157,7 +158,14 @@ class ScanEngine(
         val raw = sender.send(req, profile.request.allowLocalHttp)
         // A server that echoes a secret back must not get it onto the screen or into kept history.
         val secretsByLength = secretValues.values.filter { it.isNotEmpty() }.sortedByDescending { it.length }
-        fun mask(text: String) = secretsByLength.fold(text) { acc, v -> acc.replace(v, RequestBuilder.MASK) }
+        // Literal, then percent- and form-encoded, so a URL or form echo is caught too.
+        fun mask(text: String): String {
+            var out = text
+            for (v in secretsByLength) out = out.replace(v, RequestBuilder.MASK)
+            for (v in secretsByLength) out = out.replace(Encoding.percent(v), RequestBuilder.MASK)
+            for (v in secretsByLength) out = out.replace(Encoding.form(v), RequestBuilder.MASK)
+            return out
+        }
         val result = raw.copy(responseBody = raw.responseBody?.let { mask(it) }, error = raw.error?.let { mask(it) })
         val message = ResponseMessage.extract(profile.after.messageField, raw.responseHeaders.map { it.first to mask(it.second) }, result.responseBody)
         val template = if (result.ok) profile.after.successText else profile.after.failureText

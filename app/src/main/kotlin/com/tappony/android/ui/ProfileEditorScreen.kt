@@ -202,13 +202,19 @@ fun ProfileEditorScreen(profileId: String, engine: ScanEngine, onDone: () -> Uni
                 textStyle = Mono, modifier = Modifier.fillMaxWidth(), singleLine = true,
             )
             SwitchRow(stringResource(R.string.editor_keep_bodies), p.after.keepBodies) { p = p.copy(after = p.after.copy(keepBodies = it)) }
+            SwitchRow(stringResource(R.string.editor_queue_offline), p.after.queueOffline) { p = p.copy(after = p.after.copy(queueOffline = it)) }
+            if (p.after.queueOffline) {
+                Text(stringResource(R.string.editor_queue_offline_help), color = TapColors.Muted, style = MaterialTheme.typography.bodySmall)
+            }
+            SwitchRow(stringResource(R.string.editor_sound), p.after.sound) { p = p.copy(after = p.after.copy(sound = it)) }
+            SwitchRow(stringResource(R.string.editor_haptic), p.after.haptic) { p = p.copy(after = p.after.copy(haptic = it)) }
 
             if (problems.isNotEmpty()) {
                 Section(stringResource(R.string.editor_problems))
                 problems.forEach { Text(it, color = TapColors.Warn) }
             }
 
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.horizontalScroll(rememberScrollState())) {
                 Button(enabled = !testing, onClick = {
                     testing = true
                     scope.launch {
@@ -220,6 +226,12 @@ fun ProfileEditorScreen(profileId: String, engine: ScanEngine, onDone: () -> Uni
                     val send = Intent(Intent.ACTION_SEND).setType("application/json").putExtra(Intent.EXTRA_TEXT, ProfileCodec.encode(p))
                     context.startActivity(Intent.createChooser(send, null))
                 }) { Text(stringResource(R.string.editor_export)) }
+                OutlinedButton(onClick = {
+                    app.profiles.save(p)
+                    if (!com.tappony.android.Shortcuts.pin(context, p)) {
+                        android.widget.Toast.makeText(context, R.string.editor_pin_unsupported, android.widget.Toast.LENGTH_SHORT).show()
+                    }
+                }) { Text(stringResource(R.string.editor_pin)) }
             }
             Text(stringResource(R.string.editor_test_note), color = TapColors.Muted, style = MaterialTheme.typography.bodySmall)
             testOutcome?.let { o ->

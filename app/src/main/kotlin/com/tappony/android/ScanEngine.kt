@@ -32,8 +32,13 @@ data class ScanOutcome(
     val buildError: String?,
     /** The piece of the reply picked by the profile's messageField, if any. */
     val message: String? = null,
+    /** Got no response and went into the offline queue instead of history. */
+    val queued: Boolean = false,
 ) {
     val outcome: String get() = HistoryCsv.outcome(buildError, result?.status)
+
+    /** Built and sent, but no HTTP response came back (a transport failure, not a bad URL or header). */
+    val isNoResponse: Boolean get() = buildError == null && result != null && result.status == null && result.transportFailure
 
     /** History entry; bodies only when the profile keeps them, and never secrets (the request is already masked). */
     fun toHistory(keepBodies: Boolean) = HistoryEntry(
@@ -84,28 +89,50 @@ class ScanEngine(
         seq = if (test) 0 else settings.nextSeq(profile.id),
     )
 
-    suspend fun run(profile: Profile, reading: TagReading, scanTimeMs: Long, history: HistoryStore? = null): ScanOutcome {
+    suspend fun run(
+        profile: Profile,
+        reading: TagReading,
+        scanTimeMs: Long,
+        history: HistoryStore? = null,
+        queue: OfflineQueue? = null,
+    ): ScanOutcome {
         val ctx = context(profile, scanTimeMs)
         val vars = Variables.build(reading, ctx)
-        val outcome = send(profile, vars, ctx)
-        // The request already went out; a failed history write must not turn into a crash.
+        val outcome = send(profile, vars, ctx.scanTimeMs, ctx.sendTimeMs)
+        // The request already went out (or couldn't); a failed local write must not turn into a crash.
         try {
+            if (queue != null && profile.after.queueOffline && outcome.isNoResponse) {
+                queue.enqueue(profile, scanTimeMs, vars, outcome.result?.error ?: "")
+                return outcome.copy(queued = true)
+            }
             history?.record(outcome.toHistory(profile.after.keepBodies))
+            if (outcome.result?.status != null) queue?.kick()
         } catch (e: android.database.SQLException) {
         }
         return outcome
     }
 
+    /**
+     * Sends a queued scan again (PROFILE_SCHEMA.md section 13): the stored
+     * variables with {sent_at} set to now, rebuilt against the current profile
+     * and secrets, signed with the real send time.
+     */
+    suspend fun resend(profile: Profile, storedVars: Map<String, String>, scanTimeMs: Long): ScanOutcome {
+        val now = System.currentTimeMillis()
+        val vars = storedVars + ("sent_at" to Variables.isoUtc(now))
+        return send(profile, vars, scanTimeMs, now)
+    }
+
     /** The editor's Test send: clearly fake sample values, never a real tag. */
     suspend fun test(profile: Profile): ScanOutcome {
         val ctx = context(profile, System.currentTimeMillis(), test = true)
-        return send(profile, Variables.sample(ctx), ctx)
+        return send(profile, Variables.sample(ctx), ctx.scanTimeMs, ctx.sendTimeMs)
     }
 
-    private suspend fun send(profile: Profile, vars: Map<String, String>, ctx: SendContext): ScanOutcome {
+    private suspend fun send(profile: Profile, vars: Map<String, String>, scanTimeMs: Long, sendTimeMs: Long): ScanOutcome {
         val secretValues = secrets.all()
         val base = ScanOutcome(
-            scanTimeMs = ctx.scanTimeMs,
+            scanTimeMs = scanTimeMs,
             profileId = profile.id,
             profileName = profile.name,
             uid = vars["uid"] ?: "",
@@ -117,7 +144,7 @@ class ScanEngine(
             buildError = null,
         )
         val req = try {
-            RequestBuilder.build(profile, vars, secretValues, ctx.sendTimeMs / 1000)
+            RequestBuilder.build(profile, vars, secretValues, sendTimeMs / 1000)
         } catch (e: RequestException) {
             return base.copy(buildError = e.code)
         }
@@ -125,7 +152,7 @@ class ScanEngine(
         // A server that echoes a secret back must not get it onto the screen or into kept history.
         val secretsByLength = secretValues.values.filter { it.isNotEmpty() }.sortedByDescending { it.length }
         fun mask(text: String) = secretsByLength.fold(text) { acc, v -> acc.replace(v, RequestBuilder.MASK) }
-        val result = raw.copy(responseBody = raw.responseBody?.let { mask(it) })
+        val result = raw.copy(responseBody = raw.responseBody?.let { mask(it) }, error = raw.error?.let { mask(it) })
         val message = ResponseMessage.extract(profile.after.messageField, raw.responseHeaders, raw.responseBody)?.let { mask(it) }
         return base.copy(request = RequestBuilder.masked(req, secretValues), result = result, message = message)
     }

@@ -9,6 +9,8 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.tappony.core.HistoryRow
 import kotlinx.coroutines.flow.Flow
 
@@ -59,19 +61,76 @@ interface HistoryDao {
     suspend fun trimTo(keep: Int)
 }
 
-@Database(entities = [HistoryEntry::class], version = 1, exportSchema = false)
+/**
+ * A scan waiting for a connection (PROFILE_SCHEMA.md section 13). Holds the
+ * scan's variables as JSON, never the rendered request, so no secret is stored.
+ */
+@Entity(tableName = "queue")
+data class QueuedScan(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val scanTimeMs: Long,
+    val profileId: String,
+    val profileName: String,
+    val variablesJson: String,
+    val attempts: Int,
+    val lastError: String,
+)
+
+@Dao
+interface QueueDao {
+    @Query("SELECT * FROM queue ORDER BY scanTimeMs ASC, id ASC LIMIT 1")
+    suspend fun oldest(): QueuedScan?
+
+    @Query("SELECT COUNT(*) FROM queue")
+    fun observeCount(): Flow<Int>
+
+    @Insert
+    suspend fun insert(q: QueuedScan): Long
+
+    @Query("DELETE FROM queue WHERE id = :id")
+    suspend fun delete(id: Long)
+
+    @Query("UPDATE queue SET attempts = attempts + 1, lastError = :error WHERE id = :id")
+    suspend fun failedAttempt(id: Long, error: String)
+}
+
+@Database(entities = [HistoryEntry::class, QueuedScan::class], version = 2, exportSchema = false)
 abstract class HistoryDb : RoomDatabase() {
     abstract fun dao(): HistoryDao
+    abstract fun queue(): QueueDao
 
     companion object {
-        fun open(context: Context): HistoryDb =
-            Room.databaseBuilder(context, HistoryDb::class.java, "history.db").build()
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `queue` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`scanTimeMs` INTEGER NOT NULL, " +
+                        "`profileId` TEXT NOT NULL, " +
+                        "`profileName` TEXT NOT NULL, " +
+                        "`variablesJson` TEXT NOT NULL, " +
+                        "`attempts` INTEGER NOT NULL, " +
+                        "`lastError` TEXT NOT NULL)",
+                )
+            }
+        }
+
+        @Volatile
+        private var instance: HistoryDb? = null
+
+        /** One instance per process; the Worker and the UI share it. */
+        fun get(context: Context): HistoryDb = instance ?: synchronized(this) {
+            instance ?: Room.databaseBuilder(context.applicationContext, HistoryDb::class.java, "history.db")
+                .addMigrations(MIGRATION_1_2)
+                .build()
+                .also { instance = it }
+        }
     }
 }
 
 /** History with the retention rule applied on every write: at most [MAX_ENTRIES], none older than the setting. */
 class HistoryStore(context: Context, private val settings: AppSettings) {
-    private val dao = HistoryDb.open(context).dao()
+    private val dao = HistoryDb.get(context).dao()
 
     val entries: Flow<List<HistoryEntry>> = dao.observe()
 

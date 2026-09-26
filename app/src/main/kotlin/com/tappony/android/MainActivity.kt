@@ -1,5 +1,6 @@
 package com.tappony.android
 
+import android.content.Intent
 import android.nfc.NfcAdapter
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -18,7 +19,9 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -42,14 +45,28 @@ class MainActivity : ComponentActivity() {
     @Volatile
     private var onScanScreen = true
 
+    /** Bumped by a tappony://scan link (shortcut, tile, other apps) to jump to the Scan tab. */
+    private val scanRequests = mutableIntStateOf(0)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         nfc = NfcAdapter.getDefaultAdapter(this)
         scanVm.activeProfile
+        // A cold start already lands on the Scan tab; a recreated activity must not re-apply the old link.
+        if (savedInstanceState == null) handleLink(intent, jump = false)
         setContent {
             TapPonyTheme {
                 val nav = rememberNavController()
+                val jump = scanRequests.intValue
+                LaunchedEffect(jump) {
+                    if (jump > 0) {
+                        nav.navigate("scan") {
+                            popUpTo(nav.graph.findStartDestination().id)
+                            launchSingleTop = true
+                        }
+                    }
+                }
                 val entry by nav.currentBackStackEntryAsState()
                 val route = entry?.destination?.route ?: "scan"
                 onScanScreen = route == "scan"
@@ -101,6 +118,21 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleLink(intent, jump = true)
+    }
+
+    /** tappony://scan?profile=<id>: select that profile (if it exists) and show the Scan tab. */
+    private fun handleLink(intent: Intent?, jump: Boolean) {
+        val uri = intent?.data ?: return
+        if (intent.action != Intent.ACTION_VIEW || uri.scheme != "tappony" || uri.host != "scan") return
+        val app = application as TapPonyApp
+        uri.getQueryParameter("profile")?.let { id -> if (app.profiles.get(id) != null) app.settings.setActiveProfile(id) }
+        if (jump) scanRequests.intValue += 1
     }
 
     override fun onResume() {

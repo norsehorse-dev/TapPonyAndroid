@@ -71,6 +71,7 @@ data class AfterSpec(
     val keepBodies: Boolean = false,
     val sound: Boolean = true,
     val haptic: Boolean = true,
+    val queueOffline: Boolean = false,
 )
 
 class ProfileException(val code: String) : Exception(code)
@@ -144,6 +145,7 @@ object ProfileCodec {
                 keepBodies = af?.get("keepBodies") as? Boolean ?: false,
                 sound = af?.get("sound") as? Boolean ?: true,
                 haptic = af?.get("haptic") as? Boolean ?: true,
+                queueOffline = af?.get("queueOffline") as? Boolean ?: false,
             ),
         )
     }
@@ -183,6 +185,7 @@ object ProfileCodec {
             "keepBodies" to p.after.keepBodies,
             "sound" to p.after.sound,
             "haptic" to p.after.haptic,
+            "queueOffline" to p.after.queueOffline,
         ),
     )
 

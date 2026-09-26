@@ -20,6 +20,15 @@ class AppSettings(context: Context) {
     /** Days of history to keep; 0 keeps entries until the 1,000-entry cap. */
     val historyDays: StateFlow<Int> = _historyDays.asStateFlow()
 
+    private val _oncePerBatch = MutableStateFlow(prefs.getBoolean(KEY_ONCE_PER_BATCH, true))
+    /** In batch mode, skip a tag already sent in the current batch. */
+    val oncePerBatch: StateFlow<Boolean> = _oncePerBatch.asStateFlow()
+
+    fun setOncePerBatch(v: Boolean) {
+        prefs.edit().putBoolean(KEY_ONCE_PER_BATCH, v).apply()
+        _oncePerBatch.value = v
+    }
+
     fun setHistoryDays(v: Int) {
         prefs.edit().putInt(KEY_HISTORY_DAYS, v).apply()
         _historyDays.value = v
@@ -48,5 +57,6 @@ class AppSettings(context: Context) {
         const val KEY_LABEL = "device_label"
         const val KEY_ACTIVE = "active_profile"
         const val KEY_HISTORY_DAYS = "history_days"
+        const val KEY_ONCE_PER_BATCH = "once_per_batch"
     }
 }

@@ -18,6 +18,8 @@ data class SendResult(
     val responseBody: String?,
     val responseHeaders: List<Pair<String, String>>,
     val error: String?,
+    /** The request failed in transport (offline, DNS, timeout, reset), so no HTTP response came back. */
+    val transportFailure: Boolean = false,
 ) {
     val ok get() = status != null && status in 200..299
 }
@@ -79,7 +81,7 @@ class Sender {
             }
             fail(started, "tooManyRedirects")
         } catch (e: IOException) {
-            fail(started, e.javaClass.simpleName + (e.message?.let { ": $it" } ?: ""))
+            fail(started, e.javaClass.simpleName + (e.message?.let { ": $it" } ?: ""), transport = true)
         } catch (e: IllegalArgumentException) {
             // OkHttp rejects header values outside printable ASCII (for example a non-ASCII device label).
             fail(started, e.javaClass.simpleName + (e.message?.let { ": $it" } ?: ""))
@@ -88,7 +90,8 @@ class Sender {
 
     private fun elapsed(started: Long) = (System.nanoTime() - started) / 1_000_000
 
-    private fun fail(started: Long, msg: String) = SendResult(null, elapsed(started), null, emptyList(), msg)
+    private fun fail(started: Long, msg: String, transport: Boolean = false) =
+        SendResult(null, elapsed(started), null, emptyList(), msg, transportFailure = transport)
 
     private companion object {
         const val MAX_BODY = 64L * 1024

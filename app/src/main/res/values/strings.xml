@@ -142,4 +142,29 @@
     <string name="settings_history_help">History stays on this device. It keeps at most 1,000 scans, and older ones are removed after the period you pick.</string>
     <string name="settings_history_days">%1$d days</string>
     <string name="settings_history_cap_only">Until 1,000 scans</string>
+
+    <string name="scan_batch">Batch</string>
+    <string name="scan_batch_count">%1$d scanned</string>
+    <string name="scan_batch_new">New batch</string>
+    <string name="scan_batch_hold">Tap tags one after another</string>
+    <string name="scan_batch_skipped">%1$d repeat taps skipped</string>
+    <string name="scan_queued">%1$d waiting to send</string>
+    <string name="scan_send_now">Send now</string>
+    <string name="result_queued">Saved, sends when back online</string>
+    <string name="result_queued_short">Queued</string>
+
+    <string name="editor_queue_offline">Save and send later when offline</string>
+    <string name="editor_queue_offline_help">If a scan gets no response, it waits on this phone and goes out in order once there\'s a connection, for up to 24 hours. Receivers can spot a repeat by its {nonce}. Leave this off for things like door locks, where a late request would be wrong.</string>
+    <string name="editor_sound">Sound after each scan</string>
+    <string name="editor_haptic">Vibrate when a tag is read</string>
+
+    <string name="settings_scanning">Scanning</string>
+    <string name="settings_once_per_batch">Each tag once per batch</string>
+    <string name="settings_once_per_batch_help">In batch mode, a tag already sent in this batch is skipped. Start a new batch to count it again.</string>
+
+    <string name="tile_label">TapPony</string>
+    <string name="shortcut_scan_with">Scan with %1$s</string>
+    <string name="shortcut_profile_deleted">This profile was deleted.</string>
+    <string name="editor_pin">Add to home screen</string>
+    <string name="editor_pin_unsupported">This launcher can\'t pin shortcuts.</string>
 </resources>

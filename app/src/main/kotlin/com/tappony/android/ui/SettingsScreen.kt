@@ -21,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -77,6 +78,16 @@ fun SettingsScreen() {
             }
         }
         TextButton(onClick = { adding = true }) { Text(stringResource(R.string.settings_add_secret)) }
+
+        Text(stringResource(R.string.settings_scanning), style = MaterialTheme.typography.titleSmall, color = TapColors.BlueLight)
+        val oncePerBatch by app.settings.oncePerBatch.collectAsState()
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+            Column(Modifier.weight(1f)) {
+                Text(stringResource(R.string.settings_once_per_batch))
+                Text(stringResource(R.string.settings_once_per_batch_help), color = TapColors.Muted, style = MaterialTheme.typography.bodySmall)
+            }
+            Switch(oncePerBatch, { app.settings.setOncePerBatch(it) })
+        }
 
         Text(stringResource(R.string.settings_history), style = MaterialTheme.typography.titleSmall, color = TapColors.BlueLight)
         Text(stringResource(R.string.settings_history_help), color = TapColors.Muted, style = MaterialTheme.typography.bodySmall)

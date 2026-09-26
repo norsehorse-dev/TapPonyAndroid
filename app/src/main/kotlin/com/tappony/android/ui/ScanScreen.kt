@@ -22,6 +22,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -29,13 +31,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -44,11 +49,22 @@ import androidx.lifecycle.compose.currentStateAsState
 import com.tappony.android.R
 import com.tappony.android.ScanOutcome
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScanScreen(vm: ScanViewModel, nfcAvailable: Boolean, nfcEnabled: () -> Boolean) {
     val profiles by vm.profiles.collectAsState()
     val active by vm.activeProfile.collectAsState()
     val state by vm.state.collectAsState()
+    val batch by vm.batch.collectAsState()
+    val queued by vm.queued.collectAsState(initial = 0)
+    val flushing by vm.flushing.collectAsState()
+    val reads by vm.reads.collectAsState()
+    val haptic = LocalHapticFeedback.current
+    // Only reads that happen while this screen is shown; coming back to the tab must not buzz.
+    val readsAtEntry = remember { reads }
+    LaunchedEffect(reads) {
+        if (reads > readsAtEntry && active?.after?.haptic != false) haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+    }
     val context = LocalContext.current
     var menu by remember { mutableStateOf(false) }
     // Re-check the NFC switch whenever the lifecycle changes, so returning from NFC settings updates the notice.
@@ -82,6 +98,28 @@ fun ScanScreen(vm: ScanViewModel, nfcAvailable: Boolean, nfcEnabled: () -> Boole
             profiles.isEmpty() -> Notice(stringResource(R.string.scan_create_profile_first))
         }
 
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            FilterChip(
+                selected = batch.on,
+                onClick = { vm.setBatch(!batch.on) },
+                label = { Text(stringResource(R.string.scan_batch)) },
+            )
+            if (batch.on) {
+                Text(stringResource(R.string.scan_batch_count, batch.count), color = TapColors.Text, modifier = Modifier.weight(1f))
+                TextButton(onClick = { vm.newBatch() }) { Text(stringResource(R.string.scan_batch_new)) }
+            }
+        }
+        if (queued > 0) {
+            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant), modifier = Modifier.fillMaxWidth()) {
+                Row(Modifier.padding(horizontal = 16.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text(stringResource(R.string.scan_queued, queued), color = TapColors.Warn, modifier = Modifier.weight(1f))
+                    TextButton(enabled = !flushing, onClick = { vm.sendQueuedNow() }) {
+                        Text(stringResource(if (flushing) R.string.scan_sending else R.string.scan_send_now))
+                    }
+                }
+            }
+        }
+
         Card(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             modifier = Modifier.fillMaxWidth(),
@@ -90,26 +128,54 @@ fun ScanScreen(vm: ScanViewModel, nfcAvailable: Boolean, nfcEnabled: () -> Boole
                 Modifier.fillMaxWidth().padding(vertical = 40.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                if (state is ScanState.Sending) {
+                if (state is ScanState.Sending || (batch.on && batch.inFlight > 0)) {
                     CircularProgressIndicator(modifier = Modifier.size(72.dp))
                 } else {
                     Icon(Icons.Filled.Contactless, contentDescription = null, tint = TapColors.Blue, modifier = Modifier.size(88.dp))
                 }
                 Spacer(Modifier.height(16.dp))
                 Text(
-                    stringResource(if (state is ScanState.Sending) R.string.scan_sending else R.string.scan_hold_tag),
+                    stringResource(
+                        when {
+                            batch.on -> R.string.scan_batch_hold
+                            state is ScanState.Sending -> R.string.scan_sending
+                            else -> R.string.scan_hold_tag
+                        },
+                    ),
                     style = MaterialTheme.typography.titleMedium,
                 )
+                if (batch.on && batch.skippedRepeats > 0) {
+                    Text(stringResource(R.string.scan_batch_skipped, batch.skippedRepeats), color = TapColors.Muted)
+                }
             }
         }
 
+        if (batch.on) {
+            batch.results.forEach { BatchRow(it) }
+        }
         when (val s = state) {
-            is ScanState.Done -> ResultCard(s.outcome)
+            is ScanState.Done -> if (!batch.on) ResultCard(s.outcome)
             is ScanState.ReadFailed -> Notice(
                 if (s.reason == "noNdef") stringResource(R.string.scan_requires_ndef) else stringResource(R.string.scan_hold_still),
             )
             else -> Unit
         }
+    }
+}
+
+@Composable
+private fun BatchRow(o: ScanOutcome) {
+    val r = o.result
+    val (label, color) = when {
+        o.queued -> stringResource(R.string.result_queued_short) to TapColors.Warn
+        o.buildError != null -> stringResource(R.string.result_not_sent) to TapColors.Fail
+        r?.status != null -> "HTTP ${r.status}" to (if (r.ok) TapColors.Ok else TapColors.Fail)
+        else -> stringResource(R.string.result_network_error) to TapColors.Fail
+    }
+    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Text(o.uid.ifEmpty { "?" }, style = Mono, modifier = Modifier.weight(1f))
+        o.message?.let { Text(it, color = TapColors.Muted, maxLines = 1, modifier = Modifier.weight(1f).padding(horizontal = 8.dp)) }
+        Text(label, color = color)
     }
 }
 
@@ -124,12 +190,14 @@ private fun Notice(text: String) {
 fun ResultCard(o: ScanOutcome) {
     val r = o.result
     val color = when {
+        o.queued -> TapColors.Warn
         o.buildError != null -> TapColors.Fail
         r == null -> TapColors.Muted
         r.ok -> TapColors.Ok
         else -> TapColors.Fail
     }
     val headline = when {
+        o.queued -> stringResource(R.string.result_queued)
         o.buildError != null -> stringResource(R.string.result_not_sent)
         r?.status != null -> "HTTP ${r.status}"
         else -> stringResource(R.string.result_network_error)

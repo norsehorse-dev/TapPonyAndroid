@@ -32,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import com.tappony.android.ui.HistoryScreen
 import com.tappony.android.ui.ProfileEditorScreen
 import com.tappony.android.ui.ProfilesScreen
+import com.tappony.android.ui.RulesScreen
 import com.tappony.android.ui.ScanScreen
 import com.tappony.android.ui.ScanViewModel
 import com.tappony.android.ui.SettingsScreen
@@ -78,7 +79,7 @@ class MainActivity : ComponentActivity() {
                 )
                 Scaffold(
                     bottomBar = {
-                        if (!route.startsWith("editor")) {
+                        if (!route.startsWith("editor") && route != "rules") {
                             NavigationBar {
                                 tabs.forEach { (r, label, icon) ->
                                     NavigationBarItem(
@@ -103,7 +104,7 @@ class MainActivity : ComponentActivity() {
                             ScanScreen(scanVm, nfcAvailable = nfc != null, nfcEnabled = { nfc?.isEnabled == true })
                         }
                         composable("profiles") {
-                            ProfilesScreen(onOpen = { id -> nav.navigate("editor/$id") })
+                            ProfilesScreen(onOpen = { id -> nav.navigate("editor/$id") }, onOpenRules = { nav.navigate("rules") })
                         }
                         composable("editor/{id}") { e ->
                             ProfileEditorScreen(
@@ -112,6 +113,7 @@ class MainActivity : ComponentActivity() {
                                 onDone = { nav.popBackStack() },
                             )
                         }
+                        composable("rules") { RulesScreen(onDone = { nav.popBackStack() }) }
                         composable("history") { HistoryScreen() }
                         composable("settings") { SettingsScreen() }
                     }

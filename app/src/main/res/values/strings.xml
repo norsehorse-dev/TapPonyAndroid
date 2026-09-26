@@ -167,4 +167,52 @@
     <string name="shortcut_profile_deleted">This profile was deleted.</string>
     <string name="editor_pin">Add to home screen</string>
     <string name="editor_pin_unsupported">This launcher can\'t pin shortcuts.</string>
+
+    <string name="scan_no_rule">No rule matched this tag, so nothing was sent.</string>
+    <string name="speak_sent">Sent</string>
+    <string name="speak_failed">Failed</string>
+    <string name="speak_saved">Saved for later</string>
+
+    <string name="editor_success_text">Text on success (optional)</string>
+    <string name="editor_failure_text">Text on failure (optional)</string>
+    <string name="editor_result_text_help">Shown big after a scan. Can use {message}, {status}, {uid} and {profile}.</string>
+    <string name="editor_speak">Say the result out loud</string>
+
+    <string name="rules_title">Rules</string>
+    <string name="rules_status_on">On, %1$d rules</string>
+    <string name="rules_status_on_one">On, 1 rule</string>
+    <string name="rules_status_off">Off. Every scan goes to the profile picked on the Scan screen.</string>
+    <string name="rules_use">Use rules</string>
+    <string name="rules_use_help">Pick the profile by the tag itself, so the garage sticker and the office badge can go to different places without switching.</string>
+    <string name="rules_unmatched">When no rule matches</string>
+    <string name="rules_unmatched_active">Use the Scan screen profile</string>
+    <string name="rules_unmatched_ignore">Send nothing</string>
+    <string name="rules_list">Rules</string>
+    <string name="rules_order_help">Checked from the top. The first match decides, and every profile it lists gets the scan.</string>
+    <string name="rules_empty">No rules yet.</string>
+    <string name="rules_add">Add rule</string>
+    <string name="rules_edit">Edit rule</string>
+    <string name="rules_delete">Delete rule</string>
+    <string name="rules_when">When</string>
+    <string name="rules_value">Value</string>
+    <string name="rules_use_last_uid">Use last scanned tag (%1$s)</string>
+    <string name="rules_send_to">Send to</string>
+    <string name="rules_enabled">Rule is on</string>
+    <string name="rules_no_profiles">no profiles</string>
+    <string name="rules_move_up">Move up</string>
+    <string name="rules_move_down">Move down</string>
+    <string name="rule_field_uid">UID</string>
+    <string name="rule_field_tag_type">Tag type</string>
+    <string name="rule_field_chip">Chip</string>
+    <string name="rule_field_manufacturer">Maker</string>
+    <string name="rule_field_payload">Content</string>
+    <string name="rule_field_ndef_text">NDEF text</string>
+    <string name="rule_field_ndef_uri">NDEF link</string>
+    <string name="rule_op_equals">is</string>
+    <string name="rule_op_prefix">starts with</string>
+    <string name="rule_op_contains">contains</string>
+    <string name="rule_op_regex">matches pattern</string>
+    <string name="rule_err_regex">The pattern isn\'t valid, so this rule never matches.</string>
+    <string name="rule_err_profiles">Pick at least one profile to send to.</string>
+    <string name="rule_err_other">This rule can\'t be used.</string>
 </resources>

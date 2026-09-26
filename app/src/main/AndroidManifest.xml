@@ -6,6 +6,12 @@
 
     <uses-feature android:name="android.hardware.nfc" android:required="true" />
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
+
     <application
         android:name=".TapPonyApp"
         android:allowBackup="false"

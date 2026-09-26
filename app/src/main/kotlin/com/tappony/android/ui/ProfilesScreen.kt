@@ -41,9 +41,10 @@ import com.tappony.core.Profile
 import com.tappony.core.RequestSpec
 
 @Composable
-fun ProfilesScreen(onOpen: (String) -> Unit) {
+fun ProfilesScreen(onOpen: (String) -> Unit, onOpenRules: () -> Unit) {
     val app = LocalContext.current.applicationContext as TapPonyApp
     val profiles by app.profiles.profiles.collectAsState()
+    val rules by app.rules.current.collectAsState()
     var picking by remember { mutableStateOf(false) }
 
     Box(Modifier.fillMaxSize()) {
@@ -58,6 +59,24 @@ fun ProfilesScreen(onOpen: (String) -> Unit) {
             Modifier.fillMaxSize().padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
+            item(key = "rules") {
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                    modifier = Modifier.fillMaxWidth().clickable { onOpenRules() },
+                ) {
+                    Column(Modifier.padding(16.dp)) {
+                        Text(stringResource(R.string.rules_title), style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            when {
+                                !rules.enabled -> stringResource(R.string.rules_status_off)
+                                rules.rules.size == 1 -> stringResource(R.string.rules_status_on_one)
+                                else -> stringResource(R.string.rules_status_on, rules.rules.size)
+                            },
+                            color = TapColors.Muted,
+                        )
+                    }
+                }
+            }
             items(profiles, key = { it.id }) { p ->
                 Card(
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),

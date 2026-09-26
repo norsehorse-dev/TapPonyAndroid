@@ -201,6 +201,18 @@ fun ProfileEditorScreen(profileId: String, engine: ScanEngine, onDone: () -> Uni
                 supportingText = { Text(stringResource(R.string.editor_message_field_help)) },
                 textStyle = Mono, modifier = Modifier.fillMaxWidth(), singleLine = true,
             )
+            OutlinedTextField(
+                p.after.successText ?: "", { p = p.copy(after = p.after.copy(successText = it.ifEmpty { null })) },
+                label = { Text(stringResource(R.string.editor_success_text)) },
+                supportingText = { Text(stringResource(R.string.editor_result_text_help)) },
+                modifier = Modifier.fillMaxWidth(), singleLine = true,
+            )
+            OutlinedTextField(
+                p.after.failureText ?: "", { p = p.copy(after = p.after.copy(failureText = it.ifEmpty { null })) },
+                label = { Text(stringResource(R.string.editor_failure_text)) },
+                modifier = Modifier.fillMaxWidth(), singleLine = true,
+            )
+            SwitchRow(stringResource(R.string.editor_speak), p.after.speak) { p = p.copy(after = p.after.copy(speak = it)) }
             SwitchRow(stringResource(R.string.editor_keep_bodies), p.after.keepBodies) { p = p.copy(after = p.after.copy(keepBodies = it)) }
             SwitchRow(stringResource(R.string.editor_queue_offline), p.after.queueOffline) { p = p.copy(after = p.after.copy(queueOffline = it)) }
             if (p.after.queueOffline) {

@@ -207,7 +207,7 @@ class ConformanceTest {
     fun profileEncodingIsStable() {
         val p = Presets.byKey("generic_get")!!.create("ID")
         assertEquals(
-            "{\"schema\":1,\"id\":\"ID\",\"name\":\"GET with query\",\"request\":{\"method\":\"GET\",\"url\":\"https://example.com/REPLACE_ME?uid={uid}&t={timestamp}\",\"headers\":[],\"body\":{\"type\":\"none\",\"template\":\"\",\"contentType\":null,\"fields\":[]},\"timeoutSeconds\":15,\"followRedirects\":false,\"allowLocalHttp\":false},\"auth\":{\"type\":\"none\"},\"signing\":{\"enabled\":false,\"secret\":null},\"tag\":{\"technologies\":[\"iso14443\",\"iso15693\",\"felica\"],\"extendedReads\":true,\"requireNdef\":false},\"after\":{\"messageField\":null,\"keepBodies\":false,\"sound\":true,\"haptic\":true,\"queueOffline\":false}}",
+            "{\"schema\":1,\"id\":\"ID\",\"name\":\"GET with query\",\"request\":{\"method\":\"GET\",\"url\":\"https://example.com/REPLACE_ME?uid={uid}&t={timestamp}\",\"headers\":[],\"body\":{\"type\":\"none\",\"template\":\"\",\"contentType\":null,\"fields\":[]},\"timeoutSeconds\":15,\"followRedirects\":false,\"allowLocalHttp\":false},\"auth\":{\"type\":\"none\"},\"signing\":{\"enabled\":false,\"secret\":null},\"tag\":{\"technologies\":[\"iso14443\",\"iso15693\",\"felica\"],\"extendedReads\":true,\"requireNdef\":false},\"after\":{\"messageField\":null,\"keepBodies\":false,\"sound\":true,\"haptic\":true,\"queueOffline\":false,\"successText\":null,\"failureText\":null,\"speak\":false}}",
             ProfileCodec.encode(p),
         )
     }
@@ -244,6 +244,41 @@ class ConformanceTest {
         for (o in f["outcomes"] as List<*>) {
             o as Map<*, *>
             assertEquals(o["outcome"], HistoryCsv.outcome(o["buildError"] as String?, (o["status"] as Number?)?.toInt()))
+        }
+    }
+
+    @Test
+    fun rules() {
+        val f = fixture("rules_vectors.json")
+        val base = Rules.fromMap(f["ruleset"] as Map<*, *>)
+        assertEquals(f["encoded"], Rules.encode(base))
+        assertEquals(base, Rules.decode(Rules.encode(base)))
+        for (c in f["cases"] as List<*>) {
+            c as Map<*, *>
+            val set = (c["rules"] as Map<*, *>?)?.let { Rules.fromMap(it) } ?: base
+            val got = Rules.route(set, strMap(c["variables"]), c["activeProfileId"] as String?)
+            assertEquals("${c["id"]} profiles", c["expectProfiles"], got.profileIds)
+            assertEquals("${c["id"]} rule", c["expectRule"], got.ruleId)
+        }
+        val byId = base.rules.associateBy { it.id }
+        for (e in f["errors"] as List<*>) {
+            e as Map<*, *>
+            assertEquals("${e["id"]}", e["error"], Rules.error(byId.getValue(e["id"] as String)))
+        }
+        for (e in f["extraErrors"] as List<*>) {
+            e as Map<*, *>
+            val rule = Rules.fromMap(mapOf("rules" to listOf(e["rule"]))).rules.single()
+            assertEquals(e["error"], Rules.error(rule))
+        }
+    }
+
+    @Test
+    fun resultText() {
+        val f = fixture("result_text_vectors.json")
+        for (c in f["cases"] as List<*>) {
+            c as Map<*, *>
+            val got = ResultText.render(c["template"] as String?, (c["status"] as Number?)?.toInt(), c["message"] as String?, c["uid"] as String, c["profile"] as String)
+            assertEquals("${c["template"]}", c["expect"], got)
         }
     }
 }

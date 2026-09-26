@@ -154,9 +154,14 @@ fun ScanScreen(vm: ScanViewModel, nfcAvailable: Boolean, nfcEnabled: () -> Boole
             batch.results.forEach { BatchRow(it) }
         }
         when (val s = state) {
-            is ScanState.Done -> if (!batch.on) ResultCard(s.outcome)
+            is ScanState.Done -> if (!batch.on) s.outcomes.forEach { ResultCard(it) }
             is ScanState.ReadFailed -> Notice(
-                if (s.reason == "noNdef") stringResource(R.string.scan_requires_ndef) else stringResource(R.string.scan_hold_still),
+                when (s.reason) {
+                    "noNdef" -> stringResource(R.string.scan_requires_ndef)
+                    "noRule" -> stringResource(R.string.scan_no_rule)
+                    "noProfile" -> stringResource(R.string.scan_create_profile_first)
+                    else -> stringResource(R.string.scan_hold_still)
+                },
             )
             else -> Unit
         }
@@ -174,7 +179,7 @@ private fun BatchRow(o: ScanOutcome) {
     }
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Text(o.uid.ifEmpty { "?" }, style = Mono, modifier = Modifier.weight(1f))
-        o.message?.let { Text(it, color = TapColors.Muted, maxLines = 1, modifier = Modifier.weight(1f).padding(horizontal = 8.dp)) }
+        (o.resultText ?: o.message)?.let { Text(it, color = TapColors.Muted, maxLines = 1, modifier = Modifier.weight(1f).padding(horizontal = 8.dp)) }
         Text(label, color = color)
     }
 }
@@ -208,7 +213,8 @@ fun ResultCard(o: ScanOutcome) {
                 Text(headline, color = color, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
                 r?.let { Text("${it.latencyMs} ms", color = TapColors.Muted) }
             }
-            o.message?.let { Text(it, style = MaterialTheme.typography.titleMedium, color = TapColors.Text) }
+            o.resultText?.let { Text(it, style = MaterialTheme.typography.headlineSmall, color = color) }
+            o.message?.takeIf { it != o.resultText }?.let { Text(it, style = MaterialTheme.typography.titleMedium, color = TapColors.Text) }
             Text(o.profileName, color = TapColors.Muted)
             if (o.uid.isNotEmpty()) Text(o.uid, style = Mono)
             val detail = listOf(o.chip, o.tagType).filter { it.isNotEmpty() }.joinToString(" · ")

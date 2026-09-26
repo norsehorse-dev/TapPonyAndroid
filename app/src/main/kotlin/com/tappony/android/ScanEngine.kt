@@ -12,6 +12,7 @@ import com.tappony.core.Profile
 import com.tappony.core.RequestBuilder
 import com.tappony.core.RequestException
 import com.tappony.core.ResponseMessage
+import com.tappony.core.ResultText
 import com.tappony.core.SendContext
 import com.tappony.core.TagReading
 import com.tappony.core.Variables
@@ -34,6 +35,8 @@ data class ScanOutcome(
     val message: String? = null,
     /** Got no response and went into the offline queue instead of history. */
     val queued: Boolean = false,
+    /** The profile's success or failure text, rendered (PROFILE_SCHEMA.md section 15). */
+    val resultText: String? = null,
 ) {
     val outcome: String get() = HistoryCsv.outcome(buildError, result?.status)
 
@@ -103,7 +106,7 @@ class ScanEngine(
         try {
             if (queue != null && profile.after.queueOffline && outcome.isNoResponse) {
                 queue.enqueue(profile, scanTimeMs, vars, outcome.result?.error ?: "")
-                return outcome.copy(queued = true)
+                return outcome.copy(queued = true, resultText = null)
             }
             history?.record(outcome.toHistory(profile.after.keepBodies))
             if (outcome.result?.status != null) queue?.kick()
@@ -146,14 +149,19 @@ class ScanEngine(
         val req = try {
             RequestBuilder.build(profile, vars, secretValues, sendTimeMs / 1000)
         } catch (e: RequestException) {
-            return base.copy(buildError = e.code)
+            return base.copy(
+                buildError = e.code,
+                resultText = ResultText.render(profile.after.failureText, null, null, base.uid, profile.name),
+            )
         }
         val raw = sender.send(req, profile.request.allowLocalHttp)
         // A server that echoes a secret back must not get it onto the screen or into kept history.
         val secretsByLength = secretValues.values.filter { it.isNotEmpty() }.sortedByDescending { it.length }
         fun mask(text: String) = secretsByLength.fold(text) { acc, v -> acc.replace(v, RequestBuilder.MASK) }
         val result = raw.copy(responseBody = raw.responseBody?.let { mask(it) }, error = raw.error?.let { mask(it) })
-        val message = ResponseMessage.extract(profile.after.messageField, raw.responseHeaders, raw.responseBody)?.let { mask(it) }
-        return base.copy(request = RequestBuilder.masked(req, secretValues), result = result, message = message)
+        val message = ResponseMessage.extract(profile.after.messageField, raw.responseHeaders.map { it.first to mask(it.second) }, result.responseBody)
+        val template = if (result.ok) profile.after.successText else profile.after.failureText
+        val text = ResultText.render(template, result.status, message, base.uid, profile.name)?.let { mask(it) }
+        return base.copy(request = RequestBuilder.masked(req, secretValues), result = result, message = message, resultText = text)
     }
 }

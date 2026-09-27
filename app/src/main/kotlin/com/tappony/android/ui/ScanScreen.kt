@@ -159,6 +159,7 @@ fun ScanScreen(vm: ScanViewModel, nfcAvailable: Boolean, nfcEnabled: () -> Boole
                 when (s.reason) {
                     "noNdef" -> stringResource(R.string.scan_requires_ndef)
                     "noRule" -> stringResource(R.string.scan_no_rule)
+                    "unknownLaunch" -> stringResource(R.string.scan_launch_unknown)
                     "noProfile" -> stringResource(R.string.scan_create_profile_first)
                     else -> stringResource(R.string.scan_hold_still)
                 },

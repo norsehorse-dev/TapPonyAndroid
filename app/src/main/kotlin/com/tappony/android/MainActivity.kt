@@ -1,6 +1,7 @@
 package com.tappony.android
 
 import android.content.Intent
+import android.nfc.NdefMessage
 import android.nfc.NfcAdapter
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Contactless
 import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Nfc
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.Icon
@@ -23,6 +25,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Modifier
+import androidx.core.content.IntentCompat
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -36,11 +39,15 @@ import com.tappony.android.ui.RulesScreen
 import com.tappony.android.ui.ScanScreen
 import com.tappony.android.ui.ScanViewModel
 import com.tappony.android.ui.SettingsScreen
+import com.tappony.android.ui.TagsScreen
+import com.tappony.android.ui.TagsViewModel
+import com.tappony.core.NdefRecord
 import com.tappony.android.ui.TapPonyTheme
 
 class MainActivity : ComponentActivity() {
 
     private val scanVm: ScanViewModel by viewModels()
+    private val tagsVm: TagsViewModel by viewModels()
     private var nfc: NfcAdapter? = null
 
     @Volatile
@@ -74,6 +81,7 @@ class MainActivity : ComponentActivity() {
                 val tabs = listOf(
                     Triple("scan", R.string.tab_scan, Icons.Filled.Contactless),
                     Triple("profiles", R.string.tab_profiles, Icons.Filled.Tune),
+                    Triple("tags", R.string.tab_tags, Icons.Filled.Nfc),
                     Triple("history", R.string.tab_history, Icons.Filled.History),
                     Triple("settings", R.string.tab_settings, Icons.Filled.Settings),
                 )
@@ -114,6 +122,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("rules") { RulesScreen(onDone = { nav.popBackStack() }) }
+                        composable("tags") { TagsScreen(tagsVm) }
                         composable("history") { HistoryScreen() }
                         composable("settings") { SettingsScreen() }
                     }
@@ -128,9 +137,24 @@ class MainActivity : ComponentActivity() {
         handleLink(intent, jump = true)
     }
 
-    /** tappony://scan?profile=<id>: select that profile (if it exists) and show the Scan tab. */
+    /**
+     * tappony://scan?profile=<id>: select that profile (if it exists) and show the Scan tab.
+     * https://tappony.app/t/?k=<token>, from a tag (NDEF discovery) or an App Link:
+     * send for a registered token (PROFILE_SCHEMA.md section 16).
+     */
     private fun handleLink(intent: Intent?, jump: Boolean) {
         val uri = intent?.data ?: return
+        if (uri.scheme == "https" && uri.host == "tappony.app" && (uri.path ?: "").startsWith("/t/") &&
+            (intent.action == Intent.ACTION_VIEW || intent.action == NfcAdapter.ACTION_NDEF_DISCOVERED)
+        ) {
+            // Reopening from Recents replays the original intent; that must not send again.
+            if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) == 0) {
+                val tagId = if (intent.action == NfcAdapter.ACTION_NDEF_DISCOVERED) intent.getByteArrayExtra(NfcAdapter.EXTRA_ID) else null
+                scanVm.onLaunch(uri.toString(), ndefRecords(intent), tagId)
+            }
+            scanRequests.intValue += 1
+            return
+        }
         if (intent.action != Intent.ACTION_VIEW || uri.scheme != "tappony" || uri.host != "scan") return
         val app = application as TapPonyApp
         uri.getQueryParameter("profile")?.let { id -> if (app.profiles.get(id) != null) app.settings.setActiveProfile(id) }
@@ -143,11 +167,24 @@ class MainActivity : ComponentActivity() {
         val flags = NfcAdapter.FLAG_READER_NFC_A or NfcAdapter.FLAG_READER_NFC_B or NfcAdapter.FLAG_READER_NFC_F or
             NfcAdapter.FLAG_READER_NFC_V or NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS
         val extras = Bundle().apply { putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 500) }
-        adapter.enableReaderMode(this, { tag -> if (onScanScreen) scanVm.onTag(tag) }, flags, extras)
+        adapter.enableReaderMode(this, { tag ->
+            when {
+                tagsVm.armed -> tagsVm.onTag(tag)
+                onScanScreen -> scanVm.onTag(tag)
+            }
+        }, flags, extras)
     }
 
     override fun onPause() {
         super.onPause()
         nfc?.disableReaderMode(this)
+    }
+
+    /** The first NDEF message a discovery intent carries, as core records. */
+    private fun ndefRecords(intent: Intent): List<NdefRecord> {
+        if (intent.action != NfcAdapter.ACTION_NDEF_DISCOVERED) return emptyList()
+        val messages = IntentCompat.getParcelableArrayExtra(intent, NfcAdapter.EXTRA_NDEF_MESSAGES, NdefMessage::class.java)
+        val first = messages?.firstOrNull() as? NdefMessage ?: return emptyList()
+        return first.records.map { NdefRecord(it.tnf.toInt(), it.type ?: ByteArray(0), it.id ?: ByteArray(0), it.payload ?: ByteArray(0)) }
     }
 }

@@ -16,6 +16,16 @@ object Ndef {
         "urn:epc:tag:", "urn:epc:pat:", "urn:epc:raw:", "urn:epc:", "urn:nfc:",
     )
 
+    /** A well-known URI record, with the longest matching NFC Forum prefix code. */
+    fun uriRecord(uri: String): NdefRecord {
+        var code = 0
+        for (i in 1 until URI_PREFIXES.size) {
+            if (uri.startsWith(URI_PREFIXES[i]) && URI_PREFIXES[i].length > URI_PREFIXES[code].length) code = i
+        }
+        val rest = uri.substring(URI_PREFIXES[code].length).toByteArray(Charsets.UTF_8)
+        return NdefRecord(1, byteArrayOf(0x55), ByteArray(0), byteArrayOf(code.toByte()) + rest)
+    }
+
     /** NFC Forum NDEF 1.0 message encoding. */
     fun encode(records: List<NdefRecord>): ByteArray {
         val out = java.io.ByteArrayOutputStream()

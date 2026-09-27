@@ -15,8 +15,11 @@ import com.tappony.core.Profile
 import com.tappony.android.R
 import com.tappony.android.Speaker
 import com.tappony.core.RuleSet
+import com.tappony.core.NdefRecord
 import com.tappony.core.Rules
 import com.tappony.core.SendContext
+import com.tappony.core.TagReading
+import com.tappony.core.Tags
 import com.tappony.core.Variables
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -82,7 +85,9 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
         null
     }
 
+    @Volatile
     private var lastUid: String? = null
+    @Volatile
     private var lastAt = 0L
     private val seenInBatch = HashSet<String>()
 
@@ -119,7 +124,7 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
     fun onTag(tag: Tag) {
         val active = activeProfile.value
         val rules = tp.rules.current.value
-        if (active == null && !rules.enabled) return
+        if (active == null && !rules.enabled && tp.tags.current.value.tags.none { it.profile != null }) return
         val scanTime = System.currentTimeMillis()
         val uidKey = tag.id?.joinToString("") { "%02x".format(it) } ?: ""
         val batchAtRead = _batch.value
@@ -144,7 +149,8 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
         }
 
         val allProfiles = profiles.value
-        val extended = if (rules.enabled) allProfiles.any { it.tag.extendedReads } else active?.tag?.extendedReads ?: true
+        val anyCandidate = rules.enabled || tp.tags.current.value.tags.any { it.profile != null }
+        val extended = if (anyCandidate) allProfiles.any { it.tag.extendedReads } else active?.tag?.extendedReads ?: true
         val reading = try {
             AndroidTagReader.read(tag, extended)
         } catch (e: Exception) {
@@ -153,24 +159,14 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
             return
         }
 
-        val tagVars = Variables.build(reading, SendContext(scanTime, scanTime, "UTC", "", "", "", "android", "", 0))
-        // A rule whose profiles were all deleted has none left, so it is skipped like any rule with no profiles.
-        val liveIds = allProfiles.mapTo(HashSet()) { it.id }
-        val liveRules = rules.copy(rules = rules.rules.map { r -> r.copy(profiles = r.profiles.filter { it in liveIds }) })
-        val route = Rules.route(liveRules, tagVars, active?.id)
-        val targets = route.profileIds.mapNotNull { id -> allProfiles.firstOrNull { it.id == id } }
-        if (targets.isEmpty()) {
+        val routed = route(reading, scanTime, active)
+        if (routed.failure != null) {
             unmark()
-            val ignored = rules.enabled && route.ruleId == null && rules.unmatched == RuleSet.UNMATCHED_IGNORE
-            _state.value = ScanState.ReadFailed(if (ignored) "noRule" else "noProfile")
+            _state.value = ScanState.ReadFailed(routed.failure)
             return
         }
-        val sendable = targets.filter { !(it.tag.requireNdef && reading.ndef.isEmpty()) }
-        if (sendable.isEmpty()) {
-            unmark()
-            _state.value = ScanState.ReadFailed("noNdef")
-            return
-        }
+        val sendable = routed.targets
+        val tagLabel = routed.tagLabel
         _reads.update { it + 1 }
 
         if (batchOn) {
@@ -180,7 +176,7 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
             _state.value = ScanState.Sending
         }
         viewModelScope.launch {
-            val outcomes = sendable.map { p -> async { p to engine.run(p, reading, scanTime, tp.history, tp.queue) } }.awaitAll()
+            val outcomes = sendable.map { p -> async { p to engine.run(p, reading, scanTime, tp.history, tp.queue, tagLabel) } }.awaitAll()
             if (outcomes.any { it.first.after.sound }) tone(outcomes.map { it.second })
             outcomes.filter { it.first.after.speak }.forEach { (_, o) ->
                 speakerStarted = true
@@ -199,6 +195,75 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
             } else {
                 _state.value = ScanState.Done(results)
             }
+        }
+    }
+
+    private class Routed(val targets: List<Profile>, val tagLabel: String, val failure: String?)
+
+    /**
+     * Where a reading goes: the registry names the tag (section 16), then rules,
+     * the tag's own default profile, or the active profile decide (section 14).
+     */
+    private fun route(reading: TagReading, scanTime: Long, active: Profile?): Routed {
+        val rules = tp.rules.current.value
+        val allProfiles = profiles.value
+        val baseVars = Variables.build(reading, SendContext(scanTime, scanTime, "UTC", "", "", "", "android", "", 0))
+        val entry = Tags.find(tp.tags.current.value, baseVars)
+        val tagLabel = entry?.label ?: ""
+        val tagVars = baseVars + ("tag_label" to tagLabel)
+        // A rule whose profiles were all deleted has none left, so it is skipped like any rule with no profiles.
+        val liveIds = allProfiles.mapTo(HashSet()) { it.id }
+        val liveRules = rules.copy(rules = rules.rules.map { r -> r.copy(profiles = r.profiles.filter { it in liveIds }) })
+        val tagProfile = entry?.profile?.takeIf { it in liveIds }
+        val route = Rules.route(liveRules, tagVars, active?.id, tagProfile)
+        val targets = route.profileIds.mapNotNull { id -> allProfiles.firstOrNull { it.id == id } }
+        if (targets.isEmpty()) {
+            val ignored = rules.enabled && route.ruleId == null && rules.unmatched == RuleSet.UNMATCHED_IGNORE
+            return Routed(emptyList(), tagLabel, if (ignored) "noRule" else "noProfile")
+        }
+        val sendable = targets.filter { !(it.tag.requireNdef && reading.ndef.isEmpty()) }
+        if (sendable.isEmpty()) return Routed(emptyList(), tagLabel, "noNdef")
+        return Routed(sendable, tagLabel, null)
+    }
+
+    /**
+     * A TapPony launch link opened the app (NDEF discovery or an App Link)
+     * without a tag read. Only tokens in the registry send anything; any other
+     * link just shows the Scan screen (PROFILE_SCHEMA.md section 16).
+     */
+    fun onLaunch(link: String, records: List<NdefRecord>, tagId: ByteArray? = null) {
+        // Reader mode starts in onResume while the same tag is usually still held: don't send it twice.
+        if (tagId != null) {
+            lastUid = tagId.joinToString("") { "%02x".format(it) }
+            lastAt = System.currentTimeMillis()
+        }
+        val token = Variables.launchToken(link)
+        val entry = tp.tags.current.value.tags.firstOrNull { token.isNotEmpty() && it.token == token }
+        if (entry == null) {
+            _state.value = ScanState.ReadFailed("unknownLaunch")
+            return
+        }
+        if (_batch.value.on) setBatch(false)
+        val scanTime = System.currentTimeMillis()
+        val reading = Tags.launchReading(link, records)
+        // On a cold start activeProfile may not have its first value yet, so resolve it directly.
+        val active = activeProfile.value ?: tp.profiles.profiles.value.let { list ->
+            list.firstOrNull { it.id == tp.settings.activeProfileId.value } ?: list.firstOrNull()
+        }
+        val routed = route(reading, scanTime, active)
+        if (routed.failure != null) {
+            _state.value = ScanState.ReadFailed(routed.failure)
+            return
+        }
+        _state.value = ScanState.Sending
+        viewModelScope.launch {
+            val outcomes = routed.targets.map { p -> async { p to engine.run(p, reading, scanTime, tp.history, tp.queue, routed.tagLabel) } }.awaitAll()
+            if (outcomes.any { it.first.after.sound }) tone(outcomes.map { it.second })
+            outcomes.filter { it.first.after.speak }.forEach { (_, o) ->
+                speakerStarted = true
+                speaker.speak(spoken(o))
+            }
+            _state.value = ScanState.Done(outcomes.map { it.second })
         }
     }
 

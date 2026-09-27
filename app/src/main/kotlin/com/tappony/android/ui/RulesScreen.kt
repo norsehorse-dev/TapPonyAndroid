@@ -177,6 +177,7 @@ private fun fieldLabel(f: String): String = when (f) {
     "payload" -> stringResource(R.string.rule_field_payload)
     "ndef_text" -> stringResource(R.string.rule_field_ndef_text)
     "ndef_uri" -> stringResource(R.string.rule_field_ndef_uri)
+    "tag_label" -> stringResource(R.string.rule_field_tag_label)
     else -> f
 }
 

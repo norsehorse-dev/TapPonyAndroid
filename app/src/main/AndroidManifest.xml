@@ -40,6 +40,19 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="tappony" android:host="scan" />
             </intent-filter>
+            <!-- TapPony launch links on our own tags: opens the app even when it is closed. -->
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="https" android:host="tappony.app" android:pathPrefix="/t/" />
+            </intent-filter>
+            <!-- The same links opened from anywhere else, verified through assetlinks.json on tappony.app. -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="tappony.app" android:pathPrefix="/t/" />
+            </intent-filter>
         </activity>
 
         <service

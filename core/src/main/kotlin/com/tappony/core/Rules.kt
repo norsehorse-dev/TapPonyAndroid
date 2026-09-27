@@ -31,7 +31,7 @@ data class Route(val profileIds: List<String>, val ruleId: String?)
 /** The rules engine, PROFILE_SCHEMA.md section 14, pinned by fixtures/rules_vectors.json. */
 object Rules {
 
-    val FIELDS = listOf("uid", "tag_type", "chip", "manufacturer", "payload", "ndef_text", "ndef_uri")
+    val FIELDS = listOf("uid", "tag_type", "chip", "manufacturer", "payload", "ndef_text", "ndef_uri", "tag_label")
     val OPS = listOf("equals", "prefix", "contains", "regex")
 
     /** Null when valid, else unknownField, unknownOp, badRegex or noProfiles. */
@@ -64,13 +64,19 @@ object Rules {
         }
     }
 
-    fun route(set: RuleSet, variables: Map<String, String>, activeProfileId: String?): Route {
-        val fallback = listOfNotNull(activeProfileId)
+    /**
+     * [tagProfileId] is the scanned tag's default profile from the registry
+     * (section 16): it beats the active profile and the unmatched setting, but a
+     * matching rule beats it.
+     */
+    fun route(set: RuleSet, variables: Map<String, String>, activeProfileId: String?, tagProfileId: String? = null): Route {
+        val tagProfile = tagProfileId?.takeIf { it.isNotEmpty() }
+        val fallback = if (tagProfile != null) listOf(tagProfile) else listOfNotNull(activeProfileId)
         if (!set.enabled) return Route(fallback, null)
         for (r in set.rules) {
             if (matches(r, variables)) return Route(r.profiles.distinct(), r.id)
         }
-        return if (set.unmatched == RuleSet.UNMATCHED_IGNORE) Route(emptyList(), null) else Route(fallback, null)
+        return if (set.unmatched == RuleSet.UNMATCHED_IGNORE && tagProfile == null) Route(emptyList(), null) else Route(fallback, null)
     }
 
     // ---- codec -------------------------------------------------------------

@@ -256,7 +256,7 @@ class ConformanceTest {
         for (c in f["cases"] as List<*>) {
             c as Map<*, *>
             val set = (c["rules"] as Map<*, *>?)?.let { Rules.fromMap(it) } ?: base
-            val got = Rules.route(set, strMap(c["variables"]), c["activeProfileId"] as String?)
+            val got = Rules.route(set, strMap(c["variables"]), c["activeProfileId"] as String?, c["tagProfileId"] as String?)
             assertEquals("${c["id"]} profiles", c["expectProfiles"], got.profileIds)
             assertEquals("${c["id"]} rule", c["expectRule"], got.ruleId)
         }
@@ -270,6 +270,41 @@ class ConformanceTest {
             val rule = Rules.fromMap(mapOf("rules" to listOf(e["rule"]))).rules.single()
             assertEquals(e["error"], Rules.error(rule))
         }
+    }
+
+    @Test
+    fun tags() {
+        val f = fixture("tags_vectors.json")
+        val reg = Tags.fromMap(f["registry"] as Map<*, *>)
+        assertEquals(f["encoded"], Tags.encode(reg))
+        assertEquals(reg, Tags.decode(Tags.encode(reg)))
+        for (c in f["find"] as List<*>) {
+            c as Map<*, *>
+            val got = Tags.find(reg, c["uid"] as String, c["token"] as String, c["randomUid"] as Boolean)
+            assertEquals("${c["id"]}", c["expectLabel"], got?.label)
+        }
+        for (c in f["tokens"] as List<*>) {
+            c as Map<*, *>
+            val tok = Tags.token(hex(c["bytes"] as String)!!)
+            assertEquals(c["token"], tok)
+            assertEquals(c["link"], Tags.link(tok))
+            assertEquals(tok, Variables.launchToken(Tags.link(tok)))
+        }
+        for (c in f["validTokens"] as List<*>) {
+            c as Map<*, *>
+            assertEquals("${c["token"]}", c["valid"], Tags.isToken(c["token"] as String))
+        }
+        // A tagless launch builds the same variables as the shared vector.
+        val v = (fixture("variables_vectors.json")["cases"] as List<*>).map { it as Map<*, *> }.first { it["id"] == "launch_without_tag" }
+        val expect = strMap(v["expect"])
+        val ctx = v["context"] as Map<*, *>
+        val reading = Tags.launchReading(expect["payload"]!!)
+        val got = Variables.build(reading, SendContext(
+            (ctx["scanTimeMs"] as Number).toLong(), (ctx["sendTimeMs"] as Number).toLong(), ctx["tz"] as String,
+            ctx["profileName"] as String, ctx["profileId"] as String, ctx["deviceLabel"] as String, ctx["platform"] as String,
+            ctx["nonce"] as String, (ctx["seq"] as Number).toLong(),
+        ))
+        assertEquals(expect, got)
     }
 
     @Test

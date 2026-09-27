@@ -81,7 +81,7 @@ class ScanEngine(
         return b.joinToString("") { "%02x".format(it) }
     }
 
-    fun context(profile: Profile, scanTimeMs: Long, test: Boolean = false) = SendContext(
+    fun context(profile: Profile, scanTimeMs: Long, test: Boolean = false, tagLabel: String = "") = SendContext(
         scanTimeMs = scanTimeMs,
         sendTimeMs = System.currentTimeMillis(),
         timeZone = TimeZone.getDefault().id,
@@ -91,6 +91,7 @@ class ScanEngine(
         platform = "android",
         nonce = nonce(),
         seq = if (test) 0 else settings.nextSeq(profile.id),
+        tagLabel = tagLabel,
     )
 
     suspend fun run(
@@ -99,8 +100,9 @@ class ScanEngine(
         scanTimeMs: Long,
         history: HistoryStore? = null,
         queue: OfflineQueue? = null,
+        tagLabel: String = "",
     ): ScanOutcome {
-        val ctx = context(profile, scanTimeMs)
+        val ctx = context(profile, scanTimeMs, tagLabel = tagLabel)
         val vars = Variables.build(reading, ctx)
         val outcome = send(profile, vars, ctx.scanTimeMs, ctx.sendTimeMs)
         // The request already went out (or couldn't); a failed local write must not turn into a crash.

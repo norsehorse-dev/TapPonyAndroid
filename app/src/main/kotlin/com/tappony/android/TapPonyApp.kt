@@ -11,6 +11,7 @@ import com.tappony.android.data.HistoryStore
 import com.tappony.android.data.RulesStore
 import com.tappony.android.data.ProfileStore
 import com.tappony.android.data.SecretStore
+import com.tappony.android.data.TagsStore
 import com.tappony.android.net.Sender
 
 /** Holds the app-wide stores. No analytics, no crash reporting, nothing that phones home. */
@@ -26,6 +27,8 @@ class TapPonyApp : Application() {
         private set
     lateinit var rules: RulesStore
         private set
+    lateinit var tags: TagsStore
+        private set
     val sender = Sender()
     val engine: ScanEngine by lazy { ScanEngine(settings, secrets, sender) }
     val queue: OfflineQueue by lazy { OfflineQueue(this) }
@@ -37,6 +40,7 @@ class TapPonyApp : Application() {
         settings = AppSettings(this)
         history = HistoryStore(this, settings)
         rules = RulesStore(this)
+        tags = TagsStore(this)
         queue.kick()
         combine(profiles.profiles, settings.activeProfileId) { list, active -> Shortcuts.sync(this, list, active) }
             .launchIn(CoroutineScope(SupervisorJob() + Dispatchers.Default))

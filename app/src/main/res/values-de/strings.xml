@@ -253,4 +253,19 @@
     <string name="tags_profile_missing">ein gelöschtes Profil</string>
     <string name="rule_field_tag_label">Tag-Name</string>
     <string name="scan_launch_unknown">Dieser Startlink gehört zu einem Tag, das dieses Handy nicht kennt, daher wurde nichts gesendet.</string>
+
+    <string name="auth_none">Keine</string>
+    <string name="auth_api_key">API-Schlüssel</string>
+    <string name="body_form">Formular</string>
+    <string name="body_raw">Roh</string>
+    <string name="body_none">Kein Body</string>
+    <string name="result_latency">%1$d ms</string>
+    <string name="err_malformed_url">Die URL konnte nicht gelesen werden. Prüfe sie auf Tippfehler.</string>
+    <string name="err_redirect_refused">Der Weiterleitung des Servers konnte nicht gefolgt werden.</string>
+    <string name="err_too_many_redirects">Der Server hat zu oft weitergeleitet.</string>
+    <string name="err_profile_deleted">Das Profil wurde gelöscht, bevor dieser Scan gesendet werden konnte.</string>
+    <string name="err_unknown_host">Der Servername wurde nicht gefunden. Prüfe die URL und deine Verbindung. (%1$s)</string>
+    <string name="err_timeout">Der Server hat zu lange nicht geantwortet. (%1$s)</string>
+    <string name="err_connect">Keine Verbindung zum Server möglich. (%1$s)</string>
+    <string name="err_tls">Die sichere Verbindung ist fehlgeschlagen. Dem Zertifikat des Servers wird möglicherweise nicht vertraut. (%1$s)</string>
 </resources>

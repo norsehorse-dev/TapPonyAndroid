@@ -115,8 +115,9 @@ fun ProfilesScreen(onOpen: (String) -> Unit, onOpenRules: () -> Unit) {
                         }
                     }
                     items(Presets.ALL) { preset ->
-                        PresetRow(presetTitle(preset.key), presetExplainer(preset.key)) {
-                            val p = preset.create(ProfileStore.newId())
+                        val title = presetTitle(preset.key)
+                        PresetRow(title, presetExplainer(preset.key)) {
+                            val p = preset.create(ProfileStore.newId()).copy(name = title)
                             app.profiles.save(p)
                             picking = false
                             onOpen(p.id)

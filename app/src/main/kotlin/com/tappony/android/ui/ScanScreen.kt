@@ -213,7 +213,7 @@ fun ResultCard(o: ScanOutcome) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(headline, color = color, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
-                r?.let { Text("${it.latencyMs} ms", color = TapColors.Muted) }
+                r?.let { Text(stringResource(R.string.result_latency, it.latencyMs), color = TapColors.Muted) }
             }
             o.resultText?.let { Text(it, style = MaterialTheme.typography.headlineSmall, color = color) }
             o.message?.takeIf { it != o.resultText }?.let { Text(it, style = MaterialTheme.typography.titleMedium, color = TapColors.Text) }
@@ -223,7 +223,7 @@ fun ResultCard(o: ScanOutcome) {
             if (detail.isNotEmpty()) Text(detail, color = TapColors.Muted)
             if (o.randomUid) Text(stringResource(R.string.result_random_uid), color = TapColors.Warn)
             o.buildError?.let { Text(explainError(it), color = TapColors.Fail) }
-            r?.error?.let { Text(it, color = TapColors.Fail, style = Mono) }
+            r?.error?.let { Text(explainError(it), color = TapColors.Fail, style = Mono) }
             r?.responseBody?.takeIf { it.isNotBlank() }?.let { Text(it.take(600), style = Mono, color = TapColors.Muted) }
         }
     }
@@ -240,5 +240,13 @@ fun explainError(code: String): String = when {
     code == "template:invalidJsonBody" -> stringResource(R.string.err_invalid_json)
     code.startsWith("template:") -> stringResource(R.string.err_template, code.removePrefix("template:"))
     code == "badHeaderName" -> stringResource(R.string.err_header_name)
+    code == "malformedUrl" -> stringResource(R.string.err_malformed_url)
+    code == "redirect" -> stringResource(R.string.err_redirect_refused)
+    code == "tooManyRedirects" -> stringResource(R.string.err_too_many_redirects)
+    code == "profileDeleted" -> stringResource(R.string.err_profile_deleted)
+    code.startsWith("UnknownHostException") -> stringResource(R.string.err_unknown_host, code)
+    code.startsWith("SocketTimeoutException") || code.startsWith("InterruptedIOException") -> stringResource(R.string.err_timeout, code)
+    code.startsWith("ConnectException") || code.startsWith("NoRouteToHostException") -> stringResource(R.string.err_connect, code)
+    code.startsWith("SSL") || code.startsWith("CertPathValidatorException") || code.startsWith("CertificateException") -> stringResource(R.string.err_tls, code)
     else -> code
 }

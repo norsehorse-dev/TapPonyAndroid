@@ -253,4 +253,19 @@
     <string name="tags_profile_missing">um perfil excluído</string>
     <string name="rule_field_tag_label">Nome da tag</string>
     <string name="scan_launch_unknown">Esse link de abertura pertence a uma tag que este celular não conhece, então nada foi enviado.</string>
+
+    <string name="auth_none">Nenhuma</string>
+    <string name="auth_api_key">Chave de API</string>
+    <string name="body_form">Formulário</string>
+    <string name="body_raw">Bruto</string>
+    <string name="body_none">Sem corpo</string>
+    <string name="result_latency">%1$d ms</string>
+    <string name="err_malformed_url">Não foi possível ler a URL. Verifique se há erros de digitação.</string>
+    <string name="err_redirect_refused">Não foi possível seguir o redirecionamento do servidor.</string>
+    <string name="err_too_many_redirects">O servidor redirecionou vezes demais.</string>
+    <string name="err_profile_deleted">O perfil foi excluído antes que esta leitura pudesse ser enviada.</string>
+    <string name="err_unknown_host">O nome do servidor não foi encontrado. Verifique a URL e sua conexão. (%1$s)</string>
+    <string name="err_timeout">O servidor demorou demais para responder. (%1$s)</string>
+    <string name="err_connect">Não foi possível conectar ao servidor. (%1$s)</string>
+    <string name="err_tls">A conexão segura falhou. O certificado do servidor pode não ser confiável. (%1$s)</string>
 </resources>

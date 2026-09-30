@@ -167,7 +167,7 @@ private fun HistoryRowCard(e: HistoryEntry, onClick: () -> Unit) {
 
 @Composable
 private fun outcomeLabel(e: HistoryEntry): String = when (e.outcome) {
-    HistoryCsv.OK, HistoryCsv.HTTP_ERROR -> "HTTP ${e.status ?: ""}".trim() + (e.latencyMs?.let { " · $it ms" } ?: "")
+    HistoryCsv.OK, HistoryCsv.HTTP_ERROR -> "HTTP ${e.status ?: ""}".trim() + (e.latencyMs?.let { " · " + stringResource(R.string.result_latency, it) } ?: "")
     HistoryCsv.NETWORK_ERROR -> stringResource(R.string.result_network_error)
     else -> stringResource(R.string.result_not_sent)
 }

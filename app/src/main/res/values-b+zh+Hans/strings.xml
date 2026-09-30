@@ -253,4 +253,19 @@
     <string name="tags_profile_missing">已删除的配置</string>
     <string name="rule_field_tag_label">标签名称</string>
     <string name="scan_launch_unknown">该启动链接属于这部手机不认识的标签，因此未发送任何内容。</string>
+
+    <string name="auth_none">无</string>
+    <string name="auth_api_key">API 密钥</string>
+    <string name="body_form">表单</string>
+    <string name="body_raw">原始</string>
+    <string name="body_none">无请求体</string>
+    <string name="result_latency">%1$d 毫秒</string>
+    <string name="err_malformed_url">无法读取该 URL。请检查是否有拼写错误。</string>
+    <string name="err_redirect_refused">无法跟随服务器的重定向。</string>
+    <string name="err_too_many_redirects">服务器重定向次数过多。</string>
+    <string name="err_profile_deleted">此次扫描发送前，配置已被删除。</string>
+    <string name="err_unknown_host">找不到服务器名称。请检查 URL 和网络连接。（%1$s）</string>
+    <string name="err_timeout">服务器响应超时。（%1$s）</string>
+    <string name="err_connect">无法连接到服务器。（%1$s）</string>
+    <string name="err_tls">安全连接失败。服务器的证书可能不受信任。（%1$s）</string>
 </resources>

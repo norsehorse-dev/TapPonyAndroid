@@ -130,7 +130,7 @@ fun ProfileEditorScreen(profileId: String, engine: ScanEngine, onDone: () -> Uni
 
             Section(stringResource(R.string.editor_auth))
             val authKind = when (p.auth) { Auth.None -> "none"; is Auth.Bearer -> "bearer"; is Auth.Basic -> "basic"; is Auth.ApiKey -> "apiKey" }
-            ChipRow(listOf("none", "bearer", "basic", "apiKey"), authKind) {
+            ChipRow(listOf("none", "bearer", "basic", "apiKey"), authKind, label = { authLabel(it) }) {
                 p = p.copy(
                     auth = when (it) {
                         "bearer" -> Auth.Bearer("TOKEN")
@@ -154,7 +154,7 @@ fun ProfileEditorScreen(profileId: String, engine: ScanEngine, onDone: () -> Uni
             }
 
             Section(stringResource(R.string.editor_body))
-            ChipRow(BodyType.values().map { it.wire }, p.request.body.type.wire) {
+            ChipRow(BodyType.values().map { it.wire }, p.request.body.type.wire, label = { bodyLabel(it) }) {
                 p = p.copy(request = p.request.copy(body = p.request.body.copy(type = BodyType.fromWire(it))))
             }
             when (p.request.body.type) {
@@ -320,10 +320,33 @@ private fun Section(title: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ChipRow(options: List<String>, selected: String, onSelect: (String) -> Unit) {
+private fun ChipRow(
+    options: List<String>,
+    selected: String,
+    label: @Composable (String) -> String = { it },
+    onSelect: (String) -> Unit,
+) {
     Row(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.horizontalScroll(rememberScrollState())) {
-        options.forEach { o -> FilterChip(selected = o == selected, onClick = { onSelect(o) }, label = { Text(o) }) }
+        options.forEach { o -> FilterChip(selected = o == selected, onClick = { onSelect(o) }, label = { Text(label(o)) }) }
     }
+}
+
+@Composable
+private fun authLabel(kind: String): String = when (kind) {
+    "none" -> stringResource(R.string.auth_none)
+    "bearer" -> stringResource(R.string.auth_bearer)
+    "basic" -> stringResource(R.string.auth_basic)
+    "apiKey" -> stringResource(R.string.auth_api_key)
+    else -> kind
+}
+
+@Composable
+private fun bodyLabel(wire: String): String = when (wire) {
+    "json" -> "JSON"
+    "form" -> stringResource(R.string.body_form)
+    "raw" -> stringResource(R.string.body_raw)
+    "none" -> stringResource(R.string.body_none)
+    else -> wire
 }
 
 @Composable

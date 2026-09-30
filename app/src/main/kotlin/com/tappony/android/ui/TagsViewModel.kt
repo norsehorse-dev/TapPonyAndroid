@@ -3,6 +3,7 @@ package com.tappony.android.ui
 import android.app.Application
 import android.nfc.Tag
 import androidx.lifecycle.AndroidViewModel
+import com.tappony.android.Entitlements
 import com.tappony.android.TapPonyApp
 import com.tappony.android.nfc.TagWriter
 import com.tappony.android.nfc.WriteJob
@@ -40,6 +41,7 @@ class TagsViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun arm(job: WriteJob) {
+        if (job is WriteJob.Launch && !Entitlements.canAddTag(tp.tags.current.value.tags.size)) return
         _state.value = WriteState.Waiting(job)
     }
 

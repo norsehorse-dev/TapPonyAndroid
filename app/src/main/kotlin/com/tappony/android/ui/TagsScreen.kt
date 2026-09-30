@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.tappony.android.Entitlements
 import com.tappony.android.R
 import com.tappony.android.TapPonyApp
 import com.tappony.android.nfc.WriteJob
@@ -112,7 +113,7 @@ fun TagsScreen(vm: TagsViewModel) {
                     launchLabel, { launchLabel = it.take(64) },
                     label = { Text(stringResource(R.string.tags_label)) }, singleLine = true, modifier = Modifier.fillMaxWidth(),
                 )
-                ProfilePicker(profiles, launchProfile) { launchProfile = it }
+                if (Entitlements.tagDefaults) ProfilePicker(profiles, launchProfile) { launchProfile = it }
             }
             WriteKind.MIRROR -> Unit
         }
@@ -154,7 +155,7 @@ fun TagsScreen(vm: TagsViewModel) {
             }
         }
         val known = lastUid != null && registry.tags.any { it.uid == lastUid }
-        if (lastUid != null && !known) {
+        if (lastUid != null && !known && Entitlements.canAddTag(registry.tags.size)) {
             TextButton(onClick = { editing = TagEntry(uid = lastUid, label = "") }) {
                 Text(stringResource(R.string.tags_add_last, lastUid))
             }
@@ -257,8 +258,10 @@ private fun TagDialog(
                 if (t.uid.isNotEmpty()) Text(t.uid, style = Mono, color = TapColors.Muted)
                 if (t.token.isNotEmpty()) Text(stringResource(R.string.tags_has_launch_link), color = TapColors.BlueLight)
                 OutlinedTextField(t.label, { t = t.copy(label = it.take(64)) }, label = { Text(stringResource(R.string.tags_label)) }, singleLine = true)
-                OutlinedTextField(t.notes, { t = t.copy(notes = it.take(500)) }, label = { Text(stringResource(R.string.tags_notes)) })
-                ProfilePicker(profiles, t.profile) { t = t.copy(profile = it) }
+                if (Entitlements.tagDefaults) {
+                    OutlinedTextField(t.notes, { t = t.copy(notes = it.take(500)) }, label = { Text(stringResource(R.string.tags_notes)) })
+                    ProfilePicker(profiles, t.profile) { t = t.copy(profile = it) }
+                }
                 if (!isNew) TextButton(onClick = onDelete) { Text(stringResource(R.string.tags_delete), color = TapColors.Fail) }
             }
         },

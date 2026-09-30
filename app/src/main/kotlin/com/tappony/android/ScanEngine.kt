@@ -107,7 +107,7 @@ class ScanEngine(
         val outcome = send(profile, vars, ctx.scanTimeMs, ctx.sendTimeMs)
         // The request already went out (or couldn't); a failed local write must not turn into a crash.
         try {
-            if (queue != null && profile.after.queueOffline && outcome.isNoResponse) {
+            if (queue != null && profile.after.queueOffline && Entitlements.offlineQueue && outcome.isNoResponse) {
                 queue.enqueue(profile, scanTimeMs, vars, outcome.result?.error ?: "")
                 return outcome.copy(queued = true, resultText = null)
             }
@@ -154,7 +154,7 @@ class ScanEngine(
         } catch (e: RequestException) {
             return base.copy(
                 buildError = e.code,
-                resultText = ResultText.render(profile.after.failureText, null, null, base.uid, profile.name),
+                resultText = if (Entitlements.responseRules) ResultText.render(profile.after.failureText, null, null, base.uid, profile.name) else null,
             )
         }
         val raw = sender.send(req, profile.request.allowLocalHttp)
@@ -169,8 +169,13 @@ class ScanEngine(
             return out
         }
         val result = raw.copy(responseBody = raw.responseBody?.let { mask(it) }, error = raw.error?.let { mask(it) })
-        val message = ResponseMessage.extract(profile.after.messageField, raw.responseHeaders.map { it.first to mask(it.second) }, result.responseBody)
-        val template = if (result.ok) profile.after.successText else profile.after.failureText
+        val message = if (!Entitlements.responseRules) null
+            else ResponseMessage.extract(profile.after.messageField, raw.responseHeaders.map { it.first to mask(it.second) }, result.responseBody)
+        val template = when {
+            !Entitlements.responseRules -> null
+            result.ok -> profile.after.successText
+            else -> profile.after.failureText
+        }
         val text = ResultText.render(template, result.status, message, base.uid, profile.name)?.let { mask(it) }
         return base.copy(request = RequestBuilder.masked(req, secretValues), result = result, message = message, resultText = text)
     }

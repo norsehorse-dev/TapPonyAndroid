@@ -39,6 +39,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.tappony.android.BuildConfig
+import com.tappony.android.Entitlements
 import com.tappony.android.R
 import com.tappony.android.TapPonyApp
 import com.tappony.android.data.SecretStore
@@ -79,14 +80,16 @@ fun SettingsScreen() {
         }
         TextButton(onClick = { adding = true }) { Text(stringResource(R.string.settings_add_secret)) }
 
-        Text(stringResource(R.string.settings_scanning), style = MaterialTheme.typography.titleSmall, color = TapColors.BlueLight)
-        val oncePerBatch by app.settings.oncePerBatch.collectAsState()
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-            Column(Modifier.weight(1f)) {
-                Text(stringResource(R.string.settings_once_per_batch))
-                Text(stringResource(R.string.settings_once_per_batch_help), color = TapColors.Muted, style = MaterialTheme.typography.bodySmall)
+        if (Entitlements.batch) {
+            Text(stringResource(R.string.settings_scanning), style = MaterialTheme.typography.titleSmall, color = TapColors.BlueLight)
+            val oncePerBatch by app.settings.oncePerBatch.collectAsState()
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                Column(Modifier.weight(1f)) {
+                    Text(stringResource(R.string.settings_once_per_batch))
+                    Text(stringResource(R.string.settings_once_per_batch_help), color = TapColors.Muted, style = MaterialTheme.typography.bodySmall)
+                }
+                Switch(oncePerBatch, { app.settings.setOncePerBatch(it) })
             }
-            Switch(oncePerBatch, { app.settings.setOncePerBatch(it) })
         }
 
         Text(stringResource(R.string.settings_history), style = MaterialTheme.typography.titleSmall, color = TapColors.BlueLight)
@@ -104,6 +107,9 @@ fun SettingsScreen() {
                 )
             }
         }
+
+        Text(stringResource(R.string.settings_free_title), style = MaterialTheme.typography.titleSmall, color = TapColors.BlueLight)
+        Text(stringResource(R.string.settings_free_body), color = TapColors.Muted)
 
         Text(stringResource(R.string.settings_about), style = MaterialTheme.typography.titleSmall, color = TapColors.BlueLight)
         Text(stringResource(R.string.settings_about_body, BuildConfig.VERSION_NAME), color = TapColors.Muted)

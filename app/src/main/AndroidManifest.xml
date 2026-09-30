@@ -14,6 +14,7 @@
 
     <application
         android:name=".TapPonyApp"
+        android:localeConfig="@xml/locales_config"
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:dataExtractionRules="@xml/data_extraction_rules"

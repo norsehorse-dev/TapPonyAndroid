@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Машинный перевод; текст, связанный с безопасностью, должен проверить носитель языка. -->
+<resources>
+
+    <string name="tab_scan">Сканер</string>
+    <string name="tab_profiles">Профили</string>
+    <string name="tab_settings">Настройки</string>
+
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отмена</string>
+    <string name="remove">Удалить</string>
+    <string name="back">Назад</string>
+
+    <string name="scan_no_profile">Нет профиля</string>
+    <string name="scan_hold_tag">Поднесите метку к задней части телефона</string>
+    <string name="scan_sending">Отправка…</string>
+    <string name="scan_nfc_unavailable">На этом устройстве нет NFC-модуля, поэтому TapPony не может здесь сканировать метки.</string>
+    <string name="scan_nfc_off">NFC выключен.</string>
+    <string name="scan_open_nfc_settings">Открыть настройки NFC</string>
+    <string name="scan_create_profile_first">Сначала создайте профиль. Профиль определяет, куда отправляется каждое сканирование.</string>
+    <string name="scan_hold_still">Метку убрали до того, как она была полностью считана. Держите её неподвижно и попробуйте снова.</string>
+    <string name="scan_requires_ndef">Этому профилю нужна метка с NDEF-содержимым, а на этой метке его нет.</string>
+
+    <string name="result_not_sent">Не отправлено</string>
+    <string name="result_network_error">Ошибка сети</string>
+    <string name="result_random_uid">Эта метка каждый раз показывает случайный идентификатор, поэтому по её UID её нельзя опознать. Используйте NDEF-содержимое или ссылку запуска TapPony.</string>
+
+    <string name="err_local_http_not_enabled">Этот профиль отправляет обычный HTTP на локальный адрес. Чтобы отправить запрос, включите в профиле «Разрешить обычный HTTP в локальной сети».</string>
+    <string name="err_plain_http_public">Обычный HTTP отправляется только на адреса в локальной сети. Для всего, что находится в интернете, используйте https://.</string>
+    <string name="err_numeric_host">Этот хост похож на число, записанное в необычной форме. Записывайте IP-адреса как четыре обычных числа, например 192.168.1.10.</string>
+    <string name="err_userinfo">Указывайте учётные данные в заголовке или в разделе аутентификации, а не в URL.</string>
+    <string name="err_bad_url">Недопустимый URL. Он должен начинаться с https:// или http://, а хост не может содержать переменные.</string>
+    <string name="err_unknown_secret">Профиль использует секрет, который не сохранён на этом устройстве. Добавьте его в настройках.</string>
+    <string name="err_invalid_json">После подстановки переменных тело JSON перестаёт быть допустимым JSON.</string>
+    <string name="err_template">Ошибка в шаблоне: %1$s</string>
+    <string name="err_header_name">Имена заголовков могут содержать только буквы, цифры и символы - _ .</string>
+
+    <string name="profiles_empty">Профилей пока нет. Нажмите +, чтобы начать с заготовки.</string>
+    <string name="profiles_new">Новый профиль</string>
+
+    <string name="editor_untitled">Без названия</string>
+    <string name="editor_name">Название</string>
+    <string name="editor_request">Запрос</string>
+    <string name="editor_url">URL</string>
+    <string name="editor_allow_local_http">Разрешить обычный HTTP в локальной сети</string>
+    <string name="editor_local_http_warning">Любой в той же сети Wi-Fi может прочитать обычный HTTP-запрос, включая все секреты в нём.</string>
+    <string name="editor_follow_redirects">Следовать перенаправлениям (только на тот же хост)</string>
+    <string name="editor_headers">Заголовки</string>
+    <string name="editor_header_name">Заголовок</string>
+    <string name="editor_header_value">Значение</string>
+    <string name="editor_add_header">Добавить заголовок</string>
+    <string name="editor_auth">Аутентификация</string>
+    <string name="editor_username">Имя пользователя</string>
+    <string name="editor_body">Тело</string>
+    <string name="editor_template">Шаблон</string>
+    <string name="editor_field_name">Поле</string>
+    <string name="editor_field_value">Значение</string>
+    <string name="editor_add_field">Добавить поле</string>
+    <string name="editor_content_type">Content-Type (необязательно)</string>
+    <string name="editor_signing">Подпись</string>
+    <string name="editor_hmac">Подписывать запросы с помощью HMAC-SHA256</string>
+    <string name="editor_tag">Метка</string>
+    <string name="editor_extended_reads">Считывать данные чипа (модель, подпись, счётчик)</string>
+    <string name="editor_require_ndef">Отправлять, только если на метке есть NDEF-содержимое</string>
+    <string name="editor_problems">Требует внимания</string>
+    <string name="editor_test">Проверить</string>
+    <string name="editor_testing">Проверка…</string>
+    <string name="editor_test_note">При проверке отправляются примерные значения от условной NTAG215, а не от настоящей метки.</string>
+    <string name="editor_export">Экспорт</string>
+    <string name="editor_delete">Удалить профиль</string>
+    <string name="editor_delete_confirm">Удалить «%1$s»?</string>
+    <string name="editor_secret_name">Имя секрета</string>
+    <string name="editor_secret_name_help">Хранится в настройках. Значение никогда не появляется в профиле, истории или экспорте.</string>
+
+    <string name="val_templated_host">Схему и хост URL нужно ввести явно, а не собирать из переменных.</string>
+    <string name="val_unknown_variables">Неизвестные переменные: %1$s</string>
+    <string name="val_missing_secrets">Секреты, ещё не сохранённые на этом устройстве: %1$s</string>
+
+    <string name="settings_device_label">Название устройства</string>
+    <string name="settings_device_label_help">Отправляется как {device_label}, только если профиль это использует. По умолчанию пусто, поэтому ничто не идентифицирует этот телефон.</string>
+    <string name="settings_secrets">Секреты</string>
+    <string name="settings_secrets_help">Токены и ключи для {secret:NAME} и вспомогательных функций аутентификации. Хранятся в зашифрованном виде с ключом, который остаётся в Android Keystore.</string>
+    <string name="settings_add_secret">Добавить секрет</string>
+    <string name="settings_secret_value">Значение</string>
+    <string name="settings_free_title">Всё бесплатно</string>
+    <string name="settings_free_body">Все функции TapPony включены: без покупок, без аккаунта и без рекламы.</string>
+    <string name="settings_about">О приложении</string>
+    <string name="settings_about_body">TapPony %1$s. Сканируйте метку и отправляйте составленный вами запрос на выбранный вами сервер. Без аккаунта, без облака, без аналитики. Приложение предложил один из тестировщиков.</string>
+    <string name="settings_source">Исходный код</string>
+    <string name="settings_more_apps">Другие приложения NorseHorse</string>
+
+    <string name="preset_blank_title">Пустой профиль</string>
+    <string name="preset_ha_webhook_title">Вебхук Home Assistant</string>
+    <string name="preset_ha_webhook_explainer">В Home Assistant создайте автоматизацию с триггером «Webhook», скопируйте ID её вебхука в URL и используйте trigger.json.uid в действиях.</string>
+    <string name="preset_ha_tag_scanned_title">Метка Home Assistant</string>
+    <string name="preset_ha_tag_scanned_explainer">Генерирует событие tag_scanned с UID карты в качестве tag_id, так что уже имеющийся пропуск работает как метка Home Assistant. Сохраните долгосрочный токен доступа как секрет HA_TOKEN.</string>
+    <string name="preset_node_red_explainer">Добавьте узел «http in» (POST) и укажите его путь в URL.</string>
+    <string name="preset_n8n_explainer">Используйте рабочий URL (Production URL) узла «Webhook» с методом POST.</string>
+    <string name="preset_zapier_explainer">Вставьте URL из триггера «Catch Hook».</string>
+    <string name="preset_make_explainer">Вставьте URL из модуля «Custom webhook».</string>
+    <string name="preset_ifttt_explainer">Укажите имя своего события в URL и сохраните свой ключ «Webhooks» как секрет IFTTT_KEY.</string>
+    <string name="preset_ntfy_explainer">Отправляет текстовое уведомление в тему ntfy. Выберите название темы, которое никто не угадает, или используйте собственный сервер ntfy.</string>
+    <string name="preset_discord_explainer">Вставьте URL вебхука канала из раздела «Integrations» в настройках канала.</string>
+    <string name="preset_slack_explainer">Вставьте URL входящего вебхука из своего приложения Slack.</string>
+    <string name="preset_google_sheets_explainer">Разверните веб-приложение Apps Script, функция doPost которого добавляет строку, и вставьте его URL, оканчивающийся на /exec.</string>
+    <string name="preset_php_csv_title">Приёмник CSV на PHP</string>
+    <string name="preset_php_csv_explainer">Для собственного сервера: PHP-скрипт из десяти строк, который добавляет каждое сканирование в CSV-файл. Скрипт есть на tappony.app.</string>
+    <string name="preset_generic_json_title">JSON POST</string>
+    <string name="preset_generic_json_explainer">Отправляет данные метки в формате JSON на любой адрес.</string>
+    <string name="preset_generic_form_title">POST-форма</string>
+    <string name="preset_generic_form_explainer">Отправляет uid, payload и timestamp как веб-форму.</string>
+    <string name="preset_generic_get_title">GET с параметрами</string>
+    <string name="preset_generic_get_explainer">Передаёт UID и время в строке запроса. Удобно для простых сервисов журналирования.</string>
+    <string name="tab_history">История</string>
+    <string name="close">Закрыть</string>
+
+    <string name="history_all">Все</string>
+    <string name="history_ok">Успешно</string>
+    <string name="history_failed">Ошибка</string>
+    <string name="history_export">Экспорт в CSV</string>
+    <string name="history_clear">Очистить</string>
+    <string name="history_clear_confirm">Очистить всю историю на этом устройстве?</string>
+    <string name="history_empty">Сканирований пока нет. Здесь появляется каждое отправленное сканирование. Проверочные отправки сюда не попадают.</string>
+    <string name="history_request_body">Тело запроса</string>
+    <string name="history_response_body">Тело ответа</string>
+    <string name="history_bodies_off">Для этого профиля тела не сохраняются. Чтобы видеть их здесь, включите в профиле «Сохранять тела запросов и ответов».</string>
+
+    <string name="editor_after">После отправки</string>
+    <string name="editor_message_field">Показывать из ответа</string>
+    <string name="editor_message_field_help">json:path.to.field или header:Name. Показывается на экране «Сканер» после каждого касания.</string>
+    <string name="editor_keep_bodies">Сохранять тела запросов и ответов в истории</string>
+    <string name="val_message_field">Значение «Показывать из ответа» должно начинаться с json: или header:.</string>
+
+    <string name="settings_history">История</string>
+    <string name="settings_history_help">История остаётся на этом устройстве. В ней хранится не более 1000 сканирований, а более старые удаляются по истечении выбранного срока.</string>
+    <string name="settings_history_days">Дней: %1$d</string>
+    <string name="settings_history_cap_only">До 1000 сканирований</string>
+
+    <string name="scan_batch">Серия</string>
+    <string name="scan_batch_count">Отсканировано: %1$d</string>
+    <string name="scan_batch_new">Новая серия</string>
+    <string name="scan_batch_hold">Прикладывайте метки одну за другой</string>
+    <string name="scan_batch_skipped">Пропущено повторных касаний: %1$d</string>
+    <string name="scan_queued">Ожидают отправки: %1$d</string>
+    <string name="scan_send_now">Отправить сейчас</string>
+    <string name="result_queued">Сохранено, будет отправлено при подключении к сети</string>
+    <string name="result_queued_short">В очереди</string>
+
+    <string name="editor_queue_offline">Сохранять и отправлять позже, если нет сети</string>
+    <string name="editor_queue_offline_help">Если на сканирование нет ответа, оно ждёт на этом телефоне до 24 часов и отправляется по порядку, как только появится подключение. Получатели могут распознать повтор по {nonce}. Не включайте эту функцию для дверных замков и подобного, где запоздавший запрос недопустим.</string>
+    <string name="editor_sound">Звук после каждого сканирования</string>
+    <string name="editor_haptic">Вибрация при считывании метки</string>
+
+    <string name="settings_scanning">Сканирование</string>
+    <string name="settings_once_per_batch">Каждая метка один раз за серию</string>
+    <string name="settings_once_per_batch_help">В режиме серии метка, уже отправленная в этой серии, пропускается. Начните новую серию, чтобы учесть её снова.</string>
+
+    <string name="shortcut_scan_with">Сканирование: %1$s</string>
+    <string name="shortcut_profile_deleted">Этот профиль удалён.</string>
+    <string name="editor_pin">Добавить на главный экран</string>
+    <string name="editor_pin_unsupported">Этот лаунчер не поддерживает закрепление ярлыков.</string>
+
+    <string name="scan_no_rule">Ни одно правило не подошло к этой метке, поэтому ничего не отправлено.</string>
+    <string name="speak_sent">Отправлено</string>
+    <string name="speak_failed">Ошибка</string>
+    <string name="speak_saved">Сохранено на потом</string>
+
+    <string name="editor_success_text">Текст при успехе (необязательно)</string>
+    <string name="editor_failure_text">Текст при ошибке (необязательно)</string>
+    <string name="editor_result_text_help">Показывается крупно после сканирования. Можно использовать {message}, {status}, {uid} и {profile}.</string>
+    <string name="editor_speak">Озвучивать результат</string>
+
+    <string name="rules_title">Правила</string>
+    <string name="rules_status_on">Вкл., правил: %1$d</string>
+    <string name="rules_status_on_one">Вкл., 1 правило</string>
+    <string name="rules_status_off">Выкл. Каждое сканирование отправляется в профиль, выбранный на экране «Сканер».</string>
+    <string name="rules_use">Использовать правила</string>
+    <string name="rules_use_help">Профиль выбирается по самой метке, так что наклейка в гараже и пропуск в офисе могут отправлять данные в разные места без переключения.</string>
+    <string name="rules_unmatched">Если ни одно правило не подошло</string>
+    <string name="rules_unmatched_active">Использовать профиль с экрана «Сканер»</string>
+    <string name="rules_unmatched_ignore">Ничего не отправлять</string>
+    <string name="rules_list">Правила</string>
+    <string name="rules_order_help">Проверяются сверху вниз. Решает первое совпадение, и сканирование получает каждый указанный в нём профиль.</string>
+    <string name="rules_empty">Правил пока нет.</string>
+    <string name="rules_add">Добавить правило</string>
+    <string name="rules_edit">Изменить правило</string>
+    <string name="rules_delete">Удалить правило</string>
+    <string name="rules_when">Когда</string>
+    <string name="rules_value">Значение</string>
+    <string name="rules_use_last_uid">Использовать последнюю отсканированную метку (%1$s)</string>
+    <string name="rules_send_to">Куда отправлять</string>
+    <string name="rules_enabled">Правило включено</string>
+    <string name="rules_no_profiles">нет профилей</string>
+    <string name="rules_move_up">Переместить вверх</string>
+    <string name="rules_move_down">Переместить вниз</string>
+    <string name="rule_field_uid">UID</string>
+    <string name="rule_field_tag_type">Тип метки</string>
+    <string name="rule_field_chip">Чип</string>
+    <string name="rule_field_manufacturer">Производитель</string>
+    <string name="rule_field_payload">Содержимое</string>
+    <string name="rule_field_ndef_text">Текст NDEF</string>
+    <string name="rule_field_ndef_uri">Ссылка NDEF</string>
+    <string name="rule_op_equals">равно</string>
+    <string name="rule_op_prefix">начинается с</string>
+    <string name="rule_op_contains">содержит</string>
+    <string name="rule_op_regex">соответствует выражению</string>
+    <string name="rule_err_regex">Выражение недопустимо, поэтому это правило никогда не срабатывает.</string>
+    <string name="rule_err_profiles">Выберите хотя бы один профиль для отправки.</string>
+    <string name="rule_err_other">Это правило нельзя использовать.</string>
+
+    <string name="tab_tags">Метки</string>
+    <string name="tags_write">Записать метку</string>
+    <string name="tags_kind_url">Ссылка</string>
+    <string name="tags_kind_text">Текст</string>
+    <string name="tags_kind_launch">Ссылка запуска</string>
+    <string name="tags_kind_mirror">Копия UID</string>
+    <string name="tags_kind_url_help">Любой телефон, коснувшийся этой метки, откроет ссылку.</string>
+    <string name="tags_kind_text_help">Обычный текст. Его может прочитать любое NFC-приложение, а в TapPony он доступен как {ndef_text}.</string>
+    <string name="tags_kind_launch_help">Касание этой метки открывает TapPony и отправляет её, даже если приложение закрыто. Эту метку знает только этот телефон, поэтому на чужих телефонах она ничего не отправляет.</string>
+    <string name="tags_kind_mirror_help">Записывает собственный UID метки в виде текста, чтобы его видели приложения, которые читают только NDEF.</string>
+    <string name="tags_content_url">Ссылка</string>
+    <string name="tags_content_text">Текст</string>
+    <string name="tags_label">Название</string>
+    <string name="tags_notes">Заметки</string>
+    <string name="tags_default_profile">Куда отправлять</string>
+    <string name="tags_no_default">Обычный профиль</string>
+    <string name="tags_lock">Заблокировать после записи</string>
+    <string name="tags_lock_help">Делает метку доступной только для чтения навсегда. После этого никто не сможет её изменить, в том числе вы.</string>
+    <string name="tags_lock_confirm_title">Заблокировать метку навсегда?</string>
+    <string name="tags_lock_confirm_body">После этой записи метку больше никогда нельзя будет изменить или стереть. Отменить это невозможно.</string>
+    <string name="tags_lock_confirm_check">Я понимаю, что это необратимо</string>
+    <string name="tags_write_button">Записать</string>
+    <string name="tags_write_and_lock">Записать и заблокировать</string>
+    <string name="tags_write_waiting">Поднесите метку к задней части телефона</string>
+    <string name="tags_write_done">Записано</string>
+    <string name="tags_write_done_locked">Записано и заблокировано</string>
+    <string name="tags_err_read_only">Эта метка заблокирована, поэтому на неё нельзя записать.</string>
+    <string name="tags_err_too_small">На этой метке недостаточно места. Попробуйте что-нибудь покороче или метку побольше.</string>
+    <string name="tags_err_not_ndef">Эта метка не поддерживает NDEF-содержимое, поэтому здесь её нельзя записать.</string>
+    <string name="tags_err_random_uid">Эта метка каждый раз показывает случайный идентификатор, поэтому постоянного UID для копирования нет.</string>
+    <string name="tags_err_lock_unsupported">Эту метку нельзя заблокировать, поэтому ничего не записано. Чтобы записать её, отключите блокировку.</string>
+    <string name="tags_err_lock_failed">Записано, но заблокировать не удалось. Метка по-прежнему доступна для записи.</string>
+    <string name="tags_err_moved">Метку убрали до завершения записи. Держите её неподвижно и попробуйте снова.</string>
+    <string name="tags_err_failed">Не удалось записать. Попробуйте снова.</string>
+    <string name="tags_registry">Ваши метки</string>
+    <string name="tags_registry_help">Дайте метке название, чтобы использовать {tag_label} и правила по названию, или назначьте ей собственный профиль. Название остаётся на этом телефоне.</string>
+    <string name="tags_registry_empty">Названных меток пока нет. Здесь появятся записанные вами ссылки запуска.</string>
+    <string name="tags_add_last">Назвать последнюю отсканированную метку (%1$s)</string>
+    <string name="tags_add">Назвать метку</string>
+    <string name="tags_edit">Изменить метку</string>
+    <string name="tags_delete">Забыть эту метку</string>
+    <string name="tags_has_launch_link">Есть ссылка запуска TapPony</string>
+    <string name="tags_goes_to">Отправляет в %1$s</string>
+    <string name="tags_profile_missing">удалённый профиль</string>
+    <string name="rule_field_tag_label">Название метки</string>
+    <string name="scan_launch_unknown">Эта ссылка запуска относится к метке, которую этот телефон не знает, поэтому ничего не отправлено.</string>
+</resources>

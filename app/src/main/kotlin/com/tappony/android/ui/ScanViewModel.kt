@@ -6,6 +6,7 @@ import android.media.ToneGenerator
 import android.nfc.Tag
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.tappony.android.Entitlements
 import com.tappony.android.OfflineQueue
 import com.tappony.android.ScanEngine
 import com.tappony.android.ScanOutcome
@@ -97,6 +98,7 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
     fun select(profile: Profile) = tp.settings.setActiveProfile(profile.id)
 
     fun setBatch(on: Boolean) {
+        if (on && !Entitlements.batch) return
         synchronized(seenInBatch) { seenInBatch.clear() }
         _batch.update { BatchState(on = on, gen = it.gen + 1) }
         _state.value = ScanState.Idle
@@ -178,7 +180,7 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             val outcomes = sendable.map { p -> async { p to engine.run(p, reading, scanTime, tp.history, tp.queue, tagLabel) } }.awaitAll()
             if (outcomes.any { it.first.after.sound }) tone(outcomes.map { it.second })
-            outcomes.filter { it.first.after.speak }.forEach { (_, o) ->
+            outcomes.filter { it.first.after.speak && Entitlements.responseRules }.forEach { (_, o) ->
                 speakerStarted = true
                 speaker.speak(spoken(o))
             }
@@ -214,11 +216,12 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
         // A rule whose profiles were all deleted has none left, so it is skipped like any rule with no profiles.
         val liveIds = allProfiles.mapTo(HashSet()) { it.id }
         val liveRules = rules.copy(rules = rules.rules.map { r -> r.copy(profiles = r.profiles.filter { it in liveIds }) })
-        val tagProfile = entry?.profile?.takeIf { it in liveIds }
-        val route = Rules.route(liveRules, tagVars, active?.id, tagProfile)
+        val tagProfile = entry?.profile?.takeIf { it in liveIds && Entitlements.tagDefaults }
+        val gatedRules = if (Entitlements.rules) liveRules else liveRules.copy(enabled = false)
+        val route = Rules.route(gatedRules, tagVars, active?.id, tagProfile)
         val targets = route.profileIds.mapNotNull { id -> allProfiles.firstOrNull { it.id == id } }
         if (targets.isEmpty()) {
-            val ignored = rules.enabled && route.ruleId == null && rules.unmatched == RuleSet.UNMATCHED_IGNORE
+            val ignored = gatedRules.enabled && route.ruleId == null && rules.unmatched == RuleSet.UNMATCHED_IGNORE
             return Routed(emptyList(), tagLabel, if (ignored) "noRule" else "noProfile")
         }
         val sendable = targets.filter { !(it.tag.requireNdef && reading.ndef.isEmpty()) }
@@ -259,7 +262,7 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             val outcomes = routed.targets.map { p -> async { p to engine.run(p, reading, scanTime, tp.history, tp.queue, routed.tagLabel) } }.awaitAll()
             if (outcomes.any { it.first.after.sound }) tone(outcomes.map { it.second })
-            outcomes.filter { it.first.after.speak }.forEach { (_, o) ->
+            outcomes.filter { it.first.after.speak && Entitlements.responseRules }.forEach { (_, o) ->
                 speakerStarted = true
                 speaker.speak(spoken(o))
             }

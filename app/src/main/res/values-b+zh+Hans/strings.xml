@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 机器翻译；与安全相关的文本应由母语人士审阅。 -->
+<resources>
+    <string name="tab_scan">扫描</string>
+    <string name="tab_profiles">配置</string>
+    <string name="tab_settings">设置</string>
+
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
+    <string name="remove">移除</string>
+    <string name="back">返回</string>
+
+    <string name="scan_no_profile">无配置</string>
+    <string name="scan_hold_tag">将标签靠近手机背面</string>
+    <string name="scan_sending">正在发送…</string>
+    <string name="scan_nfc_unavailable">此设备没有 NFC 读取器，因此 TapPony 无法在此设备上扫描标签。</string>
+    <string name="scan_nfc_off">NFC 已关闭。</string>
+    <string name="scan_open_nfc_settings">打开 NFC 设置</string>
+    <string name="scan_create_profile_first">请先创建一个配置。配置决定每次扫描发送到哪里。</string>
+    <string name="scan_hold_still">标签在读取完成前移开了。请保持不动，然后重试。</string>
+    <string name="scan_requires_ndef">此配置需要带有 NDEF 内容的标签，而这个标签没有。</string>
+
+    <string name="result_not_sent">未发送</string>
+    <string name="result_network_error">网络错误</string>
+    <string name="result_random_uid">此标签每次显示的都是随机 ID，因此无法用其 UID 识别它。请改用 NDEF 内容或 TapPony 启动链接。</string>
+
+    <string name="err_local_http_not_enabled">此配置会以明文 HTTP 发送到本地地址。要发送，请在配置中开启“允许在局域网中使用明文 HTTP”。</string>
+    <string name="err_plain_http_public">明文 HTTP 只能发往局域网地址。发往互联网的请求请使用 https://。</string>
+    <string name="err_numeric_host">该主机看起来是以不常见形式书写的数字。请将 IP 地址写成四组普通数字，例如 192.168.1.10。</string>
+    <string name="err_userinfo">请将凭据放在请求头或身份验证部分中，不要放在 URL 里。</string>
+    <string name="err_bad_url">URL 无效。它必须以 https:// 或 http:// 开头，且主机中不能包含变量。</string>
+    <string name="err_unknown_secret">此配置使用了未保存在本设备上的机密。请在设置中添加。</string>
+    <string name="err_invalid_json">填入变量后，JSON 请求体不是有效的 JSON。</string>
+    <string name="err_template">模板问题：%1$s</string>
+    <string name="err_header_name">请求头名称只能包含字母、数字以及 - _ . 字符。</string>
+
+    <string name="profiles_empty">还没有配置。点按 + 从预设开始。</string>
+    <string name="profiles_new">新建配置</string>
+
+    <string name="editor_untitled">未命名</string>
+    <string name="editor_name">名称</string>
+    <string name="editor_request">请求</string>
+    <string name="editor_url">URL</string>
+    <string name="editor_allow_local_http">允许在局域网中使用明文 HTTP</string>
+    <string name="editor_local_http_warning">同一 Wi-Fi 上的任何人都能读取明文 HTTP 请求，包括其中的任何机密。</string>
+    <string name="editor_follow_redirects">跟随重定向（仅限同一主机）</string>
+    <string name="editor_headers">请求头</string>
+    <string name="editor_header_name">请求头</string>
+    <string name="editor_header_value">值</string>
+    <string name="editor_add_header">添加请求头</string>
+    <string name="editor_auth">身份验证</string>
+    <string name="editor_username">用户名</string>
+    <string name="editor_body">请求体</string>
+    <string name="editor_template">模板</string>
+    <string name="editor_field_name">字段</string>
+    <string name="editor_field_value">值</string>
+    <string name="editor_add_field">添加字段</string>
+    <string name="editor_content_type">Content-Type（可选）</string>
+    <string name="editor_signing">签名</string>
+    <string name="editor_hmac">使用 HMAC-SHA256 为请求签名</string>
+    <string name="editor_tag">标签</string>
+    <string name="editor_extended_reads">读取芯片详情（型号、签名、计数器）</string>
+    <string name="editor_require_ndef">仅在标签有 NDEF 内容时发送</string>
+    <string name="editor_problems">需要处理</string>
+    <string name="editor_test">测试</string>
+    <string name="editor_testing">正在测试…</string>
+    <string name="editor_test_note">测试发送的是来自模拟 NTAG215 的示例值，而不是真实标签。</string>
+    <string name="editor_export">导出</string>
+    <string name="editor_delete">删除配置</string>
+    <string name="editor_delete_confirm">要删除“%1$s”吗？</string>
+    <string name="editor_secret_name">机密名称</string>
+    <string name="editor_secret_name_help">保存在设置中。其值绝不会出现在配置、历史记录或导出文件中。</string>
+
+    <string name="val_templated_host">URL 的协议和主机必须直接写出，不能由变量拼成。</string>
+    <string name="val_unknown_variables">未知变量：%1$s</string>
+    <string name="val_missing_secrets">尚未保存在本设备上的机密：%1$s</string>
+
+    <string name="settings_device_label">设备标识</string>
+    <string name="settings_device_label_help">仅当配置用到时才作为 {device_label} 发送。默认为空，因此不会有任何内容能识别出这部手机。</string>
+    <string name="settings_secrets">机密</string>
+    <string name="settings_secrets_help">供 {secret:NAME} 和身份验证辅助功能使用的令牌和密钥。使用始终保存在 Android Keystore 中的密钥加密存储。</string>
+    <string name="settings_add_secret">添加机密</string>
+    <string name="settings_secret_value">值</string>
+    <string name="settings_free_title">全部免费</string>
+    <string name="settings_free_body">TapPony 的所有功能均已开启，无需购买任何东西，无需账户，也没有广告。</string>
+    <string name="settings_about">关于</string>
+    <string name="settings_about_body">TapPony %1$s。扫描标签，将你设计的请求发送到你选择的服务器。无账户，无云端，无统计分析。由一位测试者提议。</string>
+    <string name="settings_source">源代码</string>
+    <string name="settings_more_apps">NorseHorse 的更多应用</string>
+
+    <string name="preset_blank_title">空白配置</string>
+    <string name="preset_ha_webhook_title">Home Assistant Webhook</string>
+    <string name="preset_ha_webhook_explainer">在 Home Assistant 中创建一个使用 Webhook 触发器的自动化，将其 webhook ID 复制到 URL 中，并在动作中使用 trigger.json.uid。</string>
+    <string name="preset_ha_tag_scanned_title">Home Assistant 标签</string>
+    <string name="preset_ha_tag_scanned_explainer">触发 tag_scanned 事件，并以卡片的 UID 作为 tag_id，让现有的工牌也能当作 Home Assistant 标签使用。请将长期访问令牌保存为机密 HA_TOKEN。</string>
+    <string name="preset_node_red_explainer">添加一个 http in 节点（POST），并将其路径填入 URL。</string>
+    <string name="preset_n8n_explainer">使用设为 POST 的 Webhook 节点的生产 URL。</string>
+    <string name="preset_zapier_explainer">粘贴 Catch Hook 触发器的 URL。</string>
+    <string name="preset_make_explainer">粘贴 Custom webhook 模块的 URL。</string>
+    <string name="preset_ifttt_explainer">将事件名称填入 URL，并将你的 Webhooks 密钥保存为机密 IFTTT_KEY。</string>
+    <string name="preset_ntfy_explainer">向 ntfy 主题发送一条纯文本通知。请选一个别人猜不到的主题名称，或使用你自己的 ntfy 服务器。</string>
+    <string name="preset_discord_explainer">粘贴频道 Integrations 设置中的频道 webhook URL。</string>
+    <string name="preset_slack_explainer">粘贴你的 Slack 应用中的传入 webhook URL。</string>
+    <string name="preset_google_sheets_explainer">部署一个 Apps Script Web 应用，让它的 doPost 追加一行，然后粘贴其 /exec URL。</string>
+    <string name="preset_php_csv_title">PHP CSV 接收器</string>
+    <string name="preset_php_csv_explainer">适用于你自己的服务器：一个十行的 PHP 脚本，会将每次扫描追加到 CSV 文件中。脚本可在 tappony.app 上获取。</string>
+    <string name="preset_generic_json_title">JSON POST</string>
+    <string name="preset_generic_json_explainer">将标签详情以 JSON 格式发送到任意端点。</string>
+    <string name="preset_generic_form_title">表单 POST</string>
+    <string name="preset_generic_form_explainer">以网页表单形式发送 uid、payload 和 timestamp。</string>
+    <string name="preset_generic_get_title">带查询参数的 GET</string>
+    <string name="preset_generic_get_explainer">在查询字符串中发送 UID 和时间。适合简单的日志记录端点。</string>
+    <string name="tab_history">历史记录</string>
+    <string name="close">关闭</string>
+
+    <string name="history_all">全部</string>
+    <string name="history_ok">成功</string>
+    <string name="history_failed">失败</string>
+    <string name="history_export">导出 CSV</string>
+    <string name="history_clear">清除</string>
+    <string name="history_clear_confirm">要清除本设备上的所有历史记录吗？</string>
+    <string name="history_empty">还没有扫描记录。你发送的每次扫描都会显示在这里，测试发送不会。</string>
+    <string name="history_request_body">请求体</string>
+    <string name="history_response_body">响应体</string>
+    <string name="history_bodies_off">此配置不保留请求体和响应体。要在这里查看，请在配置中开启“保留请求体和响应体”。</string>
+
+    <string name="editor_after">发送后</string>
+    <string name="editor_message_field">从响应中显示</string>
+    <string name="editor_message_field_help">json:path.to.field 或 header:Name。每次触碰后显示在扫描界面上。</string>
+    <string name="editor_keep_bodies">在历史记录中保留请求体和响应体</string>
+    <string name="val_message_field">“从响应中显示”必须以 json: 或 header: 开头。</string>
+
+    <string name="settings_history">历史记录</string>
+    <string name="settings_history_help">历史记录只保存在本设备上。最多保留 1000 次扫描，较早的记录会在你选择的期限过后删除。</string>
+    <string name="settings_history_days">%1$d 天</string>
+    <string name="settings_history_cap_only">直到满 1000 次扫描</string>
+
+    <string name="scan_batch">批量</string>
+    <string name="scan_batch_count">已扫描 %1$d 个</string>
+    <string name="scan_batch_new">新批次</string>
+    <string name="scan_batch_hold">依次触碰标签</string>
+    <string name="scan_batch_skipped">已跳过 %1$d 次重复触碰</string>
+    <string name="scan_queued">%1$d 个等待发送</string>
+    <string name="scan_send_now">立即发送</string>
+    <string name="result_queued">已保存，恢复联网后发送</string>
+    <string name="result_queued_short">已排队</string>
+
+    <string name="editor_queue_offline">离线时保存并稍后发送</string>
+    <string name="editor_queue_offline_help">如果扫描没有收到响应，它会在这部手机上等待，恢复连接后按顺序发出，最长等待 24 小时。接收方可以通过 {nonce} 识别重复的请求。门锁这类延迟请求会造成错误的场景，请关闭此选项。</string>
+    <string name="editor_sound">每次扫描后播放提示音</string>
+    <string name="editor_haptic">读取到标签时振动</string>
+
+    <string name="settings_scanning">扫描</string>
+    <string name="settings_once_per_batch">每个标签每批次只计一次</string>
+    <string name="settings_once_per_batch_help">在批量模式下，本批次中已发送过的标签会被跳过。开始新批次即可重新计入。</string>
+
+    <string name="shortcut_scan_with">使用“%1$s”扫描</string>
+    <string name="shortcut_profile_deleted">此配置已被删除。</string>
+    <string name="editor_pin">添加到主屏幕</string>
+    <string name="editor_pin_unsupported">此启动器无法固定快捷方式。</string>
+
+    <string name="scan_no_rule">没有规则匹配此标签，因此未发送任何内容。</string>
+    <string name="speak_sent">已发送</string>
+    <string name="speak_failed">失败</string>
+    <string name="speak_saved">已保存，稍后发送</string>
+
+    <string name="editor_success_text">成功时的文本（可选）</string>
+    <string name="editor_failure_text">失败时的文本（可选）</string>
+    <string name="editor_result_text_help">扫描后以大字显示。可使用 {message}、{status}、{uid} 和 {profile}。</string>
+    <string name="editor_speak">朗读结果</string>
+
+    <string name="rules_title">规则</string>
+    <string name="rules_status_on">已开启，%1$d 条规则</string>
+    <string name="rules_status_on_one">已开启，1 条规则</string>
+    <string name="rules_status_off">已关闭。每次扫描都会发送到扫描界面上选定的配置。</string>
+    <string name="rules_use">使用规则</string>
+    <string name="rules_use_help">根据标签本身选择配置，这样车库的贴纸和办公室的工牌无需切换就能发送到不同的地方。</string>
+    <string name="rules_unmatched">没有规则匹配时</string>
+    <string name="rules_unmatched_active">使用扫描界面上的配置</string>
+    <string name="rules_unmatched_ignore">不发送</string>
+    <string name="rules_list">规则</string>
+    <string name="rules_order_help">从上往下检查。以第一条匹配的规则为准，该规则列出的每个配置都会收到这次扫描。</string>
+    <string name="rules_empty">还没有规则。</string>
+    <string name="rules_add">添加规则</string>
+    <string name="rules_edit">编辑规则</string>
+    <string name="rules_delete">删除规则</string>
+    <string name="rules_when">条件</string>
+    <string name="rules_value">值</string>
+    <string name="rules_use_last_uid">使用上次扫描的标签（%1$s）</string>
+    <string name="rules_send_to">发送到</string>
+    <string name="rules_enabled">规则已启用</string>
+    <string name="rules_no_profiles">无配置</string>
+    <string name="rules_move_up">上移</string>
+    <string name="rules_move_down">下移</string>
+    <string name="rule_field_uid">UID</string>
+    <string name="rule_field_tag_type">标签类型</string>
+    <string name="rule_field_chip">芯片</string>
+    <string name="rule_field_manufacturer">厂商</string>
+    <string name="rule_field_payload">内容</string>
+    <string name="rule_field_ndef_text">NDEF 文本</string>
+    <string name="rule_field_ndef_uri">NDEF 链接</string>
+    <string name="rule_op_equals">等于</string>
+    <string name="rule_op_prefix">开头为</string>
+    <string name="rule_op_contains">包含</string>
+    <string name="rule_op_regex">匹配正则表达式</string>
+    <string name="rule_err_regex">正则表达式无效，因此此规则永远不会匹配。</string>
+    <string name="rule_err_profiles">请至少选择一个要发送到的配置。</string>
+    <string name="rule_err_other">此规则无法使用。</string>
+
+    <string name="tab_tags">标签</string>
+    <string name="tags_write">写入标签</string>
+    <string name="tags_kind_url">链接</string>
+    <string name="tags_kind_text">文本</string>
+    <string name="tags_kind_launch">启动链接</string>
+    <string name="tags_kind_mirror">UID 镜像</string>
+    <string name="tags_kind_url_help">任何手机触碰此标签都会打开该链接。</string>
+    <string name="tags_kind_text_help">纯文本，任何 NFC 应用都能读取，在 TapPony 中可通过 {ndef_text} 读取。</string>
+    <string name="tags_kind_launch_help">触碰此标签会打开 TapPony 并发送，即使应用已关闭也是如此。只有这部手机认识此标签，因此在其他人的手机上不会发送任何内容。</string>
+    <string name="tags_kind_mirror_help">将标签自身的 UID 以文本形式写入，让只读取 NDEF 的应用也能看到它。</string>
+    <string name="tags_content_url">链接</string>
+    <string name="tags_content_text">文本</string>
+    <string name="tags_label">名称</string>
+    <string name="tags_notes">备注</string>
+    <string name="tags_default_profile">发送到</string>
+    <string name="tags_no_default">常规配置</string>
+    <string name="tags_lock">写入后锁定</string>
+    <string name="tags_lock_help">使标签永久只读。此后任何人都无法再更改它，包括你自己。</string>
+    <string name="tags_lock_confirm_title">要永久锁定此标签吗？</string>
+    <string name="tags_lock_confirm_body">这次写入之后，此标签将永远无法更改或擦除。此操作无法撤销。</string>
+    <string name="tags_lock_confirm_check">我明白此操作是永久性的</string>
+    <string name="tags_write_button">写入</string>
+    <string name="tags_write_and_lock">写入并锁定</string>
+    <string name="tags_write_waiting">将标签靠近手机背面</string>
+    <string name="tags_write_done">已写入</string>
+    <string name="tags_write_done_locked">已写入并锁定</string>
+    <string name="tags_err_read_only">此标签已锁定，无法写入。</string>
+    <string name="tags_err_too_small">此标签空间不足。请尝试更短的内容，或换一个容量更大的标签。</string>
+    <string name="tags_err_not_ndef">此标签无法存储 NDEF 内容，因此无法在这里写入。</string>
+    <string name="tags_err_random_uid">此标签每次显示的都是随机 ID，因此没有可复制的固定 UID。</string>
+    <string name="tags_err_lock_unsupported">此标签无法锁定，因此未写入任何内容。关闭锁定即可写入。</string>
+    <string name="tags_err_lock_failed">已写入，但锁定失败。此标签仍可写入。</string>
+    <string name="tags_err_moved">标签在写入完成前移开了。请保持不动，然后重试。</string>
+    <string name="tags_err_failed">写入失败。请重试。</string>
+    <string name="tags_registry">你的标签</string>
+    <string name="tags_registry_help">为标签命名后即可使用 {tag_label} 和按名称匹配的规则，或为它指定专用配置。名称只保存在这部手机上。</string>
+    <string name="tags_registry_empty">还没有已命名的标签。你写入的启动链接会显示在这里。</string>
+    <string name="tags_add_last">为上次扫描的标签命名（%1$s）</string>
+    <string name="tags_add">为标签命名</string>
+    <string name="tags_edit">编辑标签</string>
+    <string name="tags_delete">忘记此标签</string>
+    <string name="tags_has_launch_link">含有 TapPony 启动链接</string>
+    <string name="tags_goes_to">发送到 %1$s</string>
+    <string name="tags_profile_missing">已删除的配置</string>
+    <string name="rule_field_tag_label">标签名称</string>
+    <string name="scan_launch_unknown">该启动链接属于这部手机不认识的标签，因此未发送任何内容。</string>
+</resources>

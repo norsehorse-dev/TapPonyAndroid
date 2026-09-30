@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Traduction automatique ; les textes liés à la sécurité doivent être relus par un locuteur natif. -->
+<resources>
+    <string name="tab_scan">Scanner</string>
+    <string name="tab_profiles">Profils</string>
+    <string name="tab_settings">Paramètres</string>
+
+    <string name="save">Enregistrer</string>
+    <string name="cancel">Annuler</string>
+    <string name="remove">Retirer</string>
+    <string name="back">Retour</string>
+
+    <string name="scan_no_profile">Aucun profil</string>
+    <string name="scan_hold_tag">Approchez un tag du dos du téléphone</string>
+    <string name="scan_sending">Envoi…</string>
+    <string name="scan_nfc_unavailable">Cet appareil n’a pas de lecteur NFC, TapPony ne peut donc pas y scanner de tags.</string>
+    <string name="scan_nfc_off">Le NFC est désactivé.</string>
+    <string name="scan_open_nfc_settings">Ouvrir les paramètres NFC</string>
+    <string name="scan_create_profile_first">Créez d’abord un profil. Un profil indique où chaque scan est envoyé.</string>
+    <string name="scan_hold_still">Le tag s’est éloigné avant la fin de la lecture. Maintenez-le immobile et réessayez.</string>
+    <string name="scan_requires_ndef">Ce profil nécessite un tag avec du contenu NDEF, et ce tag n’en a pas.</string>
+
+    <string name="result_not_sent">Non envoyé</string>
+    <string name="result_network_error">Erreur réseau</string>
+    <string name="result_random_uid">Ce tag présente un identifiant aléatoire à chaque fois, son UID ne permet donc pas de l’identifier. Utilisez plutôt du contenu NDEF ou un lien de lancement TapPony.</string>
+
+    <string name="err_local_http_not_enabled">Ce profil envoie du HTTP non chiffré vers une adresse locale. Activez « Autoriser le HTTP non chiffré sur le réseau local » dans le profil pour l’envoyer.</string>
+    <string name="err_plain_http_public">Le HTTP non chiffré n’est envoyé qu’aux adresses du réseau local. Utilisez https:// pour tout ce qui est sur Internet.</string>
+    <string name="err_numeric_host">Cet hôte ressemble à un nombre écrit sous une forme inhabituelle. Écrivez les adresses IP sous forme de quatre nombres simples, comme 192.168.1.10.</string>
+    <string name="err_userinfo">Placez les identifiants dans un en-tête ou dans la section d’authentification, pas dans l’URL.</string>
+    <string name="err_bad_url">L’URL n’est pas valide. Elle doit commencer par https:// ou http://, et l’hôte ne peut pas contenir de variables.</string>
+    <string name="err_unknown_secret">Le profil utilise un secret qui n’est pas enregistré sur cet appareil. Ajoutez-le dans les Paramètres.</string>
+    <string name="err_invalid_json">Le corps JSON n’est pas du JSON valide une fois les variables remplies.</string>
+    <string name="err_template">Problème de modèle : %1$s</string>
+    <string name="err_header_name">Les noms d’en-tête ne peuvent contenir que des lettres, des chiffres et les caractères - _ .</string>
+
+    <string name="profiles_empty">Aucun profil pour l’instant. Touchez + pour partir d’un préréglage.</string>
+    <string name="profiles_new">Nouveau profil</string>
+
+    <string name="editor_untitled">Sans titre</string>
+    <string name="editor_name">Nom</string>
+    <string name="editor_request">Requête</string>
+    <string name="editor_url">URL</string>
+    <string name="editor_allow_local_http">Autoriser le HTTP non chiffré sur le réseau local</string>
+    <string name="editor_local_http_warning">Toute personne sur le même Wi-Fi peut lire une requête HTTP non chiffrée, y compris les secrets qu’elle contient.</string>
+    <string name="editor_follow_redirects">Suivre les redirections (même hôte uniquement)</string>
+    <string name="editor_headers">En-têtes</string>
+    <string name="editor_header_name">En-tête</string>
+    <string name="editor_header_value">Valeur</string>
+    <string name="editor_add_header">Ajouter un en-tête</string>
+    <string name="editor_auth">Authentification</string>
+    <string name="editor_username">Nom d’utilisateur</string>
+    <string name="editor_body">Corps</string>
+    <string name="editor_template">Modèle</string>
+    <string name="editor_field_name">Champ</string>
+    <string name="editor_field_value">Valeur</string>
+    <string name="editor_add_field">Ajouter un champ</string>
+    <string name="editor_content_type">Content-Type (facultatif)</string>
+    <string name="editor_signing">Signature</string>
+    <string name="editor_hmac">Signer les requêtes avec HMAC-SHA256</string>
+    <string name="editor_tag">Tag</string>
+    <string name="editor_extended_reads">Lire les détails de la puce (modèle, signature, compteur)</string>
+    <string name="editor_require_ndef">Envoyer uniquement si le tag a du contenu NDEF</string>
+    <string name="editor_problems">À vérifier</string>
+    <string name="editor_test">Tester</string>
+    <string name="editor_testing">Test en cours…</string>
+    <string name="editor_test_note">Le test envoie des valeurs d’exemple issues d’un NTAG215 fictif, pas d’un vrai tag.</string>
+    <string name="editor_export">Exporter</string>
+    <string name="editor_delete">Supprimer le profil</string>
+    <string name="editor_delete_confirm">Supprimer %1$s ?</string>
+    <string name="editor_secret_name">Nom du secret</string>
+    <string name="editor_secret_name_help">Enregistré dans les Paramètres. La valeur n’apparaît jamais dans le profil, l’historique ni les exports.</string>
+
+    <string name="val_templated_host">Le schéma et l’hôte de l’URL doivent être saisis directement, et non construits à partir de variables.</string>
+    <string name="val_unknown_variables">Variables inconnues : %1$s</string>
+    <string name="val_missing_secrets">Secrets pas encore enregistrés sur cet appareil : %1$s</string>
+
+    <string name="settings_device_label">Libellé de l’appareil</string>
+    <string name="settings_device_label_help">Envoyé comme {device_label} uniquement si un profil l’utilise. Vide par défaut, pour que rien n’identifie ce téléphone.</string>
+    <string name="settings_secrets">Secrets</string>
+    <string name="settings_secrets_help">Jetons et clés pour {secret:NAME} et les aides d’authentification. Stockés chiffrés avec une clé qui reste dans l’Android Keystore.</string>
+    <string name="settings_add_secret">Ajouter un secret</string>
+    <string name="settings_secret_value">Valeur</string>
+    <string name="settings_free_title">Tout est gratuit</string>
+    <string name="settings_free_body">Toutes les fonctionnalités de TapPony sont activées, sans rien à acheter, sans compte et sans publicité.</string>
+    <string name="settings_about">À propos</string>
+    <string name="settings_about_body">TapPony %1$s. Scannez un tag, envoyez une requête que vous avez conçue à un serveur de votre choix. Pas de compte, pas de cloud, pas de statistiques d’utilisation. Suggéré par un testeur.</string>
+    <string name="settings_source">Code source</string>
+    <string name="settings_more_apps">Autres apps de NorseHorse</string>
+
+    <string name="preset_blank_title">Profil vide</string>
+    <string name="preset_ha_webhook_title">Webhook Home Assistant</string>
+    <string name="preset_ha_webhook_explainer">Dans Home Assistant, créez une automatisation avec un déclencheur « Webhook », copiez son ID de webhook dans l’URL et utilisez trigger.json.uid dans les actions.</string>
+    <string name="preset_ha_tag_scanned_title">Tag Home Assistant</string>
+    <string name="preset_ha_tag_scanned_explainer">Déclenche un événement tag_scanned avec l’UID de la carte comme tag_id, pour qu’un badge existant fonctionne comme un tag Home Assistant. Enregistrez un jeton d’accès longue durée comme secret HA_TOKEN.</string>
+    <string name="preset_node_red_explainer">Ajoutez un nœud « http in » (POST) et mettez son chemin dans l’URL.</string>
+    <string name="preset_n8n_explainer">Utilisez l’URL de production d’un nœud Webhook configuré en POST.</string>
+    <string name="preset_zapier_explainer">Collez l’URL d’un déclencheur « Catch Hook ».</string>
+    <string name="preset_make_explainer">Collez l’URL d’un module « Custom webhook ».</string>
+    <string name="preset_ifttt_explainer">Mettez le nom de votre événement dans l’URL et enregistrez votre clé Webhooks comme secret IFTTT_KEY.</string>
+    <string name="preset_ntfy_explainer">Publie une notification en texte brut sur un sujet ntfy. Choisissez un nom de sujet que personne ne devinera, ou utilisez votre propre serveur ntfy.</string>
+    <string name="preset_discord_explainer">Collez l’URL d’un webhook de salon, depuis les paramètres « Integrations » du salon.</string>
+    <string name="preset_slack_explainer">Collez l’URL d’un webhook entrant de votre app Slack.</string>
+    <string name="preset_google_sheets_explainer">Déployez une application web Apps Script dont la fonction doPost ajoute une ligne, puis collez son URL /exec.</string>
+    <string name="preset_php_csv_title">Récepteur PHP CSV</string>
+    <string name="preset_php_csv_explainer">Pour votre propre serveur : un script PHP de dix lignes qui ajoute chaque scan à un fichier CSV. Le script est disponible sur tappony.app.</string>
+    <string name="preset_generic_json_title">POST JSON</string>
+    <string name="preset_generic_json_explainer">Envoie les détails du tag en JSON à n’importe quel endpoint.</string>
+    <string name="preset_generic_form_title">POST de formulaire</string>
+    <string name="preset_generic_form_explainer">Envoie uid, payload et timestamp sous forme de formulaire web.</string>
+    <string name="preset_generic_get_title">GET avec paramètres</string>
+    <string name="preset_generic_get_explainer">Envoie l’UID et l’heure dans les paramètres de l’URL. Pratique pour les endpoints de journalisation simples.</string>
+    <string name="tab_history">Historique</string>
+    <string name="close">Fermer</string>
+
+    <string name="history_all">Tous</string>
+    <string name="history_ok">OK</string>
+    <string name="history_failed">Échec</string>
+    <string name="history_export">Exporter en CSV</string>
+    <string name="history_clear">Effacer</string>
+    <string name="history_clear_confirm">Effacer tout l’historique de cet appareil ?</string>
+    <string name="history_empty">Aucun scan pour l’instant. Chaque scan envoyé apparaît ici, mais pas les envois de test.</string>
+    <string name="history_request_body">Corps de la requête</string>
+    <string name="history_response_body">Corps de la réponse</string>
+    <string name="history_bodies_off">Les corps ne sont pas conservés pour ce profil. Activez « Conserver les corps de requête et de réponse » dans le profil pour les voir ici.</string>
+
+    <string name="editor_after">Après l’envoi</string>
+    <string name="editor_message_field">Afficher depuis la réponse</string>
+    <string name="editor_message_field_help">json:path.to.field ou header:Name. Affiché sur l’écran Scanner après chaque passage.</string>
+    <string name="editor_keep_bodies">Conserver les corps de requête et de réponse dans l’historique</string>
+    <string name="val_message_field">« Afficher depuis la réponse » doit commencer par json: ou header:.</string>
+
+    <string name="settings_history">Historique</string>
+    <string name="settings_history_help">L’historique reste sur cet appareil. Il conserve au plus 1 000 scans, et les plus anciens sont supprimés après la durée choisie.</string>
+    <string name="settings_history_days">%1$d jours</string>
+    <string name="settings_history_cap_only">Jusqu’à 1 000 scans</string>
+
+    <string name="scan_batch">Lot</string>
+    <string name="scan_batch_count">Scannés : %1$d</string>
+    <string name="scan_batch_new">Nouveau lot</string>
+    <string name="scan_batch_hold">Passez les tags l’un après l’autre</string>
+    <string name="scan_batch_skipped">Passages répétés ignorés : %1$d</string>
+    <string name="scan_queued">En attente d’envoi : %1$d</string>
+    <string name="scan_send_now">Envoyer maintenant</string>
+    <string name="result_queued">Enregistré, envoi au retour de la connexion</string>
+    <string name="result_queued_short">En file d’attente</string>
+
+    <string name="editor_queue_offline">Enregistrer et envoyer plus tard hors connexion</string>
+    <string name="editor_queue_offline_help">Si un scan n’obtient pas de réponse, il attend sur ce téléphone et part dans l’ordre dès qu’une connexion est disponible, pendant 24 heures au maximum. Les destinataires peuvent repérer un doublon grâce à son {nonce}. Laissez cette option désactivée pour des choses comme les serrures de porte, où une requête tardive serait une erreur.</string>
+    <string name="editor_sound">Son après chaque scan</string>
+    <string name="editor_haptic">Vibrer à la lecture d’un tag</string>
+
+    <string name="settings_scanning">Scan</string>
+    <string name="settings_once_per_batch">Chaque tag une seule fois par lot</string>
+    <string name="settings_once_per_batch_help">En mode lot, un tag déjà envoyé dans ce lot est ignoré. Commencez un nouveau lot pour le compter à nouveau.</string>
+
+    <string name="shortcut_scan_with">Scanner avec %1$s</string>
+    <string name="shortcut_profile_deleted">Ce profil a été supprimé.</string>
+    <string name="editor_pin">Ajouter à l’écran d’accueil</string>
+    <string name="editor_pin_unsupported">Ce lanceur ne permet pas d’épingler des raccourcis.</string>
+
+    <string name="scan_no_rule">Aucune règle ne correspond à ce tag, rien n’a donc été envoyé.</string>
+    <string name="speak_sent">Envoyé</string>
+    <string name="speak_failed">Échec</string>
+    <string name="speak_saved">Enregistré pour plus tard</string>
+
+    <string name="editor_success_text">Texte en cas de succès (facultatif)</string>
+    <string name="editor_failure_text">Texte en cas d’échec (facultatif)</string>
+    <string name="editor_result_text_help">Affiché en grand après un scan. Peut utiliser {message}, {status}, {uid} et {profile}.</string>
+    <string name="editor_speak">Annoncer le résultat à voix haute</string>
+
+    <string name="rules_title">Règles</string>
+    <string name="rules_status_on">Activées, %1$d règles</string>
+    <string name="rules_status_on_one">Activées, 1 règle</string>
+    <string name="rules_status_off">Désactivées. Chaque scan va au profil choisi sur l’écran Scanner.</string>
+    <string name="rules_use">Utiliser les règles</string>
+    <string name="rules_use_help">Le tag lui-même choisit le profil : l’autocollant du garage et le badge du bureau peuvent ainsi aller à des endroits différents sans changer de profil.</string>
+    <string name="rules_unmatched">Si aucune règle ne correspond</string>
+    <string name="rules_unmatched_active">Utiliser le profil de l’écran Scanner</string>
+    <string name="rules_unmatched_ignore">Ne rien envoyer</string>
+    <string name="rules_list">Règles</string>
+    <string name="rules_order_help">Vérifiées de haut en bas. La première qui correspond l’emporte, et chaque profil qu’elle indique reçoit le scan.</string>
+    <string name="rules_empty">Aucune règle pour l’instant.</string>
+    <string name="rules_add">Ajouter une règle</string>
+    <string name="rules_edit">Modifier la règle</string>
+    <string name="rules_delete">Supprimer la règle</string>
+    <string name="rules_when">Quand</string>
+    <string name="rules_value">Valeur</string>
+    <string name="rules_use_last_uid">Utiliser le dernier tag scanné (%1$s)</string>
+    <string name="rules_send_to">Envoyer à</string>
+    <string name="rules_enabled">Règle activée</string>
+    <string name="rules_no_profiles">aucun profil</string>
+    <string name="rules_move_up">Monter</string>
+    <string name="rules_move_down">Descendre</string>
+    <string name="rule_field_uid">UID</string>
+    <string name="rule_field_tag_type">Type de tag</string>
+    <string name="rule_field_chip">Puce</string>
+    <string name="rule_field_manufacturer">Fabricant</string>
+    <string name="rule_field_payload">Contenu</string>
+    <string name="rule_field_ndef_text">Texte NDEF</string>
+    <string name="rule_field_ndef_uri">Lien NDEF</string>
+    <string name="rule_op_equals">est</string>
+    <string name="rule_op_prefix">commence par</string>
+    <string name="rule_op_contains">contient</string>
+    <string name="rule_op_regex">correspond au motif</string>
+    <string name="rule_err_regex">Le motif n’est pas valide, cette règle ne correspond donc jamais.</string>
+    <string name="rule_err_profiles">Choisissez au moins un profil de destination.</string>
+    <string name="rule_err_other">Cette règle ne peut pas être utilisée.</string>
+
+    <string name="tab_tags">Tags</string>
+    <string name="tags_write">Écrire un tag</string>
+    <string name="tags_kind_url">Lien</string>
+    <string name="tags_kind_text">Texte</string>
+    <string name="tags_kind_launch">Lien de lancement</string>
+    <string name="tags_kind_mirror">Recopier l’UID</string>
+    <string name="tags_kind_url_help">Tout téléphone approché de ce tag ouvre le lien.</string>
+    <string name="tags_kind_text_help">Texte brut, lisible par n’importe quelle app NFC et via {ndef_text} dans TapPony.</string>
+    <string name="tags_kind_launch_help">Approcher ce tag ouvre TapPony et l’envoie, même quand l’app est fermée. Seul ce téléphone connaît le tag : il n’envoie donc rien sur le téléphone de quelqu’un d’autre.</string>
+    <string name="tags_kind_mirror_help">Écrit l’UID du tag lui-même sous forme de texte, pour que les apps qui ne lisent que le NDEF puissent le voir.</string>
+    <string name="tags_content_url">Lien</string>
+    <string name="tags_content_text">Texte</string>
+    <string name="tags_label">Nom</string>
+    <string name="tags_notes">Notes</string>
+    <string name="tags_default_profile">Envoyer à</string>
+    <string name="tags_no_default">Profil habituel</string>
+    <string name="tags_lock">Verrouiller après l’écriture</string>
+    <string name="tags_lock_help">Rend le tag définitivement en lecture seule. Personne ne pourra plus le modifier, vous y compris.</string>
+    <string name="tags_lock_confirm_title">Verrouiller ce tag définitivement ?</string>
+    <string name="tags_lock_confirm_body">Après cette écriture, le tag ne pourra plus jamais être modifié ni effacé. Cette action est irréversible.</string>
+    <string name="tags_lock_confirm_check">Je comprends que c’est définitif</string>
+    <string name="tags_write_button">Écrire</string>
+    <string name="tags_write_and_lock">Écrire et verrouiller</string>
+    <string name="tags_write_waiting">Approchez un tag du dos du téléphone</string>
+    <string name="tags_write_done">Écrit</string>
+    <string name="tags_write_done_locked">Écrit et verrouillé</string>
+    <string name="tags_err_read_only">Ce tag est verrouillé, il est donc impossible d’y écrire.</string>
+    <string name="tags_err_too_small">Ce tag n’a pas assez de place pour cela. Essayez un contenu plus court ou un tag plus grand.</string>
+    <string name="tags_err_not_ndef">Ce tag ne peut pas stocker de contenu NDEF, il est donc impossible d’y écrire ici.</string>
+    <string name="tags_err_random_uid">Ce tag présente un identifiant aléatoire à chaque fois, il n’y a donc pas d’UID fixe à copier.</string>
+    <string name="tags_err_lock_unsupported">Ce tag ne peut pas être verrouillé, rien n’a donc été écrit. Désactivez le verrouillage pour y écrire.</string>
+    <string name="tags_err_lock_failed">Écrit, mais le verrouillage a échoué. Le tag reste modifiable.</string>
+    <string name="tags_err_moved">Le tag s’est éloigné avant la fin de l’écriture. Maintenez-le immobile et réessayez.</string>
+    <string name="tags_err_failed">L’écriture a échoué. Réessayez.</string>
+    <string name="tags_registry">Vos tags</string>
+    <string name="tags_registry_help">Nommez un tag pour utiliser {tag_label} et les règles par nom, ou pour lui attribuer son propre profil. Le nom reste sur ce téléphone.</string>
+    <string name="tags_registry_empty">Aucun tag nommé pour l’instant. Les liens de lancement que vous écrivez apparaissent ici.</string>
+    <string name="tags_add_last">Nommer le dernier tag scanné (%1$s)</string>
+    <string name="tags_add">Nommer un tag</string>
+    <string name="tags_edit">Modifier le tag</string>
+    <string name="tags_delete">Oublier ce tag</string>
+    <string name="tags_has_launch_link">Contient un lien de lancement TapPony</string>
+    <string name="tags_goes_to">Envoie à %1$s</string>
+    <string name="tags_profile_missing">un profil supprimé</string>
+    <string name="rule_field_tag_label">Nom du tag</string>
+    <string name="scan_launch_unknown">Ce lien de lancement appartient à un tag que ce téléphone ne connaît pas, rien n’a donc été envoyé.</string>
+</resources>

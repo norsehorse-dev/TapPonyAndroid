@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.tappony.android.Entitlements
 import com.tappony.android.R
 import com.tappony.android.ScanEngine
 import com.tappony.android.ScanOutcome
@@ -195,28 +196,32 @@ fun ProfileEditorScreen(profileId: String, engine: ScanEngine, onDone: () -> Uni
             SwitchRow(stringResource(R.string.editor_require_ndef), p.tag.requireNdef) { p = p.copy(tag = p.tag.copy(requireNdef = it)) }
 
             Section(stringResource(R.string.editor_after))
-            OutlinedTextField(
-                p.after.messageField ?: "", { p = p.copy(after = p.after.copy(messageField = it.ifEmpty { null })) },
-                label = { Text(stringResource(R.string.editor_message_field)) },
-                supportingText = { Text(stringResource(R.string.editor_message_field_help)) },
-                textStyle = Mono, modifier = Modifier.fillMaxWidth(), singleLine = true,
-            )
-            OutlinedTextField(
-                p.after.successText ?: "", { p = p.copy(after = p.after.copy(successText = it.ifEmpty { null })) },
-                label = { Text(stringResource(R.string.editor_success_text)) },
-                supportingText = { Text(stringResource(R.string.editor_result_text_help)) },
-                modifier = Modifier.fillMaxWidth(), singleLine = true,
-            )
-            OutlinedTextField(
-                p.after.failureText ?: "", { p = p.copy(after = p.after.copy(failureText = it.ifEmpty { null })) },
-                label = { Text(stringResource(R.string.editor_failure_text)) },
-                modifier = Modifier.fillMaxWidth(), singleLine = true,
-            )
-            SwitchRow(stringResource(R.string.editor_speak), p.after.speak) { p = p.copy(after = p.after.copy(speak = it)) }
+            if (Entitlements.responseRules) {
+                OutlinedTextField(
+                    p.after.messageField ?: "", { p = p.copy(after = p.after.copy(messageField = it.ifEmpty { null })) },
+                    label = { Text(stringResource(R.string.editor_message_field)) },
+                    supportingText = { Text(stringResource(R.string.editor_message_field_help)) },
+                    textStyle = Mono, modifier = Modifier.fillMaxWidth(), singleLine = true,
+                )
+                OutlinedTextField(
+                    p.after.successText ?: "", { p = p.copy(after = p.after.copy(successText = it.ifEmpty { null })) },
+                    label = { Text(stringResource(R.string.editor_success_text)) },
+                    supportingText = { Text(stringResource(R.string.editor_result_text_help)) },
+                    modifier = Modifier.fillMaxWidth(), singleLine = true,
+                )
+                OutlinedTextField(
+                    p.after.failureText ?: "", { p = p.copy(after = p.after.copy(failureText = it.ifEmpty { null })) },
+                    label = { Text(stringResource(R.string.editor_failure_text)) },
+                    modifier = Modifier.fillMaxWidth(), singleLine = true,
+                )
+                SwitchRow(stringResource(R.string.editor_speak), p.after.speak) { p = p.copy(after = p.after.copy(speak = it)) }
+            }
             SwitchRow(stringResource(R.string.editor_keep_bodies), p.after.keepBodies) { p = p.copy(after = p.after.copy(keepBodies = it)) }
-            SwitchRow(stringResource(R.string.editor_queue_offline), p.after.queueOffline) { p = p.copy(after = p.after.copy(queueOffline = it)) }
-            if (p.after.queueOffline) {
-                Text(stringResource(R.string.editor_queue_offline_help), color = TapColors.Muted, style = MaterialTheme.typography.bodySmall)
+            if (Entitlements.offlineQueue) {
+                SwitchRow(stringResource(R.string.editor_queue_offline), p.after.queueOffline) { p = p.copy(after = p.after.copy(queueOffline = it)) }
+                if (p.after.queueOffline) {
+                    Text(stringResource(R.string.editor_queue_offline_help), color = TapColors.Muted, style = MaterialTheme.typography.bodySmall)
+                }
             }
             SwitchRow(stringResource(R.string.editor_sound), p.after.sound) { p = p.copy(after = p.after.copy(sound = it)) }
             SwitchRow(stringResource(R.string.editor_haptic), p.after.haptic) { p = p.copy(after = p.after.copy(haptic = it)) }

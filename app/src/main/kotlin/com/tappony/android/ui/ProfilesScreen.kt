@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.tappony.android.Entitlements
 import com.tappony.android.R
 import com.tappony.android.TapPonyApp
 import com.tappony.android.data.ProfileStore
@@ -59,7 +60,7 @@ fun ProfilesScreen(onOpen: (String) -> Unit, onOpenRules: () -> Unit) {
             Modifier.fillMaxSize().padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            item(key = "rules") {
+            if (Entitlements.rules) item(key = "rules") {
                 Card(
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
                     modifier = Modifier.fillMaxWidth().clickable { onOpenRules() },
@@ -90,7 +91,7 @@ fun ProfilesScreen(onOpen: (String) -> Unit, onOpenRules: () -> Unit) {
             }
         }
         FloatingActionButton(
-            onClick = { picking = true },
+            onClick = { if (Entitlements.canAddProfile(profiles.size)) picking = true },
             modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
         ) { Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.profiles_new)) }
     }

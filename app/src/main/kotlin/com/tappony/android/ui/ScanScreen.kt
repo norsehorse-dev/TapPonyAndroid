@@ -46,6 +46,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.currentStateAsState
+import com.tappony.android.Entitlements
 import com.tappony.android.R
 import com.tappony.android.ScanOutcome
 
@@ -98,7 +99,7 @@ fun ScanScreen(vm: ScanViewModel, nfcAvailable: Boolean, nfcEnabled: () -> Boole
             profiles.isEmpty() -> Notice(stringResource(R.string.scan_create_profile_first))
         }
 
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        if (Entitlements.batch) Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             FilterChip(
                 selected = batch.on,
                 onClick = { vm.setBatch(!batch.on) },

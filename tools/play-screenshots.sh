@@ -10,9 +10,28 @@ PKG=com.tappony.android.debug
 ACT=com.tappony.android.MainActivity
 OUT=fastlane/metadata/android
 
+[ "$(adb devices | grep -c 'device$')" = 1 ] || { echo "Connect exactly one phone or emulator"; exit 1; }
+
 ./gradlew -q :app:installDebug
 
 demo() { adb shell am broadcast -a com.android.systemui.demo -e command "$@" >/dev/null; }
+
+cleanup() {
+  demo exit || true
+  adb shell wm size reset || true
+  adb shell wm density reset || true
+  adb shell svc power stayon false || true
+}
+trap cleanup EXIT
+
+# Play rejects screenshots longer than twice their width, so render at 1080x1920 (9:16).
+adb shell wm size 1080x1920
+adb shell wm density 420
+adb shell svc power stayon usb
+adb shell input keyevent KEYCODE_WAKEUP
+adb shell wm dismiss-keyguard
+sleep 2
+
 adb shell settings put global sysui_demo_allowed 1
 demo enter
 demo clock -e hhmm 0941
@@ -34,9 +53,13 @@ for pair in en-US:en de-DE:de es-ES:es fr-FR:fr pt-BR:pt-BR ru-RU:ru zh-CN:zh-Ha
     adb shell am start -W -n "$PKG/$ACT" --es demo_screen "$screen" >/dev/null
     sleep 2
     adb exec-out screencap -p > "$shots/${i}_${screen}.png"
+    if [ "$(wc -c < "$shots/${i}_${screen}.png")" -lt 40000 ]; then
+      echo "$shots/${i}_${screen}.png is blank. Unlock the phone, keep the screen on, and run again."
+      exit 1
+    fi
     i=$((i + 1))
   done
   echo "$dir done"
 done
 
-demo exit
+file "$OUT"/en-US/images/phoneScreenshots/*.png

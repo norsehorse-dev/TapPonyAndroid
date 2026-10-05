@@ -61,6 +61,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        // Launcher shortcut labels follow a language change, which recreates this activity.
+        (application as TapPonyApp).let { Shortcuts.sync(it, it.profiles.profiles.value, it.settings.activeProfileId.value) }
         nfc = NfcAdapter.getDefaultAdapter(this)
         scanVm.activeProfile
         // A cold start already lands on the Scan tab; a recreated activity must not re-apply the old link.

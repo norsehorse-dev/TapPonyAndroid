@@ -273,7 +273,7 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
     /** Result text, else the server message, else a short localized word. */
     private fun spoken(o: ScanOutcome): String {
         val app = getApplication<TapPonyApp>()
-        return o.resultText ?: o.message ?: app.getString(
+        return o.resultText ?: o.message ?: com.tappony.android.i18n.LanguageManager.localized(app).getString(
             when {
                 o.queued -> R.string.speak_saved
                 o.result?.ok == true -> R.string.speak_sent

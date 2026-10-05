@@ -103,10 +103,11 @@ fun ProfilesScreen(onOpen: (String) -> Unit, onOpenRules: () -> Unit) {
             text = {
                 LazyColumn {
                     item {
-                        PresetRow(stringResource(R.string.preset_blank_title)) {
+                        val blankTitle = stringResource(R.string.preset_blank_title)
+                        PresetRow(blankTitle) {
                             val p = Profile(
                                 id = ProfileStore.newId(),
-                                name = app.getString(R.string.preset_blank_title),
+                                name = blankTitle,
                                 request = RequestSpec(url = "https://", body = BodySpec(BodyType.JSON, "{\"uid\":\"{uid}\"}")),
                             )
                             app.profiles.save(p)

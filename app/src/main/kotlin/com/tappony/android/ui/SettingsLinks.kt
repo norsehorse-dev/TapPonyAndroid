@@ -69,8 +69,8 @@ private val FAMILY = listOf(
 /** Open-source libraries in the Android build, all Apache-2.0. */
 private val LIBRARIES = listOf(
     "AndroidX (Core, Activity, Lifecycle, Navigation, Room, WorkManager)" to "The Android Open Source Project",
-    "Jetpack Compose and Material 3" to "The Android Open Source Project",
-    "Kotlin standard library and kotlinx.coroutines" to "JetBrains s.r.o.",
+    "Jetpack Compose, Material 3" to "The Android Open Source Project",
+    "Kotlin, kotlinx.coroutines" to "JetBrains s.r.o.",
     "OkHttp" to "Square, Inc.",
 )
 

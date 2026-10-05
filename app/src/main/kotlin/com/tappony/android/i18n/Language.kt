@@ -1,8 +1,11 @@
 package com.tappony.android.i18n
 
 import android.content.Context
+import android.content.res.Configuration
+import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import java.util.Locale
 
 /**
  * The languages TapPony ships, for the in-app picker in Settings (same approach as PGPony).
@@ -57,6 +60,22 @@ object LanguageManager {
         val system = context.resources.configuration.locales
         for (i in 0 until system.size()) SupportedLanguage.resolve(system[i].toLanguageTag())?.let { return it }
         return SupportedLanguage.EN
+    }
+
+    /** The locale for speech and anything else outside resources. */
+    fun locale(context: Context): Locale = Locale.forLanguageTag(current(context).tag)
+
+    /**
+     * A context whose strings follow the in-app language. On Android 13 and later the
+     * application context already does; on 8 to 12 AppCompat only localizes activities,
+     * so text built from the application context or a service needs this.
+     */
+    fun localized(context: Context): Context {
+        val picked = AppCompatDelegate.getApplicationLocales()
+        if (picked.isEmpty) return context
+        val config = Configuration(context.resources.configuration)
+        config.setLocales(LocaleList.forLanguageTags(picked.toLanguageTags()))
+        return context.createConfigurationContext(config)
     }
 
     /** Persists the choice and recreates the activity in that language. */

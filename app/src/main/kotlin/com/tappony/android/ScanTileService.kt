@@ -23,7 +23,7 @@ class ScanTileService : TileService() {
             list.firstOrNull { it.id == app.settings.activeProfileId.value } ?: list.firstOrNull()
         }
         tile.label = getString(R.string.tile_label)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) tile.subtitle = active?.name ?: getString(R.string.scan_no_profile)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) tile.subtitle = active?.name ?: com.tappony.android.i18n.LanguageManager.localized(this).getString(R.string.scan_no_profile)
         tile.state = Tile.STATE_INACTIVE
         tile.updateTile()
     }

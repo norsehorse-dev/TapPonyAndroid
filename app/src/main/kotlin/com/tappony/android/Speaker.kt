@@ -3,7 +3,6 @@ package com.tappony.android
 import android.content.Context
 import android.speech.tts.TextToSpeech
 import com.tappony.core.Encoding
-import java.util.Locale
 
 /**
  * Spoken confirmation for hands-free rounds (PROFILE_SCHEMA.md section 15).
@@ -15,14 +14,16 @@ class Speaker(context: Context) : TextToSpeech.OnInitListener {
     private val pending = ArrayList<String>()
     private var ready = false
     private var failed = false
-    private val tts = TextToSpeech(context.applicationContext, this)
+    private val appContext = context.applicationContext
+    private val tts = TextToSpeech(appContext, this)
 
     override fun onInit(status: Int) {
         synchronized(pending) {
             ready = status == TextToSpeech.SUCCESS
             failed = !ready
             if (ready) {
-                tts.language = Locale.getDefault()
+                // The app's language, which can differ from the phone's.
+                tts.language = com.tappony.android.i18n.LanguageManager.locale(appContext)
                 pending.forEach { say(it) }
             }
             pending.clear()

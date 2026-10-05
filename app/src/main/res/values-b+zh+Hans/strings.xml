@@ -295,4 +295,6 @@
     <string name="more_passpony">适用于 pass 和 passage 密码库的密码管理器</string>
     <string name="more_relaypony">加密文件传输，手机到手机</string>
     <string name="more_scrubpony">从图片中清除可识别身份的元数据。不改动任何像素。</string>
+    <string name="settings_language">语言</string>
+    <string name="settings_language_sub">TapPony 的语言，与手机语言分开设置</string>
 </resources>

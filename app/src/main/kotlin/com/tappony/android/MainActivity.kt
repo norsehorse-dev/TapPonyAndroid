@@ -4,8 +4,8 @@ import android.content.Intent
 import android.nfc.NdefMessage
 import android.nfc.NfcAdapter
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -44,7 +44,9 @@ import com.tappony.android.ui.TagsViewModel
 import com.tappony.core.NdefRecord
 import com.tappony.android.ui.TapPonyTheme
 
-class MainActivity : ComponentActivity() {
+// AppCompatActivity rather than ComponentActivity so the in-app language picker
+// (AppCompatDelegate.setApplicationLocales) also works on Android 8 to 12.
+class MainActivity : AppCompatActivity() {
 
     private val scanVm: ScanViewModel by viewModels()
     private val tagsVm: TagsViewModel by viewModels()

@@ -310,4 +310,6 @@
     <string name="more_passpony">A password manager for pass and passage stores</string>
     <string name="more_relaypony">Encrypted file transfer, phone to phone</string>
     <string name="more_scrubpony">Strip identifying metadata from images. No pixel moves.</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_sub">TapPony\'s language, separate from your phone\'s</string>
 </resources>

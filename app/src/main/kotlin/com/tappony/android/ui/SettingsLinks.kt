@@ -22,11 +22,13 @@ import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -42,6 +44,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tappony.android.BuildConfig
 import com.tappony.android.R
+import com.tappony.android.i18n.LanguageManager
+import com.tappony.android.i18n.SupportedLanguage
 
 private const val DOCS_URL = "https://tappony.app/docs"
 private const val PRIVACY_URL = "https://tappony.app/privacy"
@@ -168,6 +172,39 @@ fun AboutSection() {
                 }
             },
             confirmButton = { TextButton(onClick = { showLicenses = false }) { Text(stringResource(R.string.close)) } },
+        )
+    }
+}
+
+@Composable
+fun LanguageSection() {
+    val context = LocalContext.current
+    var picking by remember { mutableStateOf(false) }
+    val current = LanguageManager.current(context)
+    SettingsSectionTitle(stringResource(R.string.settings_language))
+    LinkRow(Icons.Filled.Language, current.nativeName, stringResource(R.string.settings_language_sub), external = false) { picking = true }
+
+    if (picking) {
+        AlertDialog(
+            onDismissRequest = { picking = false },
+            title = { Text(stringResource(R.string.settings_language)) },
+            text = {
+                Column(Modifier.verticalScroll(rememberScrollState())) {
+                    SupportedLanguage.entries.forEach { lang ->
+                        Row(
+                            Modifier.fillMaxWidth().clickable {
+                                picking = false
+                                if (lang != current) LanguageManager.set(lang)
+                            }.padding(vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            RadioButton(selected = lang == current, onClick = null)
+                            Text(lang.nativeName, color = TapColors.Text, modifier = Modifier.padding(start = 12.dp))
+                        }
+                    }
+                }
+            },
+            confirmButton = { TextButton(onClick = { picking = false }) { Text(stringResource(R.string.cancel)) } },
         )
     }
 }

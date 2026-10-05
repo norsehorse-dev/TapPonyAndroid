@@ -296,4 +296,6 @@
     <string name="more_passpony">Менеджер паролей для хранилищ pass и passage</string>
     <string name="more_relaypony">Зашифрованная передача файлов, с телефона на телефон</string>
     <string name="more_scrubpony">Удаляет идентифицирующие метаданные из изображений. Пиксели не меняются.</string>
+    <string name="settings_language">Язык</string>
+    <string name="settings_language_sub">Язык TapPony, независимо от языка телефона</string>
 </resources>

@@ -56,6 +56,8 @@ fun SettingsScreen() {
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
+        LanguageSection()
+
         Text(stringResource(R.string.settings_device_label), style = MaterialTheme.typography.titleSmall, color = TapColors.BlueLight)
         OutlinedTextField(
             label, { app.settings.setDeviceLabel(it.take(64)) },

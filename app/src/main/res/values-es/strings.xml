@@ -295,4 +295,6 @@
     <string name="more_passpony">Un gestor de contraseñas para almacenes de pass y passage</string>
     <string name="more_relaypony">Transferencia de archivos cifrada, de teléfono a teléfono</string>
     <string name="more_scrubpony">Elimina los metadatos identificativos de las imágenes. No se mueve ningún píxel.</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_language_sub">El idioma de TapPony, independiente del de tu teléfono</string>
 </resources>

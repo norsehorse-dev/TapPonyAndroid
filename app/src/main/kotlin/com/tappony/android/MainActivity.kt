@@ -1,6 +1,7 @@
 package com.tappony.android
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.nfc.NdefMessage
 import android.nfc.NfcAdapter
 import android.os.Bundle
@@ -57,6 +58,15 @@ class MainActivity : AppCompatActivity() {
 
     /** Bumped by a tappony://scan link (shortcut, tile, other apps) to jump to the Scan tab. */
     private val scanRequests = mutableIntStateOf(0)
+
+    // configChanges="locale|layoutDirection" (same as PGPony): on Android 13 and later a
+    // language switch arrives here instead of recreating the activity, so there's no black
+    // flash and the current screen stays put. Compose re-reads the strings on its own;
+    // launcher shortcut labels are built outside Compose, so they're refreshed here.
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        (application as TapPonyApp).let { Shortcuts.sync(it, it.profiles.profiles.value, it.settings.activeProfileId.value) }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

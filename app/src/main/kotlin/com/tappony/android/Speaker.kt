@@ -22,8 +22,6 @@ class Speaker(context: Context) : TextToSpeech.OnInitListener {
             ready = status == TextToSpeech.SUCCESS
             failed = !ready
             if (ready) {
-                // The app's language, which can differ from the phone's.
-                tts.language = com.tappony.android.i18n.LanguageManager.locale(appContext)
                 pending.forEach { say(it) }
             }
             pending.clear()
@@ -39,6 +37,9 @@ class Speaker(context: Context) : TextToSpeech.OnInitListener {
     }
 
     private fun say(t: String) {
+        // The app's language, which can differ from the phone's and can change while this lives.
+        val locale = com.tappony.android.i18n.LanguageManager.locale(appContext)
+        if (tts.voice?.locale != locale) tts.language = locale
         tts.speak(t, TextToSpeech.QUEUE_ADD, null, "tappony-${System.nanoTime()}")
     }
 

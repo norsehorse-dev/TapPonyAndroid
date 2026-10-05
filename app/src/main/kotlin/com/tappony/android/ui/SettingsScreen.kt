@@ -1,7 +1,5 @@
 package com.tappony.android.ui
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,7 +36,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.tappony.android.BuildConfig
 import com.tappony.android.Entitlements
 import com.tappony.android.R
 import com.tappony.android.TapPonyApp
@@ -111,14 +108,9 @@ fun SettingsScreen() {
         Text(stringResource(R.string.settings_free_title), style = MaterialTheme.typography.titleSmall, color = TapColors.BlueLight)
         Text(stringResource(R.string.settings_free_body), color = TapColors.Muted)
 
-        Text(stringResource(R.string.settings_about), style = MaterialTheme.typography.titleSmall, color = TapColors.BlueLight)
-        Text(stringResource(R.string.settings_about_body, BuildConfig.VERSION_NAME), color = TapColors.Muted)
-        TextButton(onClick = { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE_URL))) }) {
-            Text(stringResource(R.string.settings_source))
-        }
-        TextButton(onClick = { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(HUB_URL))) }) {
-            Text(stringResource(R.string.settings_more_apps))
-        }
+        SupportSection()
+        MoreFromNorseHorseSection()
+        AboutSection()
     }
 
     if (adding) {
@@ -156,5 +148,3 @@ fun SettingsScreen() {
     }
 }
 
-private const val SOURCE_URL = "https://github.com/norsehorse-dev/TapPonyAndroid"
-private const val HUB_URL = "https://norsehor.se"

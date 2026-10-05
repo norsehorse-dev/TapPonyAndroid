@@ -84,7 +84,6 @@
     <string name="settings_free_title">Alles ist kostenlos</string>
     <string name="settings_free_body">Alle Funktionen von TapPony sind freigeschaltet. Nichts zu kaufen, kein Konto, keine Werbung.</string>
     <string name="settings_about">Über</string>
-    <string name="settings_about_body">TapPony %1$s. Scanne ein Tag und sende eine selbst gestaltete Anfrage an einen Server deiner Wahl. Kein Konto, keine Cloud, keine Nutzungsanalyse. Vorgeschlagen von einem Tester.</string>
     <string name="settings_source">Quellcode</string>
     <string name="settings_more_apps">Mehr von NorseHorse</string>
 
@@ -268,4 +267,32 @@
     <string name="err_timeout">Der Server hat zu lange nicht geantwortet. (%1$s)</string>
     <string name="err_connect">Keine Verbindung zum Server möglich. (%1$s)</string>
     <string name="err_tls">Die sichere Verbindung ist fehlgeschlagen. Dem Zertifikat des Servers wird möglicherweise nicht vertraut. (%1$s)</string>
+
+    <!-- Settings: support, family, about -->
+    <string name="settings_about_text">Scanne ein Tag und sende eine selbst gestaltete Anfrage an einen Server deiner Wahl. Kein Konto, keine Cloud, keine Nutzungsanalyse. Vorgeschlagen von einem Tester.</string>
+    <string name="settings_support">Support</string>
+    <string name="settings_help">Hilfe und Empfänger-Doku</string>
+    <string name="settings_help_sub">Einen Empfänger einrichten, auf tappony.app/docs</string>
+    <string name="settings_feedback">Feedback senden</string>
+    <string name="settings_privacy">Datenschutzerklärung</string>
+    <string name="settings_privacy_sub">Auf tappony.app/privacy</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_source_sub">TapPony für Android auf GitHub</string>
+    <string name="settings_licenses">Lizenzen</string>
+    <string name="licenses_app">TapPony ist Open Source unter der Apache License 2.0.</string>
+    <string name="licenses_libraries">Es nutzt diese Open-Source-Bibliotheken, alle unter der Apache License 2.0:</string>
+    <string name="licenses_read_apache">Apache License 2.0 lesen</string>
+    <string name="settings_no_browser">Kein Browser verfügbar, um diesen Link zu öffnen.</string>
+    <string name="settings_no_email_app">Keine E-Mail-App gefunden. Schreib an %1$s.</string>
+    <string name="more_family">Alle Pony-Apps</string>
+    <string name="more_family_sub">Die ganze Familie auf pony.norsehor.se</string>
+    <string name="more_pgpony">OpenPGP-Verschlüsselung für Nachrichten, Dateien und Schlüssel</string>
+    <string name="more_agepony">Dateiverschlüsselung mit dem age-Format</string>
+    <string name="more_quorumpony">Teile ein Geheimnis in Karten auf. Wenige genügen zum Wiederherstellen.</string>
+    <string name="more_carrierpony">Private Nachrichten und Dateiübertragung, Ende-zu-Ende versiegelt</string>
+    <string name="more_burnpony">Sende ein Geheimnis. Auf deinem Telefon verschlüsselt, nach dem Lesen verbrannt</string>
+    <string name="more_vaultpony">VeraCrypt-kompatible verschlüsselte Tresore, vollständig auf deinem Gerät</string>
+    <string name="more_passpony">Ein Passwortmanager für pass- und passage-Speicher</string>
+    <string name="more_relaypony">Verschlüsselte Dateiübertragung von Telefon zu Telefon</string>
+    <string name="more_scrubpony">Entfernt identifizierende Metadaten aus Bildern. Keine Pixel werden verändert.</string>
 </resources>

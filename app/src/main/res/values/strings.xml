@@ -85,7 +85,6 @@
     <string name="settings_free_title">Everything is free</string>
     <string name="settings_free_body">Every feature in TapPony is on, with nothing to buy, no account and no ads.</string>
     <string name="settings_about">About</string>
-    <string name="settings_about_body">TapPony %1$s. Scan a tag, send a request you designed to a server you chose. No account, no cloud, no analytics. Suggested by a tester.</string>
     <string name="settings_source">Source code</string>
     <string name="settings_more_apps">More from NorseHorse</string>
 
@@ -283,4 +282,32 @@
     <string name="err_timeout">The server took too long to answer. (%1$s)</string>
     <string name="err_connect">Couldn\'t connect to the server. (%1$s)</string>
     <string name="err_tls">The secure connection failed. The server\'s certificate may not be trusted. (%1$s)</string>
+
+    <!-- Settings: support, family, about -->
+    <string name="settings_about_text">Scan a tag, send a request you designed to a server you chose. No account, no cloud, no analytics. Suggested by a tester.</string>
+    <string name="settings_support">Support</string>
+    <string name="settings_help">Help and receiver docs</string>
+    <string name="settings_help_sub">Setting up a receiver, at tappony.app/docs</string>
+    <string name="settings_feedback">Send feedback</string>
+    <string name="settings_privacy">Privacy policy</string>
+    <string name="settings_privacy_sub">At tappony.app/privacy</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_source_sub">TapPony for Android on GitHub</string>
+    <string name="settings_licenses">Licenses</string>
+    <string name="licenses_app">TapPony is open source under the Apache License 2.0.</string>
+    <string name="licenses_libraries">It\'s built with these open-source libraries, all under the Apache License 2.0:</string>
+    <string name="licenses_read_apache">Read the Apache License 2.0</string>
+    <string name="settings_no_browser">No browser is available to open this link.</string>
+    <string name="settings_no_email_app">No email app found. Write to %1$s.</string>
+    <string name="more_family">All Pony apps</string>
+    <string name="more_family_sub">The whole family at pony.norsehor.se</string>
+    <string name="more_pgpony">OpenPGP encryption for messages, files and keys</string>
+    <string name="more_agepony">File encryption with the age format</string>
+    <string name="more_quorumpony">Split a secret into cards. Any few rebuild it.</string>
+    <string name="more_carrierpony">Private messaging and file transfer, sealed end to end</string>
+    <string name="more_burnpony">Send a secret. Encrypted on your phone, burned after reading</string>
+    <string name="more_vaultpony">VeraCrypt-compatible encrypted vaults, entirely on your device</string>
+    <string name="more_passpony">A password manager for pass and passage stores</string>
+    <string name="more_relaypony">Encrypted file transfer, phone to phone</string>
+    <string name="more_scrubpony">Strip identifying metadata from images. No pixel moves.</string>
 </resources>

@@ -84,9 +84,8 @@
     <string name="settings_free_title">Tout est gratuit</string>
     <string name="settings_free_body">Toutes les fonctionnalités de TapPony sont activées, sans rien à acheter, sans compte et sans publicité.</string>
     <string name="settings_about">À propos</string>
-    <string name="settings_about_body">TapPony %1$s. Scannez un tag, envoyez une requête que vous avez conçue à un serveur de votre choix. Pas de compte, pas de cloud, pas de statistiques d’utilisation. Suggéré par un testeur.</string>
     <string name="settings_source">Code source</string>
-    <string name="settings_more_apps">Autres apps de NorseHorse</string>
+    <string name="settings_more_apps">Plus de NorseHorse</string>
 
     <string name="preset_blank_title">Profil vide</string>
     <string name="preset_ha_webhook_title">Webhook Home Assistant</string>
@@ -268,4 +267,32 @@
     <string name="err_timeout">Le serveur a mis trop de temps à répondre. (%1$s)</string>
     <string name="err_connect">Impossible de se connecter au serveur. (%1$s)</string>
     <string name="err_tls">La connexion sécurisée a échoué. Le certificat du serveur n’est peut-être pas reconnu comme fiable. (%1$s)</string>
+
+    <!-- Settings: support, family, about -->
+    <string name="settings_about_text">Scannez un tag, envoyez une requête que vous avez conçue à un serveur de votre choix. Pas de compte, pas de cloud, pas de statistiques d’utilisation. Suggéré par un testeur.</string>
+    <string name="settings_support">Assistance</string>
+    <string name="settings_help">Aide et documentation des récepteurs</string>
+    <string name="settings_help_sub">Configurer un récepteur, sur tappony.app/docs</string>
+    <string name="settings_feedback">Envoyer un commentaire</string>
+    <string name="settings_privacy">Politique de confidentialité</string>
+    <string name="settings_privacy_sub">Sur tappony.app/privacy</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_source_sub">TapPony pour Android sur GitHub</string>
+    <string name="settings_licenses">Licences</string>
+    <string name="licenses_app">TapPony est open source sous Apache License 2.0.</string>
+    <string name="licenses_libraries">Il utilise ces bibliothèques open source, toutes sous Apache License 2.0 :</string>
+    <string name="licenses_read_apache">Lire l’Apache License 2.0</string>
+    <string name="settings_no_browser">Aucun navigateur n’est disponible pour ouvrir ce lien.</string>
+    <string name="settings_no_email_app">Aucune appli de messagerie trouvée. Écrivez à %1$s.</string>
+    <string name="more_family">Toutes les applis Pony</string>
+    <string name="more_family_sub">Toute la famille sur pony.norsehor.se</string>
+    <string name="more_pgpony">Chiffrement OpenPGP pour les messages, les fichiers et les clés</string>
+    <string name="more_agepony">Chiffrement de fichiers au format age</string>
+    <string name="more_quorumpony">Divisez un secret en cartes. Quelques-unes suffisent à le reconstituer.</string>
+    <string name="more_carrierpony">Messagerie privée et transfert de fichiers, scellés de bout en bout</string>
+    <string name="more_burnpony">Envoyez un secret. Chiffré sur votre téléphone, brûlé après lecture</string>
+    <string name="more_vaultpony">Coffres chiffrés compatibles VeraCrypt, entièrement sur votre appareil</string>
+    <string name="more_passpony">Un gestionnaire de mots de passe pour les dépôts pass et passage</string>
+    <string name="more_relaypony">Transfert de fichiers chiffré, de téléphone à téléphone</string>
+    <string name="more_scrubpony">Supprime les métadonnées identifiantes des images. Aucun pixel n’est déplacé.</string>
 </resources>

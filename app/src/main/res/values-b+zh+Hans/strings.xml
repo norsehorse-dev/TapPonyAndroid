@@ -84,7 +84,6 @@
     <string name="settings_free_title">全部免费</string>
     <string name="settings_free_body">TapPony 的所有功能均已开启，无需购买任何东西，无需账户，也没有广告。</string>
     <string name="settings_about">关于</string>
-    <string name="settings_about_body">TapPony %1$s。扫描标签，将你设计的请求发送到你选择的服务器。无账户，无云端，无统计分析。由一位测试者提议。</string>
     <string name="settings_source">源代码</string>
     <string name="settings_more_apps">NorseHorse 的更多应用</string>
 
@@ -268,4 +267,32 @@
     <string name="err_timeout">服务器响应超时。（%1$s）</string>
     <string name="err_connect">无法连接到服务器。（%1$s）</string>
     <string name="err_tls">安全连接失败。服务器的证书可能不受信任。（%1$s）</string>
+
+    <!-- Settings: support, family, about -->
+    <string name="settings_about_text">扫描标签，将你设计的请求发送到你选择的服务器。无账户，无云端，无统计分析。由一位测试者提议。</string>
+    <string name="settings_support">支持</string>
+    <string name="settings_help">帮助与接收端文档</string>
+    <string name="settings_help_sub">在 tappony.app/docs 了解如何设置接收端</string>
+    <string name="settings_feedback">发送反馈</string>
+    <string name="settings_privacy">隐私政策</string>
+    <string name="settings_privacy_sub">见 tappony.app/privacy</string>
+    <string name="settings_version">版本</string>
+    <string name="settings_source_sub">GitHub 上的 TapPony Android 版</string>
+    <string name="settings_licenses">许可证</string>
+    <string name="licenses_app">TapPony 以 Apache License 2.0 开源。</string>
+    <string name="licenses_libraries">它使用了以下开源库，均采用 Apache License 2.0：</string>
+    <string name="licenses_read_apache">阅读 Apache License 2.0</string>
+    <string name="settings_no_browser">没有可用的浏览器来打开此链接。</string>
+    <string name="settings_no_email_app">未找到邮件应用。请写信至 %1$s。</string>
+    <string name="more_family">所有 Pony 应用</string>
+    <string name="more_family_sub">在 pony.norsehor.se 查看全系列</string>
+    <string name="more_pgpony">用于消息、文件和密钥的 OpenPGP 加密</string>
+    <string name="more_agepony">使用 age 格式进行文件加密</string>
+    <string name="more_quorumpony">将秘密拆分成多张卡片，任意几张即可重建。</string>
+    <string name="more_carrierpony">私密消息与文件传输，端到端加密</string>
+    <string name="more_burnpony">发送秘密。在你的手机上加密，阅后即焚</string>
+    <string name="more_vaultpony">兼容 VeraCrypt 的加密保险库，完全在你的设备上运行</string>
+    <string name="more_passpony">适用于 pass 和 passage 密码库的密码管理器</string>
+    <string name="more_relaypony">加密文件传输，手机到手机</string>
+    <string name="more_scrubpony">从图片中清除可识别身份的元数据。不改动任何像素。</string>
 </resources>

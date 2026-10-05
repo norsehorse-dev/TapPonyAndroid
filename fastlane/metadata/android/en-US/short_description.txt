@@ -1,0 +1,1 @@
+Tap any NFC tag to send an HTTP request or webhook to your own server. No cloud.

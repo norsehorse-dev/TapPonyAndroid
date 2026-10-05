@@ -1,0 +1,46 @@
+TapPony macht aus jedem NFC-Tag einen Knopf für deinen eigenen Server. Halte dein Handy an einen NFC-Tag und es sendet einen HTTP-Request, den du selbst gestaltet hast: einen Webhook, einen REST-API-Aufruf, ein Formular per POST oder ein einfaches GET. Der Request enthält die UID des Tags, Details zum Chip und den NDEF-Inhalt, der darauf gespeichert ist.
+
+Das funktioniert auch mit NFC-Aufklebern, Karten, Schlüsselanhängern und Etiketten, die du nie beschrieben hast. So lösen die Ausweise und Tags, die du schon hast, sofort deine Automationen aus.
+
+Kein Konto. Keine Cloud. Kein Tracking. Der Request geht direkt von deinem Handy an die URL, die du eingegeben hast. Profile, Scan-Verlauf und Geheimnisse bleiben auf deinem Gerät.
+
+<b>Was du damit bauen kannst</b>
+• Hausautomation: Ein Tag an der Tür startet eine Szene oder schickt einen Webhook an deinen Smart-Home-Server
+• Inventur und Asset-Tracking: Ein Tippen pro Gegenstand trägt ihn in deine Tabelle, Datenbank oder API ein
+• Check-ins, Anwesenheit und Kontrollgänge: ein Tag an jedem Kontrollpunkt, die Antwort des Servers auf dem Display
+• Eigene Skripte: Jeder Server, der HTTP versteht, kann auf einen NFC-Scan reagieren
+
+<b>Request-Builder</b>
+• POST, GET, PUT, PATCH oder DELETE
+• Body als JSON, Formular oder Klartext, gebaut aus Vorlagen wie {uid}, {payload} und {timestamp}
+• Eigene Header, dazu Authentifizierung per Bearer, Basic oder API-Schlüssel
+• Optionale Signatur mit HMAC-SHA256, damit dein Server jeden Request prüfen kann
+• Vorlagen für gängige Webhook-Setups, die du danach anpassen kannst
+• Die Antwort des Servers nach jedem Scan sehen oder für freihändige Nutzung vorlesen lassen
+
+<b>NFC-Reader</b>
+• Liest die UID des Tags in kanonischer Byte-Reihenfolge, dazu Chipmodell, Signatur und Scan-Zähler, wenn der Chip sie bietet
+• Liest NDEF-Texte und Links
+• Regeln ordnen jeden Tag nach UID, Typ, Inhalt oder einem vergebenen Namen dem passenden Profil zu
+• Stapelmodus, um viele Tags nacheinander zu scannen
+• Offline-Warteschlange, die Scans in der richtigen Reihenfolge sendet, sobald du wieder online bist
+
+<b>NFC-Writer</b>
+• Links, Text oder die eigene UID des Tags auf einen NFC-Tag schreiben
+• Einen TapPony-Startlink schreiben, der die App öffnet und sendet, auch wenn sie geschlossen ist
+• Optionale dauerhafte Sperre, erst nach einer zweiten Bestätigung
+
+<b>Schnellzugriff</b>
+• Kachel in den Schnelleinstellungen
+• Verknüpfungen auf dem Startbildschirm für jedes Profil
+• tappony://scan Links, die andere Automations-Apps öffnen können
+
+<b>Datenschutz und Sicherheit</b>
+• Unverschlüsseltes HTTP geht nur an Adressen in deinem eigenen Netzwerk, und nur wenn du es für das jeweilige Profil einschaltest
+• Geheimnisse werden mit einem Schlüssel verschlüsselt, der im hardwaregestützten Schlüsselspeicher des Handys liegt, und tauchen nie im Verlauf oder in Exporten auf
+• Der Scan-Verlauf bleibt auf dem Gerät, mit Export als CSV
+• Keine Werbung, keine Analyse, kein Konto
+
+Verfügbar auf Deutsch, Englisch, Spanisch, Französisch, brasilianischem Portugiesisch, Russisch und vereinfachtem Chinesisch.
+
+TapPony ist kostenlos und Open Source. Anleitungen zur Einrichtung, Beispiele für Empfänger und die Datenschutzerklärung findest du auf tappony.app.

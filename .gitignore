@@ -22,3 +22,12 @@ keystore.properties
 *.log
 _to_delete/
 *.tgz
+
+# fastlane / Play
+.env
+.env.*
+*service-account*.json
+fastlane/report.xml
+fastlane/README.md
+vendor/bundle/
+.bundle/

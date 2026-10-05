@@ -70,6 +70,11 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
     private val _state = MutableStateFlow<ScanState>(ScanState.Idle)
     val state: StateFlow<ScanState> = _state.asStateFlow()
 
+    /** Store screenshots only (debug Demo): show a finished scan without reading a tag. */
+    fun showDemo(outcomes: List<ScanOutcome>) {
+        _state.value = ScanState.Done(outcomes)
+    }
+
     private val _batch = MutableStateFlow(BatchState())
     val batch: StateFlow<BatchState> = _batch.asStateFlow()
 

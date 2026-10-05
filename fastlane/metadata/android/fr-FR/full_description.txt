@@ -1,0 +1,46 @@
+TapPony transforme n'importe quel tag NFC en bouton pour votre propre serveur. Touchez un tag ou une puce NFC et votre téléphone envoie la requête HTTP que vous avez conçue : un webhook, un appel d'API REST, un envoi de formulaire ou un simple GET. La requête transmet l'UID du tag, les détails de sa puce et le contenu NDEF qui y est écrit.
+
+Il fonctionne avec les autocollants NFC, cartes, porte-clés et étiquettes que vous n'avez jamais programmés : les badges et tags que vous possédez déjà peuvent déclencher vos automatisations tout de suite.
+
+Pas de compte. Pas de cloud. Pas de pistage. La requête part directement de votre téléphone vers l'URL que vous avez saisie, et vos profils, votre historique de scans et vos secrets restent sur votre appareil.
+
+<b>Ce que vous pouvez créer</b>
+• Domotique : un tag près de la porte lance un scénario ou envoie un webhook à votre serveur de maison connectée
+• Inventaire et suivi de matériel : un scan par objet l'enregistre dans votre tableur, votre base de données ou votre API
+• Pointage, contrôle de présence et rondes de sécurité : un tag à chaque point de passage, avec la réponse du serveur à l'écran
+• Vos propres scripts : tout serveur qui accepte HTTP peut réagir à un scan NFC
+
+<b>Générateur de requêtes</b>
+• POST, GET, PUT, PATCH ou DELETE
+• Corps JSON, formulaire ou texte brut construit à partir de modèles comme {uid}, {payload} et {timestamp}
+• En-têtes personnalisés, plus authentification bearer, basic et par clé d'API
+• Signature HMAC-SHA256 en option pour que votre serveur puisse vérifier chaque requête
+• Préréglages pour les configurations de webhook courantes, modifiables après création
+• Affichage de la réponse du serveur après chaque scan, ou lecture à voix haute pour un usage mains libres
+
+<b>Lecteur NFC</b>
+• Lit l'UID du tag dans l'ordre d'octets canonique, ainsi que le modèle de puce, la signature et le compteur de scans quand la puce les fournit
+• Lit les textes et liens NDEF
+• Des règles dirigent chaque tag vers le bon profil selon son UID, son type, son contenu ou le nom que vous lui avez donné
+• Mode lot pour scanner de nombreux tags à la suite
+• File d'attente hors ligne qui envoie les scans dans l'ordre dès que vous êtes de nouveau connecté
+
+<b>Écriture NFC</b>
+• Écrivez des liens, du texte ou l'UID du tag lui-même sur un tag
+• Écrivez un lien de lancement TapPony qui ouvre l'application et envoie la requête, même quand l'application est fermée
+• Verrouillage définitif en option, protégé par une seconde confirmation
+
+<b>Accès rapide</b>
+• Vignette dans les réglages rapides
+• Raccourcis sur l'écran d'accueil pour chaque profil
+• Liens tappony://scan que d'autres applications d'automatisation peuvent ouvrir
+
+<b>Confidentialité et sécurité</b>
+• Le HTTP non chiffré n'est envoyé qu'à des adresses de votre réseau local, et seulement si vous l'activez pour ce profil
+• Les secrets sont chiffrés avec une clé conservée dans le magasin de clés matériel du téléphone et n'apparaissent jamais dans l'historique ni dans les exports
+• L'historique des scans reste sur l'appareil, avec export CSV
+• Pas de publicité, pas de statistiques d'usage, pas de compte
+
+Disponible en anglais, allemand, espagnol, français, portugais du Brésil, russe et chinois simplifié.
+
+TapPony est gratuit et open source. Les guides de configuration, des exemples de serveurs récepteurs et la politique de confidentialité sont sur tappony.app.

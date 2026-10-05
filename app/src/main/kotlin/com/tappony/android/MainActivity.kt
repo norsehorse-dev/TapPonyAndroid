@@ -25,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.core.content.IntentCompat
 import androidx.compose.ui.res.stringResource
@@ -59,6 +60,9 @@ class MainActivity : AppCompatActivity() {
     /** Bumped by a tappony://scan link (shortcut, tile, other apps) to jump to the Scan tab. */
     private val scanRequests = mutableIntStateOf(0)
 
+    /** Store screenshots (debug builds): the screen a demo intent asked for. Always null in release. */
+    private val demoRoute = mutableStateOf<String?>(null)
+
     // configChanges="locale|layoutDirection" (same as PGPony): on Android 13 and later a
     // language switch arrives here instead of recreating the activity, so there's no black
     // flash and the current screen stays put. Compose re-reads the strings on its own;
@@ -77,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         scanVm.activeProfile
         // A cold start already lands on the Scan tab; a recreated activity must not re-apply the old link.
         if (savedInstanceState == null) handleLink(intent, jump = false)
+        demoRoute.value = Demo.handle(application as TapPonyApp, intent, scanVm)
         setContent {
             TapPonyTheme {
                 val nav = rememberNavController()
@@ -87,6 +92,14 @@ class MainActivity : AppCompatActivity() {
                             popUpTo(nav.graph.findStartDestination().id)
                             launchSingleTop = true
                         }
+                    }
+                }
+                val demo = demoRoute.value
+                LaunchedEffect(demo) {
+                    if (demo != null) {
+                        nav.navigate("scan") { popUpTo(nav.graph.findStartDestination().id) { inclusive = true } }
+                        if (demo.startsWith("editor") || demo == "rules") nav.navigate("profiles")
+                        if (demo != "scan") nav.navigate(demo)
                     }
                 }
                 val entry by nav.currentBackStackEntryAsState()
@@ -123,7 +136,7 @@ class MainActivity : AppCompatActivity() {
                 ) { padding ->
                     NavHost(nav, startDestination = "scan", modifier = Modifier.padding(padding).consumeWindowInsets(padding)) {
                         composable("scan") {
-                            ScanScreen(scanVm, nfcAvailable = nfc != null, nfcEnabled = { nfc?.isEnabled == true })
+                            ScanScreen(scanVm, nfcAvailable = nfc != null || Demo.active, nfcEnabled = { Demo.active || nfc?.isEnabled == true })
                         }
                         composable("profiles") {
                             ProfilesScreen(onOpen = { id -> nav.navigate("editor/$id") }, onOpenRules = { nav.navigate("rules") })
@@ -149,6 +162,7 @@ class MainActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         handleLink(intent, jump = true)
+        Demo.handle(application as TapPonyApp, intent, scanVm)?.let { demoRoute.value = null; demoRoute.value = it }
     }
 
     /**

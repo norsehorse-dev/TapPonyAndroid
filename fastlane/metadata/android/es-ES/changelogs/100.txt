@@ -1,0 +1,1 @@
+Primera versión. Toca una etiqueta NFC y tu móvil envía a tu propio servidor la petición HTTP que has diseñado, con el UID y el contenido de la etiqueta. Incluye reglas, modo por lotes, cola sin conexión, grabación de etiquetas y enlaces de inicio, en siete idiomas.

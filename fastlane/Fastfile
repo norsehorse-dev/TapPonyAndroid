@@ -1,0 +1,68 @@
+default_platform(:android)
+
+before_all do
+  Dotenv.overload("../.env") if File.exist?("../.env")
+end
+
+AAB = "app/build/outputs/bundle/release/app-release.aab"
+
+platform :android do
+  desc "Store screenshots in every listing language, from a connected phone or emulator (tools/play-screenshots.sh)"
+  lane :screenshots do
+    sh("cd .. && tools/play-screenshots.sh")
+  end
+
+  desc "Build the signed release bundle (keystore.properties)"
+  lane :bundle do
+    gradle(task: "bundle", build_type: "Release", project_dir: ".")
+  end
+
+  desc "Upload the store listing text, images and screenshots only, every language"
+  lane :metadata do
+    upload_to_play_store(
+      skip_upload_apk: true,
+      skip_upload_aab: true,
+      skip_upload_changelogs: true,
+      sync_image_upload: true
+    )
+  end
+
+  desc "Build and upload to the closed testing track (the 12-tester, 14-day test). Usage: fastlane closed"
+  lane :closed do
+    bundle
+    upload_to_play_store(
+      track: "alpha",
+      aab: AAB,
+      release_status: "completed",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "Build and upload to internal testing (your own devices, available in minutes)"
+  lane :internal do
+    bundle
+    upload_to_play_store(
+      track: "internal",
+      aab: AAB,
+      release_status: "completed",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "Promote the current closed testing release to production once Google grants production access"
+  lane :promote do
+    upload_to_play_store(
+      track: "alpha",
+      track_promote_to: "production",
+      skip_upload_apk: true,
+      skip_upload_aab: true,
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+end

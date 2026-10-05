@@ -1,0 +1,1 @@
+Toca una etiqueta NFC y envía un webhook o petición HTTP a tu servidor, sin nube

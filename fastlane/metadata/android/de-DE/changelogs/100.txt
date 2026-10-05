@@ -1,0 +1,1 @@
+Erste Version. Halte dein Handy an einen NFC-Tag und es sendet einen selbst gestalteten HTTP-Request mit UID und Inhalt des Tags an deinen eigenen Server. Mit Regeln, Stapelmodus, Offline-Warteschlange, Beschreiben von Tags und Startlinks, in sieben Sprachen.

@@ -1,0 +1,1 @@
+NFC-Tag antippen und einen Webhook oder HTTP-Request an deinen Server senden.

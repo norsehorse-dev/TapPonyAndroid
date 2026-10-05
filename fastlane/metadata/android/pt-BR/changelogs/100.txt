@@ -1,0 +1,1 @@
+Primeira versão. Toque numa tag NFC e o celular envia ao seu próprio servidor a requisição HTTP que você criou, com o UID e o conteúdo da tag. Inclui regras, modo em lote, fila offline, gravação de tags e links de abertura, em sete idiomas.

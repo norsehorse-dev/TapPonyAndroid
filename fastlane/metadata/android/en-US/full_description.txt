@@ -1,0 +1,46 @@
+TapPony turns any NFC tag into a button for your own server. Tap a tag and your phone sends an HTTP request you designed: a webhook, a REST API call, a form post or a simple GET. The request carries the tag's UID, its chip details and the NDEF content written on it.
+
+It works with NFC stickers, cards, key fobs and labels you never wrote, so the badges and tags you already have can trigger your automations right away.
+
+No account. No cloud. No tracking. The request goes straight from your phone to the URL you typed, and your profiles, scan history and secrets stay on your device.
+
+<b>What you can build</b>
+• Home automation: a tag by the door runs a scene or sends a webhook to your smart home server
+• Inventory and asset tracking: one tap per item logs it to your spreadsheet, database or API
+• Check-ins, attendance and security rounds: a tag at each checkpoint, with the server's answer on screen
+• Your own scripts: any server that accepts HTTP can react to an NFC scan
+
+<b>Request builder</b>
+• POST, GET, PUT, PATCH or DELETE
+• JSON, form or plain text body built from templates like {uid}, {payload} and {timestamp}
+• Custom headers, plus bearer, basic and API key authentication
+• Optional HMAC-SHA256 signing so your server can verify each request
+• Presets for common webhook setups, editable after creation
+• See the server's reply after every tap, or have it read out loud for hands-free use
+
+<b>NFC reader</b>
+• Reads the tag UID in canonical byte order, plus chip model, signature and scan counter when the chip has them
+• Reads NDEF text and links
+• Rules route each tag to the right profile by UID, type, content or a name you gave it
+• Batch mode for scanning many tags in a row
+• Offline queue that sends scans in order once you're back online
+
+<b>NFC writer</b>
+• Write links, text, or the tag's own UID to a tag
+• Write a TapPony launch link that opens the app and sends, even when the app is closed
+• Optional permanent lock, behind a second confirmation
+
+<b>Quick access</b>
+• Quick Settings tile
+• Home screen shortcuts for each profile
+• tappony://scan links that other automation apps can open
+
+<b>Privacy and security</b>
+• Plain HTTP only goes to addresses on your own network, and only when you turn it on for that profile
+• Secrets are encrypted with a key kept in the phone's hardware-backed keystore and never appear in history or exports
+• Scan history stays on the device, with CSV export
+• No ads, no analytics, no account
+
+Available in English, German, Spanish, French, Brazilian Portuguese, Russian and Simplified Chinese.
+
+TapPony is free and open source. Setup guides, receiver examples and the privacy policy are at tappony.app.

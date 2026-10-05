@@ -1,0 +1,1 @@
+Touchez un tag NFC pour envoyer une requête HTTP ou un webhook à votre serveur.

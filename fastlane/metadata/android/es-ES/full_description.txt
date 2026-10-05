@@ -1,0 +1,46 @@
+TapPony convierte cualquier etiqueta NFC en un botón para tu propio servidor. Acerca el móvil a una etiqueta y se envía la petición HTTP que tú has diseñado: un webhook, una llamada a una API REST, el envío de un formulario o un simple GET. La petición incluye el UID de la etiqueta, los datos del chip y el contenido NDEF grabado en ella.
+
+Funciona con pegatinas, tarjetas, llaveros y etiquetas NFC que nunca has grabado, así que las tarjetas y tags que ya tienes pueden lanzar tus automatizaciones desde el primer momento.
+
+Sin cuenta. Sin nube. Sin rastreo. La petición va directa de tu móvil a la URL que has escrito, y tus perfiles, tu historial de lecturas y tus secretos se quedan en tu dispositivo.
+
+<b>Qué puedes crear</b>
+• Domótica: una etiqueta junto a la puerta activa una escena o envía un webhook a tu servidor de casa inteligente
+• Inventario y control de activos: un toque por artículo lo registra en tu hoja de cálculo, base de datos o API
+• Fichaje, control de asistencia y rondas de vigilancia: una etiqueta en cada punto de control, con la respuesta del servidor en pantalla
+• Tus propios scripts: cualquier servidor que acepte HTTP puede reaccionar a una lectura NFC
+
+<b>Constructor de peticiones</b>
+• POST, GET, PUT, PATCH o DELETE
+• Cuerpo JSON, de formulario o de texto plano creado con plantillas como {uid}, {payload} y {timestamp}
+• Cabeceras personalizadas y autenticación bearer, básica o con clave de API
+• Firma HMAC-SHA256 opcional para que tu servidor pueda verificar cada petición
+• Configuraciones predefinidas para los webhooks más habituales, editables después de crearlas
+• Consulta la respuesta del servidor tras cada lectura o haz que se lea en voz alta para usarlo sin manos
+
+<b>Lector NFC</b>
+• Lee el UID de la etiqueta en orden de bytes canónico, además del modelo de chip, la firma y el contador de lecturas cuando el chip los tiene
+• Lee textos y enlaces NDEF
+• Las reglas asignan cada etiqueta al perfil correcto según su UID, tipo, contenido o el nombre que le hayas dado
+• Modo por lotes para leer muchas etiquetas seguidas
+• Cola sin conexión que envía las lecturas en orden cuando vuelves a tener conexión
+
+<b>Grabador NFC</b>
+• Graba enlaces, texto o el propio UID de la etiqueta
+• Graba un enlace de inicio de TapPony que abre la app y envía la petición, incluso con la app cerrada
+• Bloqueo permanente opcional, con una segunda confirmación
+
+<b>Acceso rápido</b>
+• Icono en los ajustes rápidos
+• Accesos directos en la pantalla de inicio para cada perfil
+• Enlaces tappony://scan que otras apps de automatización pueden abrir
+
+<b>Privacidad y seguridad</b>
+• Las peticiones HTTP sin cifrar solo van a direcciones de tu red local, y solo si lo activas en ese perfil
+• Los secretos se cifran con una clave guardada en el almacén de claves protegido por hardware del móvil y nunca aparecen en el historial ni en las exportaciones
+• El historial de lecturas se queda en el dispositivo, con exportación a CSV
+• Sin anuncios, sin analíticas, sin cuenta
+
+Disponible en inglés, alemán, español, francés, portugués de Brasil, ruso y chino simplificado.
+
+TapPony es gratuita y de código abierto. Encontrarás guías de configuración, ejemplos de receptores y la política de privacidad en tappony.app.

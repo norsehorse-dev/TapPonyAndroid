@@ -1,0 +1,1 @@
+First release. Tap an NFC tag and your phone sends an HTTP request you designed to your own server, with the tag's UID and content. Includes rules, batch mode, an offline queue, tag writing and launch links, in seven languages.

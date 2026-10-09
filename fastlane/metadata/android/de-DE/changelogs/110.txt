@@ -1,0 +1,1 @@
+Widget für den Startbildschirm: Ein Antippen öffnet den Scan-Bildschirm mit dem Profil, das du beim Platzieren wählst, oder mit dem gerade aktiven Profil. Neue Kopieren-Schaltflächen neben der UID, der Nachricht des Servers und der Antwort im Scan-Ergebnis und in den Details im Verlauf. So lässt sich ein Empfänger leichter einrichten.

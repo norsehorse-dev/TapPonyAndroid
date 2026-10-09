@@ -216,15 +216,27 @@ fun ResultCard(o: ScanOutcome) {
                 r?.let { Text(stringResource(R.string.result_latency, it.latencyMs), color = TapColors.Muted) }
             }
             o.resultText?.let { Text(it, style = MaterialTheme.typography.headlineSmall, color = color) }
-            o.message?.takeIf { it != o.resultText }?.let { Text(it, style = MaterialTheme.typography.titleMedium, color = TapColors.Text) }
+            o.message?.takeIf { it != o.resultText }?.let { msg ->
+                CopyableRow(msg, stringResource(R.string.copy_message)) {
+                    Text(msg, style = MaterialTheme.typography.titleMedium, color = TapColors.Text, modifier = Modifier.weight(1f))
+                }
+            }
             Text(o.profileName, color = TapColors.Muted)
-            if (o.uid.isNotEmpty()) Text(o.uid, style = Mono)
+            if (o.uid.isNotEmpty()) {
+                CopyableRow(o.uid, stringResource(R.string.copy_uid)) {
+                    Text(o.uid, style = Mono, modifier = Modifier.weight(1f))
+                }
+            }
             val detail = listOf(o.chip, o.tagType).filter { it.isNotEmpty() }.joinToString(" · ")
             if (detail.isNotEmpty()) Text(detail, color = TapColors.Muted)
             if (o.randomUid) Text(stringResource(R.string.result_random_uid), color = TapColors.Warn)
             o.buildError?.let { Text(explainError(it), color = TapColors.Fail) }
             r?.error?.let { Text(explainError(it), color = TapColors.Fail, style = Mono) }
-            r?.responseBody?.takeIf { it.isNotBlank() }?.let { Text(it.take(600), style = Mono, color = TapColors.Muted) }
+            r?.responseBody?.takeIf { it.isNotBlank() }?.let { body ->
+                CopyableRow(body, stringResource(R.string.copy_reply), sensitive = true) {
+                    Text(body.take(600), style = Mono, color = TapColors.Muted, modifier = Modifier.weight(1f))
+                }
+            }
         }
     }
 }

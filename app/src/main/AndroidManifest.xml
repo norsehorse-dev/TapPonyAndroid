@@ -68,6 +68,30 @@
             </intent-filter>
         </service>
 
+        <!-- Home screen widget: opens the Scan tab with the profile picked when it was placed. -->
+        <receiver
+            android:name=".widget.ScanWidget"
+            android:exported="false"
+            android:label="@string/widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/scan_widget_info" />
+        </receiver>
+
+        <!-- Exported so any launcher can open it when the widget is placed; it only accepts TapPony's own widget ids. -->
+        <activity
+            android:name=".widget.ScanWidgetConfigActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.TapPony">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.files"

@@ -1,0 +1,1 @@
+Widget pour l’écran d’accueil : un seul appui ouvre l’écran Scanner avec le profil choisi en le plaçant, ou avec le profil actif. Boutons de copie à côté de l’UID, du message du serveur et de la réponse dans le résultat du scan, ainsi que dans les détails de l’historique, pour configurer un récepteur plus facilement.

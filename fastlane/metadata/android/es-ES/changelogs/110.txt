@@ -1,0 +1,1 @@
+Widget para la pantalla de inicio: con un toque se abre la pantalla Escanear con el perfil que elijas al colocarlo, o con el perfil que esté activo. Botones para copiar el UID, el mensaje del servidor y la respuesta en el resultado del escaneo y en los detalles del historial, para que configurar un receptor sea más fácil.

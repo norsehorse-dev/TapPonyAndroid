@@ -312,4 +312,20 @@
     <string name="more_scrubpony">Strip identifying metadata from images. No pixel moves.</string>
     <string name="settings_language">Language</string>
     <string name="settings_language_sub">TapPony\'s language, separate from your phone\'s</string>
+
+    <!-- 1.1.0: copy values -->
+    <string name="copied">Copied</string>
+    <string name="copy_uid">Copy UID</string>
+    <string name="copy_message">Copy message</string>
+    <string name="copy_reply">Copy reply</string>
+    <string name="copy_request">Copy request</string>
+    <string name="copy_request_body">Copy request body</string>
+
+    <!-- 1.1.0: home screen widget -->
+    <string name="widget_label">Scan with a profile</string>
+    <string name="widget_description">One tap opens the Scan tab with the profile you pick.</string>
+    <string name="widget_config_title">Which profile should this widget scan with?</string>
+    <string name="widget_follow_active">Active profile</string>
+    <string name="widget_follow_active_detail">Follows the profile picked on the Scan tab</string>
+    <string name="widget_no_profiles">No profiles yet. The widget will use your first one once you make it.</string>
 </resources>

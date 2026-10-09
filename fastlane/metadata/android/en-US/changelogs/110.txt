@@ -1,0 +1,1 @@
+Home screen widget: one tap opens the Scan tab with the profile you pick when you place it, or with whichever profile is active. Copy buttons next to the UID, the server message and the reply on the scan result, and in History details, so setting up a receiver is easier.

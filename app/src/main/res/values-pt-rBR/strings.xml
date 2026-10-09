@@ -297,4 +297,20 @@
     <string name="more_scrubpony">Remove metadados identificadores das imagens. Nenhum pixel é movido.</string>
     <string name="settings_language">Idioma</string>
     <string name="settings_language_sub">O idioma do TapPony, independente do seu telefone</string>
+
+    <!-- 1.1.0: copy values -->
+    <string name="copied">Copiado</string>
+    <string name="copy_uid">Copiar UID</string>
+    <string name="copy_message">Copiar mensagem</string>
+    <string name="copy_reply">Copiar resposta</string>
+    <string name="copy_request">Copiar requisição</string>
+    <string name="copy_request_body">Copiar corpo da requisição</string>
+
+    <!-- 1.1.0: home screen widget -->
+    <string name="widget_label">Escanear com um perfil</string>
+    <string name="widget_description">Um toque abre a tela Escanear com o perfil que você escolher.</string>
+    <string name="widget_config_title">Com qual perfil este widget deve escanear?</string>
+    <string name="widget_follow_active">Perfil ativo</string>
+    <string name="widget_follow_active_detail">Segue o perfil escolhido na tela Escanear</string>
+    <string name="widget_no_profiles">Nenhum perfil ainda. O widget vai usar o primeiro que você criar.</string>
 </resources>

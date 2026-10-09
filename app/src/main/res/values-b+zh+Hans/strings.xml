@@ -297,4 +297,20 @@
     <string name="more_scrubpony">从图片中清除可识别身份的元数据。不改动任何像素。</string>
     <string name="settings_language">语言</string>
     <string name="settings_language_sub">TapPony 的语言，与手机语言分开设置</string>
+
+    <!-- 1.1.0: copy values -->
+    <string name="copied">已复制</string>
+    <string name="copy_uid">复制 UID</string>
+    <string name="copy_message">复制消息</string>
+    <string name="copy_reply">复制响应</string>
+    <string name="copy_request">复制请求</string>
+    <string name="copy_request_body">复制请求体</string>
+
+    <!-- 1.1.0: home screen widget -->
+    <string name="widget_label">使用配置扫描</string>
+    <string name="widget_description">点按一下，即可用你选择的配置打开扫描界面。</string>
+    <string name="widget_config_title">此小组件要使用哪个配置扫描？</string>
+    <string name="widget_follow_active">当前配置</string>
+    <string name="widget_follow_active_detail">跟随扫描界面上选定的配置</string>
+    <string name="widget_no_profiles">还没有配置。创建第一个配置后，小组件会使用它。</string>
 </resources>

@@ -298,4 +298,20 @@
     <string name="more_scrubpony">Удаляет идентифицирующие метаданные из изображений. Пиксели не меняются.</string>
     <string name="settings_language">Язык</string>
     <string name="settings_language_sub">Язык TapPony, независимо от языка телефона</string>
+
+    <!-- 1.1.0: copy values -->
+    <string name="copied">Скопировано</string>
+    <string name="copy_uid">Копировать UID</string>
+    <string name="copy_message">Копировать сообщение</string>
+    <string name="copy_reply">Копировать ответ</string>
+    <string name="copy_request">Копировать запрос</string>
+    <string name="copy_request_body">Копировать тело запроса</string>
+
+    <!-- 1.1.0: home screen widget -->
+    <string name="widget_label">Сканирование с профилем</string>
+    <string name="widget_description">Одно касание открывает экран «Сканер» с выбранным вами профилем.</string>
+    <string name="widget_config_title">Какой профиль будет использовать этот виджет?</string>
+    <string name="widget_follow_active">Активный профиль</string>
+    <string name="widget_follow_active_detail">Использует профиль, выбранный на экране «Сканер»</string>
+    <string name="widget_no_profiles">Профилей пока нет. Виджет будет использовать первый профиль, как только вы его создадите.</string>
 </resources>

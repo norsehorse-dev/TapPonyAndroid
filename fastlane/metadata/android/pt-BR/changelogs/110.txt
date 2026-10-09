@@ -1,0 +1,1 @@
+Widget na tela inicial: um toque abre a tela Escanear com o perfil que você escolher ao adicioná-lo, ou com o perfil que estiver ativo. Botões de copiar ao lado do UID, da mensagem do servidor e da resposta no resultado da leitura e nos detalhes do Histórico, para facilitar a configuração de um receptor.

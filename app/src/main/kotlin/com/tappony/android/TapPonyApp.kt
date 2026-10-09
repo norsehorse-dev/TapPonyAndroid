@@ -13,6 +13,7 @@ import com.tappony.android.data.ProfileStore
 import com.tappony.android.data.SecretStore
 import com.tappony.android.data.TagsStore
 import com.tappony.android.net.Sender
+import com.tappony.android.widget.ScanWidget
 
 /** Holds the app-wide stores. No analytics, no crash reporting, nothing that phones home. */
 class TapPonyApp : Application() {
@@ -42,7 +43,10 @@ class TapPonyApp : Application() {
         rules = RulesStore(this)
         tags = TagsStore(this)
         queue.kick()
-        combine(profiles.profiles, settings.activeProfileId) { list, active -> Shortcuts.sync(this, list, active) }
+        combine(profiles.profiles, settings.activeProfileId) { list, active ->
+            Shortcuts.sync(this, list, active)
+            ScanWidget.refreshAll(this)
+        }
             .launchIn(CoroutineScope(SupervisorJob() + Dispatchers.Default))
     }
 }

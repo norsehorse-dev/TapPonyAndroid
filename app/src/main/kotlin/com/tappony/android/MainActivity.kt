@@ -45,6 +45,7 @@ import com.tappony.android.ui.TagsScreen
 import com.tappony.android.ui.TagsViewModel
 import com.tappony.core.NdefRecord
 import com.tappony.android.ui.TapPonyTheme
+import com.tappony.android.widget.ScanWidget
 
 // AppCompatActivity rather than ComponentActivity so the in-app language picker
 // (AppCompatDelegate.setApplicationLocales) also works on Android 8 to 12.
@@ -70,6 +71,7 @@ class MainActivity : AppCompatActivity() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         (application as TapPonyApp).let { Shortcuts.sync(it, it.profiles.profiles.value, it.settings.activeProfileId.value) }
+        ScanWidget.refreshAll(application)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,6 +79,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         // Launcher shortcut labels follow a language change, which recreates this activity.
         (application as TapPonyApp).let { Shortcuts.sync(it, it.profiles.profiles.value, it.settings.activeProfileId.value) }
+        ScanWidget.refreshAll(application)
         nfc = NfcAdapter.getDefaultAdapter(this)
         scanVm.activeProfile
         // A cold start already lands on the Scan tab; a recreated activity must not re-apply the old link.

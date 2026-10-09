@@ -107,20 +107,36 @@ fun HistoryScreen() {
                     Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text(formatTime(e.timeMs), color = TapColors.Muted)
                         Text(outcomeLabel(e), color = outcomeColor(e.outcome))
-                        e.message?.let { Text(it, style = MaterialTheme.typography.titleMedium) }
-                        if (e.uid.isNotEmpty()) Text(e.uid, style = Mono)
+                        e.message?.let { msg ->
+                            CopyableRow(msg, stringResource(R.string.copy_message)) {
+                                Text(msg, style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+                            }
+                        }
+                        if (e.uid.isNotEmpty()) {
+                            CopyableRow(e.uid, stringResource(R.string.copy_uid)) {
+                                Text(e.uid, style = Mono, modifier = Modifier.weight(1f))
+                            }
+                        }
                         listOf(e.chip, e.tagType).filter { it.isNotEmpty() }.joinToString(" · ").takeIf { it.isNotEmpty() }?.let {
                             Text(it, color = TapColors.Muted)
                         }
                         if (e.error.isNotEmpty()) Text(explainError(e.error), color = TapColors.Fail)
-                        if (e.request.isNotEmpty()) Text(e.request, style = Mono, color = TapColors.Muted)
-                        e.requestBody?.let {
-                            Text(stringResource(R.string.history_request_body), style = MaterialTheme.typography.labelMedium)
-                            Text(it, style = Mono, color = TapColors.Muted)
+                        if (e.request.isNotEmpty()) {
+                            CopyableRow(e.request, stringResource(R.string.copy_request)) {
+                                Text(e.request, style = Mono, color = TapColors.Muted, modifier = Modifier.weight(1f))
+                            }
                         }
-                        e.responseBody?.let {
+                        e.requestBody?.let { body ->
+                            Text(stringResource(R.string.history_request_body), style = MaterialTheme.typography.labelMedium)
+                            CopyableRow(body, stringResource(R.string.copy_request_body), sensitive = true) {
+                                Text(body, style = Mono, color = TapColors.Muted, modifier = Modifier.weight(1f))
+                            }
+                        }
+                        e.responseBody?.let { body ->
                             Text(stringResource(R.string.history_response_body), style = MaterialTheme.typography.labelMedium)
-                            Text(it, style = Mono, color = TapColors.Muted)
+                            CopyableRow(body, stringResource(R.string.copy_reply), sensitive = true) {
+                                Text(body, style = Mono, color = TapColors.Muted, modifier = Modifier.weight(1f))
+                            }
                         }
                         if (e.requestBody == null && e.responseBody == null) {
                             Text(stringResource(R.string.history_bodies_off), color = TapColors.Muted, style = MaterialTheme.typography.bodySmall)

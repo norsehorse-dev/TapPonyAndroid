@@ -149,6 +149,9 @@ class MainActivity : AppCompatActivity() {
                                 profileId = e.arguments?.getString("id") ?: "",
                                 engine = scanVm.engine,
                                 onDone = { nav.popBackStack() },
+                                onOpenCopy = { id ->
+                                    nav.navigate("editor/$id") { popUpTo("editor/{id}") { inclusive = true } }
+                                },
                             )
                         }
                         composable("rules") { RulesScreen(onDone = { nav.popBackStack() }) }

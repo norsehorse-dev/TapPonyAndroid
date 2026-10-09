@@ -18,7 +18,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -59,17 +66,35 @@ fun HistoryScreen() {
     val app = context.applicationContext as TapPonyApp
     val entries by app.history.entries.collectAsState(initial = emptyList())
     var filter by remember { mutableStateOf(HistoryFilter.ALL) }
+    var query by rememberSaveable { mutableStateOf("") }
     var selected by remember { mutableStateOf<HistoryEntry?>(null) }
     var confirmClear by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
-    val shown = when (filter) {
-        HistoryFilter.ALL -> entries
-        HistoryFilter.OK -> entries.filter { it.outcome == HistoryCsv.OK }
-        HistoryFilter.FAILED -> entries.filter { it.outcome != HistoryCsv.OK }
+    val shown = remember(entries, filter, query) {
+        when (filter) {
+            HistoryFilter.ALL -> entries
+            HistoryFilter.OK -> entries.filter { it.outcome == HistoryCsv.OK }
+            HistoryFilter.FAILED -> entries.filter { it.outcome != HistoryCsv.OK }
+        }.filter { it.matches(query) }
     }
 
     Column(Modifier.fillMaxSize().padding(horizontal = 16.dp)) {
+        if (entries.isNotEmpty()) {
+            OutlinedTextField(
+                value = query,
+                onValueChange = { query = it.take(100) },
+                placeholder = { Text(stringResource(R.string.history_search)) },
+                leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
+                trailingIcon = if (query.isNotEmpty()) {
+                    { IconButton(onClick = { query = "" }) { Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.history_search_clear)) } }
+                } else {
+                    null
+                },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+            )
+        }
         Row(
             Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -89,7 +114,11 @@ fun HistoryScreen() {
 
         if (shown.isEmpty()) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(stringResource(R.string.history_empty), color = TapColors.Muted, modifier = Modifier.padding(32.dp))
+                Text(
+                    stringResource(if (entries.isNotEmpty() && query.isNotBlank()) R.string.history_no_match else R.string.history_empty),
+                    color = TapColors.Muted,
+                    modifier = Modifier.padding(32.dp),
+                )
             }
         } else {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxSize()) {
@@ -155,6 +184,7 @@ fun HistoryScreen() {
             confirmButton = {
                 TextButton(onClick = {
                     scope.launch { app.history.clear() }
+                    query = ""
                     confirmClear = false
                 }) { Text(stringResource(R.string.history_clear), color = TapColors.Fail) }
             },
@@ -186,6 +216,22 @@ private fun outcomeLabel(e: HistoryEntry): String = when (e.outcome) {
     HistoryCsv.OK, HistoryCsv.HTTP_ERROR -> "HTTP ${e.status ?: ""}".trim() + (e.latencyMs?.let { " · " + stringResource(R.string.result_latency, it) } ?: "")
     HistoryCsv.NETWORK_ERROR -> stringResource(R.string.result_network_error)
     else -> stringResource(R.string.result_not_sent)
+}
+
+/**
+ * Search over what a row shows: UID, profile name, server message, chip and tag type, case-insensitive.
+ * A UID also matches with its separators left out or typed differently, so "04a1b2" finds "04:A1:B2".
+ */
+private fun HistoryEntry.matches(query: String): Boolean {
+    val q = query.trim().lowercase()
+    if (q.isEmpty()) return true
+    if (listOf(uid, profileName, message.orEmpty(), chip, tagType).any { it.lowercase().contains(q) }) return true
+    // Only for queries that look like a UID (hex digits and separators, at least one digit),
+    // so words such as "cafe" or "bad" don't match across UID bytes.
+    val looksHex = q.all { it.isDigit() || it in 'a'..'f' || it == ':' || it == '-' || it == ' ' } && q.any { it.isDigit() }
+    if (!looksHex) return false
+    val hexQuery = q.filter { it.isLetterOrDigit() }
+    return hexQuery.isNotEmpty() && uid.lowercase().filter { it.isLetterOrDigit() }.contains(hexQuery)
 }
 
 private fun outcomeColor(outcome: String) = when (outcome) {

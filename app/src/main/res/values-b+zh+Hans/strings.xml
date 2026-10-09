@@ -313,4 +313,13 @@
     <string name="widget_follow_active">当前配置</string>
     <string name="widget_follow_active_detail">跟随扫描界面上选定的配置</string>
     <string name="widget_no_profiles">还没有配置。创建第一个配置后，小组件会使用它。</string>
+
+    <!-- 1.2.0: duplicate profile -->
+    <string name="editor_duplicate">创建副本</string>
+    <string name="profile_copy_name">%1$s 副本</string>
+
+    <!-- 1.2.0: History search -->
+    <string name="history_search">搜索 UID、配置或消息</string>
+    <string name="history_search_clear">清除搜索</string>
+    <string name="history_no_match">没有与搜索匹配的扫描记录。</string>
 </resources>

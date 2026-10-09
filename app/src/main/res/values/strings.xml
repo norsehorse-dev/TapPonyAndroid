@@ -328,4 +328,13 @@
     <string name="widget_follow_active">Active profile</string>
     <string name="widget_follow_active_detail">Follows the profile picked on the Scan tab</string>
     <string name="widget_no_profiles">No profiles yet. The widget will use your first one once you make it.</string>
+
+    <!-- 1.2.0: duplicate profile -->
+    <string name="editor_duplicate">Duplicate</string>
+    <string name="profile_copy_name">%1$s copy</string>
+
+    <!-- 1.2.0: History search -->
+    <string name="history_search">Search UID, profile or message</string>
+    <string name="history_search_clear">Clear search</string>
+    <string name="history_no_match">No scans match your search.</string>
 </resources>

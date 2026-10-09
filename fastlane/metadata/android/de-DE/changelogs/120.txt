@@ -1,0 +1,1 @@
+Dupliziere ein Profil in seinem Editor, um ein neues mit einer bereits funktionierenden Einrichtung zu beginnen. Die Kopie nutzt dieselben gespeicherten Secrets, du musst also nichts neu eingeben. Der Verlauf hat jetzt ein Suchfeld, das Scans nach UID (mit oder ohne Trennzeichen), Profilname oder Nachricht des Servers findet.

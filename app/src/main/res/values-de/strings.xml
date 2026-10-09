@@ -313,4 +313,13 @@
     <string name="widget_follow_active">Aktives Profil</string>
     <string name="widget_follow_active_detail">Folgt dem Profil, das auf dem Scan-Bildschirm gewählt ist</string>
     <string name="widget_no_profiles">Noch keine Profile. Das Widget nutzt dein erstes Profil, sobald du es erstellt hast.</string>
+
+    <!-- 1.2.0: duplicate profile -->
+    <string name="editor_duplicate">Duplizieren</string>
+    <string name="profile_copy_name">%1$s (Kopie)</string>
+
+    <!-- 1.2.0: History search -->
+    <string name="history_search">UID, Profil oder Nachricht suchen</string>
+    <string name="history_search_clear">Suche löschen</string>
+    <string name="history_no_match">Keine Scans passen zu deiner Suche.</string>
 </resources>

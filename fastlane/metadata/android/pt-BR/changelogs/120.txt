@@ -1,0 +1,1 @@
+Duplique um perfil no editor para começar um novo a partir de uma configuração que já funciona. A cópia usa os mesmos segredos salvos, então não é preciso digitar nada de novo. O Histórico agora tem um campo de busca que encontra leituras por UID (com ou sem separadores), nome do perfil ou mensagem do servidor.

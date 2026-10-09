@@ -314,4 +314,13 @@
     <string name="widget_follow_active">Активный профиль</string>
     <string name="widget_follow_active_detail">Использует профиль, выбранный на экране «Сканер»</string>
     <string name="widget_no_profiles">Профилей пока нет. Виджет будет использовать первый профиль, как только вы его создадите.</string>
+
+    <!-- 1.2.0: duplicate profile -->
+    <string name="editor_duplicate">Дублировать</string>
+    <string name="profile_copy_name">%1$s (копия)</string>
+
+    <!-- 1.2.0: History search -->
+    <string name="history_search">Поиск по UID, профилю или сообщению</string>
+    <string name="history_search_clear">Очистить поиск</string>
+    <string name="history_no_match">По вашему запросу сканирований не найдено.</string>
 </resources>

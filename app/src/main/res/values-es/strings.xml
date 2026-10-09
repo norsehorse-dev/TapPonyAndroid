@@ -313,4 +313,13 @@
     <string name="widget_follow_active">Perfil activo</string>
     <string name="widget_follow_active_detail">Usa el perfil elegido en la pantalla Escanear</string>
     <string name="widget_no_profiles">Aún no hay perfiles. El widget usará el primero en cuanto lo crees.</string>
+
+    <!-- 1.2.0: duplicate profile -->
+    <string name="editor_duplicate">Duplicar</string>
+    <string name="profile_copy_name">%1$s (copia)</string>
+
+    <!-- 1.2.0: History search -->
+    <string name="history_search">Buscar UID, perfil o mensaje</string>
+    <string name="history_search_clear">Borrar búsqueda</string>
+    <string name="history_no_match">Ningún escaneo coincide con tu búsqueda.</string>
 </resources>

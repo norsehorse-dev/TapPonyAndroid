@@ -1,0 +1,1 @@
+Dupliquez un profil depuis son éditeur pour en créer un nouveau à partir d’une configuration qui fonctionne. La copie utilise les mêmes secrets enregistrés : vous n’avez rien à ressaisir. L’historique dispose désormais d’un champ de recherche qui retrouve les scans par UID (avec ou sans séparateurs), nom de profil ou message du serveur.

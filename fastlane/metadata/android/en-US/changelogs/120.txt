@@ -1,0 +1,1 @@
+Duplicate a profile from its editor to start a new one from a working setup. The copy uses the same saved secrets, so there's nothing to type in again. History now has a search box that finds scans by UID (with or without separators), profile name or server message.

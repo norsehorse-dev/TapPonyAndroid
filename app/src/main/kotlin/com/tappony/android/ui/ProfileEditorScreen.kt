@@ -59,7 +59,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileEditorScreen(profileId: String, engine: ScanEngine, onDone: () -> Unit) {
+fun ProfileEditorScreen(profileId: String, engine: ScanEngine, onDone: () -> Unit, onOpenCopy: (String) -> Unit = {}) {
     val context = LocalContext.current
     val app = context.applicationContext as TapPonyApp
     val original = remember(profileId) { app.profiles.get(profileId) }
@@ -71,6 +71,7 @@ fun ProfileEditorScreen(profileId: String, engine: ScanEngine, onDone: () -> Uni
     var testing by remember { mutableStateOf(false) }
     var testOutcome by remember { mutableStateOf<ScanOutcome?>(null) }
     var confirmDelete by remember { mutableStateOf(false) }
+    var duplicating by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val secretNames = remember(profileId) { app.secrets.names().toSet() }
     val problems = validate(p, secretNames)
@@ -249,6 +250,19 @@ fun ProfileEditorScreen(profileId: String, engine: ScanEngine, onDone: () -> Uni
                         android.widget.Toast.makeText(context, R.string.editor_pin_unsupported, android.widget.Toast.LENGTH_SHORT).show()
                     }
                 }) { Text(stringResource(R.string.editor_pin)) }
+                // Saves this profile as it stands, then opens a copy under a new id. Secrets are
+                // stored by name, so the copy uses the same ones and nothing needs re-entering.
+                // Its {seq} counter starts over, and rules and tags keep pointing at the original.
+                val copyName = stringResource(R.string.profile_copy_name, p.name.ifBlank { stringResource(R.string.editor_untitled) })
+                OutlinedButton(enabled = !duplicating && Entitlements.canAddProfile(app.profiles.profiles.value.size), onClick = {
+                    // One copy per tap, even if a second tap lands while the screen is fading out.
+                    if (duplicating) return@OutlinedButton
+                    duplicating = true
+                    app.profiles.save(p)
+                    val copy = p.copy(id = com.tappony.android.data.ProfileStore.newId(), name = copyName.take(64))
+                    app.profiles.save(copy)
+                    onOpenCopy(copy.id)
+                }) { Text(stringResource(R.string.editor_duplicate)) }
             }
             Text(stringResource(R.string.editor_test_note), color = TapColors.Muted, style = MaterialTheme.typography.bodySmall)
             testOutcome?.let { o ->

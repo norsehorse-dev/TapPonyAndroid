@@ -38,6 +38,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            vcsInfo.include = false
             signingConfigs.findByName("release")?.let { signingConfig = it }
         }
         getByName("debug") {
